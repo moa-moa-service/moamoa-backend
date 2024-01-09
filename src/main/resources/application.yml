@@ -1,0 +1,90 @@
+#Base Setting
+spring:
+  jpa:
+    defer-datasource-initialization: true
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+  sql:
+    init:
+      platform: mysql
+      mode: always
+
+debug: false
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+logging:
+  level:
+    site.moamoa.backend: debug
+    org.springframework.web.servlet: debug
+    org.hibernate.type.descriptor.sql: trace
+
+---
+# Local Setting
+spring:
+  config:
+    activate:
+      on-profile: local
+  redis:
+    host: ${local.redis.host}
+    port: ${local.redis.port}
+  datasource:
+    url: ${local.mysql.url}
+    username: ${local.mysql.username}
+    password: ${local.mysql.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+
+---
+# Develop branch Setting
+spring:
+  config:
+    activate:
+      on-profile: develop
+  redis:
+    host: ${develop.redis.host}
+    port: ${develop.redis.port}
+  datasource:
+    url: ${develop.mysql.url}
+    username: ${develop.mysql.username}
+    password: ${develop.mysql.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
+
+---
+
+# Release branch Setting
+spring:
+  config:
+    activate:
+      on-profile: release
+  redis:
+    host: ${release.redis.host}
+    port: ${release.redis.port}
+  datasource:
+    url: ${release.mysql.url}
+    username: ${release.mysql.username}
+    password: ${release.mysql.password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        default_batch_fetch_size: 100
