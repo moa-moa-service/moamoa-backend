@@ -53,8 +53,8 @@ jobs:
         with:
           aws_access_key: ${{ secrets.AWS_ACTION_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_ACTION_SECRET_ACCESS_KEY }}
-          application_name: moamoa-ev # EB 애플리케이션 이름
-          environment_name: moamoa-ev-env # EB 이름
+          application_name: moamoa-eb # EB 애플리케이션 이름
+          environment_name: moamoa-eb-env # EB 이름
           version_label: github-action-${{ steps.current-time.outputs.formattedTime }}
           region: ap-northeast-1 # 도쿄
           deployment_package: deploy/deploy.zip
