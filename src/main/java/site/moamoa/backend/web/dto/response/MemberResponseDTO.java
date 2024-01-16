@@ -33,4 +33,12 @@ public class MemberResponseDTO {
         LocalDateTime updatedAt;
     }
 
+    @Builder
+    @Getter
+    @RequiredArgsConstructor
+    public static class UpdatedMemberAddressResult {
+        Long user_id;
+        LocalDateTime updatedAt;
+    }
+
 }
