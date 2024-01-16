@@ -55,4 +55,11 @@ public class PostResponseDTO {
         LocalDateTime updatedAt;
     }
 
+    @Builder
+    @Getter
+    @RequiredArgsConstructor
+    public static class AddMemberPostResult {
+        Long member_post_id;
+        LocalDateTime createdAt;
+    }
 }
