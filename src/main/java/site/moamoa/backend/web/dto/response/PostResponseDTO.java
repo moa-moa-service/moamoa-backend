@@ -20,4 +20,11 @@ public class PostResponseDTO {
         String image_url;
     }
 
+    @Builder
+    @Getter
+    @RequiredArgsConstructor
+    public static class AddPostResult {
+        Long postId;
+        LocalDateTime createdAt;
+    }
 }
