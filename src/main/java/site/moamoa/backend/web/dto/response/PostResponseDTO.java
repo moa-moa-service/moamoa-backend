@@ -1,10 +1,12 @@
 package site.moamoa.backend.web.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import site.moamoa.backend.web.dto.base.PostDTO;
+import site.moamoa.backend.web.dto.base.SimplePostDTO;
 
 public class PostResponseDTO {
 
@@ -12,20 +14,21 @@ public class PostResponseDTO {
     @Getter
     @RequiredArgsConstructor
     public static class GetPost {
-        PostDTO postDTO;
+        PostDTO postDto;
     }
 
     @Builder
     @Getter
     @RequiredArgsConstructor
     public static class GetPosts {
-        Long postId;
-        Integer total;
-        Integer d_day;
-        Integer price;
-        CapacityStatus status;
-        String keyword;
-        String image_url;
+        List<PostDTO> postDtoList;
+    }
+
+    @Builder
+    @Getter
+    @RequiredArgsConstructor
+    public static class GetPostsByKeyword {
+        List<SimplePostDTO> postDtoList;
     }
 
     @Builder
