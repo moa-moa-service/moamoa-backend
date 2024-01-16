@@ -52,7 +52,7 @@ spring:
           naver:
             client-id: ${NAVER_CLIENT_ID}
             client-secret: ${NAVER_CLIENT_SECRET}
-            redirect-uri: http://localhost:8080/login/oauth2/code/naver
+            redirect-uri: http://localhost:8080/login/oauth2/code/naver # 추후 클라이언트 redirect uri로 넘겨줌
             authorization-grant-type: authorization_code
             scope: email, profile_image, nickname
             client-name: Naver

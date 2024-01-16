@@ -48,6 +48,8 @@ public class SecurityConfig {
                         oauth2Configure
                                 .successHandler(oAuth2LoginSuccessHandler)
                                 .failureHandler(oAuth2LoginFailureHandler)
+                                .authorizationEndpoint(authorizationEndpointConfig -> authorizationEndpointConfig.baseUri("/api/auth/authorize"))
+                                .redirectionEndpoint(redirectionEndpointConfig -> redirectionEndpointConfig.baseUri("/api/auth/token"))
                                 .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService)));
 
         http.addFilterBefore(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
