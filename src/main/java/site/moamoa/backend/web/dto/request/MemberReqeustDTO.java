@@ -24,4 +24,11 @@ public class MemberReqeustDTO {
     public static class UpdateMemberImage {
         MultipartFile profile_image;
     }
+
+    @Builder
+    @Getter
+    @RequiredArgsConstructor
+    public static class UpdateMemberAddress {
+        Address address;
+    }
 }
