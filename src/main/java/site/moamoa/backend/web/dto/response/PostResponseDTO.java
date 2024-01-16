@@ -27,4 +27,12 @@ public class PostResponseDTO {
         Long postId;
         LocalDateTime createdAt;
     }
+
+    @Builder
+    @Getter
+    @RequiredArgsConstructor
+    public static class UpdatePostInfoResult {
+        Long postId;
+        LocalDateTime updatedAt;
+    }
 }
