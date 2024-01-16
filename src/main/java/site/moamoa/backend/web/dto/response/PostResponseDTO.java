@@ -4,8 +4,16 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import site.moamoa.backend.web.dto.base.PostDTO;
 
 public class PostResponseDTO {
+
+    @Builder
+    @Getter
+    @RequiredArgsConstructor
+    public static class GetPost {
+        PostDTO postDTO;
+    }
 
     @Builder
     @Getter
@@ -43,4 +51,5 @@ public class PostResponseDTO {
         Long postId;
         LocalDateTime updatedAt;
     }
+
 }
