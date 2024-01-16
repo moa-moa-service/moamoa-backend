@@ -12,7 +12,6 @@ public class MemberResponseDTO {
     @RequiredArgsConstructor
     public static class AddMemberInfoResult {
         Long member_id;
-
         LocalDateTime createdAt;
     }
 
