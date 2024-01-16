@@ -14,6 +14,7 @@ import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.global.oauth2.CustomOAuth2User;
 import site.moamoa.backend.global.oauth2.OAuthAttributes;
 import site.moamoa.backend.repository.MemberRepository;
+import site.moamoa.backend.web.dto.MemberRequestDTO;
 
 import java.util.Collections;
 import java.util.Map;
@@ -68,6 +69,16 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private Member saveUser(OAuthAttributes attributes) {
         Member createdUser = attributes.toEntity(attributes.getOauth2UserInfo());
         return memberRepository.save(createdUser);
+    }
+
+    @Transactional
+    public Member addMemberInfo(Long memberId, MemberRequestDTO.AddMemberInfo memberInfo) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("존재하지 않는 멤버입니다."));
+        if (member.getNickname() != null) {
+            throw new RuntimeException("이미 등록한 유저입니다.");
+        }
+        member.addInfo(memberInfo.nickname(), memberInfo.address());
+        return member;
     }
 
 }
