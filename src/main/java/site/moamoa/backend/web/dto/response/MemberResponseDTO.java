@@ -25,4 +25,12 @@ public class MemberResponseDTO {
         MultipartFile profile_image;
     }
 
+    @Builder
+    @Getter
+    @RequiredArgsConstructor
+    public static class UpdatedMemberImageResult {
+        Long user_id;
+        LocalDateTime updatedAt;
+    }
+
 }
