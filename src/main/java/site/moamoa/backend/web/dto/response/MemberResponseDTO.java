@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
+import site.moamoa.backend.web.dto.base.MemberDTO;
 
 public class MemberResponseDTO {
 
@@ -20,9 +20,7 @@ public class MemberResponseDTO {
     @Getter
     @RequiredArgsConstructor
     public static class GetMyInfoResult {
-        String nickname;
-        String town_name;
-        MultipartFile profile_image;
+        MemberDTO memberDTO;
     }
 
     @Builder
@@ -39,6 +37,13 @@ public class MemberResponseDTO {
     public static class UpdatedMemberAddressResult {
         Long user_id;
         LocalDateTime updatedAt;
+    }
+
+    @Builder
+    @Getter
+    @RequiredArgsConstructor
+    public static class GetMemberInfo {
+        MemberDTO memberDto;
     }
 
 }

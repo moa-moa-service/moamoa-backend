@@ -15,7 +15,8 @@ public class MemberReqeustDTO {
     public static class AddMemberInfo {
         @NotNull
         String nickname;
-        @NotNull Address location;
+        @NotNull
+        Address location;
     }
 
     @Builder
