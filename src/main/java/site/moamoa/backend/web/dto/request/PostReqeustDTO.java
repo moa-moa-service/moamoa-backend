@@ -38,4 +38,21 @@ public class PostReqeustDTO {
         Integer price;
         String description;
     }
+
+    @Builder
+    @Getter
+    @RequiredArgsConstructor
+    public static class UpdatePostInfo {
+        Long category_id;
+        @Min(value = 1, message = "최소 1명 이상이어야 합니다.")
+        @Max(value = 10, message = "최대 10명까지만 허용됩니다.")
+        Integer personnel;
+        @Future(message = "현재 날짜 이후의 날짜여야 합니다.")
+        Date deadline;
+        @Size(max = 10, message = "이미지는 최대 10개까지만 허용됩니다.")
+        List<MultipartFile> image;
+        Address deal_location;
+        Integer price;
+        String description;
+    }
 }
