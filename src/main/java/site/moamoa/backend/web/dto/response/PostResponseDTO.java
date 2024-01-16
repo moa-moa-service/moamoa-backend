@@ -28,7 +28,7 @@ public class PostResponseDTO {
     @Getter
     @RequiredArgsConstructor
     public static class GetPostsByKeyword {
-        List<SimplePostDTO> postDtoList;
+        List<SimplePostDTO> simplePostDtoList;
     }
 
     @Builder
@@ -61,5 +61,13 @@ public class PostResponseDTO {
     public static class AddMemberPostResult {
         Long member_post_id;
         LocalDateTime createdAt;
+    }
+
+    @Builder
+    @Getter
+    @RequiredArgsConstructor
+    public static class GetMyPostList {
+        Long user_id;
+        List<SimplePostDTO> simplePostDtoList;
     }
 }
