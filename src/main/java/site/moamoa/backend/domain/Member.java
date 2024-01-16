@@ -28,13 +28,15 @@ public class Member extends BaseEntity {
     private String town; // 거주 동네
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'NOT_DELETE'")
+    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'NOT_DELETE'") //TODO 없어도 되나?
     private DeletionStatus deletionStatus;  //회원 정보 삭제 여부
 
     @Enumerated(EnumType.STRING)
     private RoleType roleType;   //유저 권한
 
     private String refreshToken; //리프레시 토큰
+
+    private String socialId;
 
     public void updateRefreshToken(String updateRefreshToken) {
         this.refreshToken = updateRefreshToken;
