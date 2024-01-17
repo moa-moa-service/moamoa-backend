@@ -59,7 +59,7 @@ public class PostResponseDTO {
     @Getter
     @RequiredArgsConstructor
     public static class AddMemberPostResult {
-        Long member_post_id;
+        Long memberPostId;
         LocalDateTime createdAt;
     }
 
@@ -67,7 +67,7 @@ public class PostResponseDTO {
     @Getter
     @RequiredArgsConstructor
     public static class GetMyPostList {
-        Long user_id;
+        Long userId;
         List<SimplePostDTO> simplePostDtoList;
     }
 }

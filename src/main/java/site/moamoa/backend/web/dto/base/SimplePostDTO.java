@@ -10,9 +10,9 @@ import org.springframework.web.multipart.MultipartFile;
 @RequiredArgsConstructor
 public class SimplePostDTO {
     MultipartFile image;
-    String product_name;
+    String productName;
     Integer personnel;
-    Integer d_day;
+    Integer dDay;
     Integer price;
     CapacityStatus status;
 }
