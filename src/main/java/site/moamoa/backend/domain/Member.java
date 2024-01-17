@@ -47,4 +47,8 @@ public class Member extends BaseEntity {
         this.roleType = RoleType.MEMBER;
     }
 
+    public void addRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
 }

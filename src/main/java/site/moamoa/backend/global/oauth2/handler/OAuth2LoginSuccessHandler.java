@@ -8,20 +8,26 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.enums.RoleType;
 import site.moamoa.backend.global.jwt.service.JwtService;
 import site.moamoa.backend.global.oauth2.CustomOAuth2User;
+import site.moamoa.backend.repository.MemberRepository;
 
 import java.io.IOException;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtService jwtService;
+    private final MemberRepository memberRepository;
 
     @Override
+    @Transactional
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("OAuth2 Login 성공!");
         try {
@@ -31,6 +37,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             if(oAuth2User.getRoleType() == RoleType.GUEST) {
                 String accessToken = jwtService.createAccessToken(oAuth2User.getId());
                 String refreshToken = jwtService.createRefreshToken();
+                memberSetRefreshToken(oAuth2User, refreshToken);
                 response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
                 jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
                 return;
@@ -41,6 +48,12 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         }
 
     }
+    // todo service 계층이 아닌 곳에서 저장을 해도 괜찮은가? -> jwtservice에서 저장을 하는 것이 옳은가?
+    private void memberSetRefreshToken(CustomOAuth2User oAuth2User, String refreshToken) {
+        Member member = memberRepository.findById(oAuth2User.getId()).orElseThrow(RuntimeException::new);
+        member.addRefreshToken(refreshToken);
+    }
+
     private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
         String accessToken = jwtService.createAccessToken(oAuth2User.getId());
         String refreshToken = jwtService.createRefreshToken();
