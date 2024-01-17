@@ -6,5 +6,7 @@ import lombok.Getter;
 @Embeddable
 @Getter
 public class Address {
-    //longitude, latitude ...
+    private String name;
+    private double latitude;
+    private double longitude;
 }

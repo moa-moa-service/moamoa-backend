@@ -35,4 +35,20 @@ public class Member extends BaseEntity {
 
     private String refreshToken; //리프레시 토큰
 
+    private String socialId;
+
+    public void updateRefreshToken(String updateRefreshToken) {
+        this.refreshToken = updateRefreshToken;
+    }
+
+    public void addInfo(String nickname, Address address) {
+        this.nickname = nickname;
+        this.address = address;
+        this.roleType = RoleType.MEMBER;
+    }
+
+    public void addRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
 }
