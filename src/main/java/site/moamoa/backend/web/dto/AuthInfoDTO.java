@@ -11,7 +11,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public record AuthInfoDTO(Long id, String username, Collection<? extends GrantedAuthority> authorities) implements UserDetails {
+public record AuthInfoDTO(
+        Long id,
+        String username,
+        Collection<? extends GrantedAuthority> authorities
+) implements UserDetails {
     @Override
     public Long id() {
         return id;
@@ -26,9 +30,10 @@ public record AuthInfoDTO(Long id, String username, Collection<? extends Granted
                     .collect(Collectors.toUnmodifiableSet());
         }
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return authorities;
     }
 
     @Override
@@ -38,27 +43,27 @@ public record AuthInfoDTO(Long id, String username, Collection<? extends Granted
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
 

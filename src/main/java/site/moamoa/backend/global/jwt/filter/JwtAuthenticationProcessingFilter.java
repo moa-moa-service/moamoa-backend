@@ -30,6 +30,7 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
     private final MemberRepository memberRepository;
 
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         /**
@@ -51,10 +52,11 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
             checkAccessTokenAndAuthentication(request, response, filterChain);
         }
     }
+
     /**
-     *  헤더에서 추출한 리프레시 토큰으로 DB에서 해당 유저를 찾고, 해당 유저가 있다면 JwtService.createAccessToken()으로 AccessToken 생성,
-     *  reIssueRefreshToken()로 리프레시 토큰 재발급 & DB에 리프레시 토큰 업데이트
-     *  마지막으로 응답 헤더에 보냄
+     * 헤더에서 추출한 리프레시 토큰으로 DB에서 해당 유저를 찾고, 해당 유저가 있다면 JwtService.createAccessToken()으로 AccessToken 생성,
+     * reIssueRefreshToken()로 리프레시 토큰 재발급 & DB에 리프레시 토큰 업데이트
+     * 마지막으로 응답 헤더에 보냄
      */
     public void checkRefreshTokenAndReIssueAccessToken(HttpServletResponse response, String refreshToken) {
         memberRepository.findByRefreshToken(refreshToken)
@@ -95,7 +97,11 @@ public class JwtAuthenticationProcessingFilter extends OncePerRequestFilter {
         AuthInfoDTO authInfoDTO = AuthInfoDTO.builder()
                 .id(myMember.getId())
                 .username(myMember.getNickname())
-                .authorities(Set.of(myMember.getRoleType()).stream().map(RoleType::getKey).map(SimpleGrantedAuthority::new).collect(Collectors.toUnmodifiableSet()))
+                .authorities(
+                        Set.of(myMember.getRoleType()).stream()
+                                .map(RoleType::getKey)
+                                .map(SimpleGrantedAuthority::new)
+                                .collect(Collectors.toUnmodifiableSet()))
                 .build();
 
         Authentication authentication =

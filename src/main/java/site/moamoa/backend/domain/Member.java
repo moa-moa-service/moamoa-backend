@@ -28,7 +28,6 @@ public class Member extends BaseEntity {
     private String town; // 거주 동네
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'NOT_DELETE'") //TODO 없어도 되나?
     private DeletionStatus deletionStatus;  //회원 정보 삭제 여부
 
     @Enumerated(EnumType.STRING)
