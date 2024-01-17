@@ -6,5 +6,5 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberDTO {
     String nickname;
     MultipartFile profileImage;
-    Address location;
+    String townName;
 }
