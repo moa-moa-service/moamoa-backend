@@ -12,7 +12,7 @@ public class MemberResponseDTO {
     @Getter
     @RequiredArgsConstructor
     public static class AddMemberInfoResult {
-        Long member_id;
+        Long memberId;
         LocalDateTime createdAt;
     }
 
@@ -27,7 +27,7 @@ public class MemberResponseDTO {
     @Getter
     @RequiredArgsConstructor
     public static class UpdatedMemberImageResult {
-        Long user_id;
+        Long userId;
         LocalDateTime updatedAt;
     }
 
@@ -35,7 +35,7 @@ public class MemberResponseDTO {
     @Getter
     @RequiredArgsConstructor
     public static class UpdatedMemberAddressResult {
-        Long user_id;
+        Long userId;
         LocalDateTime updatedAt;
     }
 

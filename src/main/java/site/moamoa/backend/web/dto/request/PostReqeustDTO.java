@@ -20,7 +20,7 @@ public class PostReqeustDTO {
     @RequiredArgsConstructor
     public static class AddPost {
         @NotNull
-        Long category_id;
+        Long categoryId;
         @NotNull
         @Min(value = 1, message = "최소 1명 이상이어야 합니다.")
         @Max(value = 10, message = "최대 10명까지만 허용됩니다.")
@@ -29,11 +29,11 @@ public class PostReqeustDTO {
         @Future(message = "현재 날짜 이후의 날짜여야 합니다.")
         Date deadline;
         @NotNull
-        String product_name;
+        String productName;
         @Size(max = 10, message = "이미지는 최대 10개까지만 허용됩니다.")
         List<MultipartFile> image;
         @NotNull
-        Address deal_location;
+        Address dealLocation;
         @NotNull
         Integer price;
         String description;
@@ -43,7 +43,7 @@ public class PostReqeustDTO {
     @Getter
     @RequiredArgsConstructor
     public static class UpdatePostInfo {
-        Long category_id;
+        Long categoryId;
         @Min(value = 1, message = "최소 1명 이상이어야 합니다.")
         @Max(value = 10, message = "최대 10명까지만 허용됩니다.")
         Integer personnel;
@@ -51,7 +51,7 @@ public class PostReqeustDTO {
         Date deadline;
         @Size(max = 10, message = "이미지는 최대 10개까지만 허용됩니다.")
         List<MultipartFile> image;
-        Address deal_location;
+        Address dealLocation;
         Integer price;
         String description;
     }

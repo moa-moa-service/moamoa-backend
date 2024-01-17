@@ -23,7 +23,7 @@ public class MemberReqeustDTO {
     @Getter
     @RequiredArgsConstructor
     public static class UpdateMemberImage {
-        MultipartFile profile_image;
+        MultipartFile profileImage;
     }
 
     @Builder

@@ -6,12 +6,12 @@ import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Addre
 import org.springframework.web.multipart.MultipartFile;
 
 public class PostDTO {
-    Long category_id;
+    Long categoryId;
     Integer personnel;
     Date deadline;
-    String product_name;
+    String productName;
     List<MultipartFile> image;
-    Address deal_location;
+    Address dealLocation;
     Integer price;
     String description;
 }
