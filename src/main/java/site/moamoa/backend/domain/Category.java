@@ -19,7 +19,4 @@ public class Category extends BaseEntity {
 
     private String name; //카테고리명
 
-    @OneToMany(mappedBy = "post")
-    private List<Post> postList = new ArrayList<>();
-
 }

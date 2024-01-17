@@ -26,9 +26,9 @@ public class Post extends BaseEntity {
 
     private LocalDateTime deadline;
 
-    private int personnel; //총 모집 인원
+    private Integer personnel; //총 모집 인원
 
-    private int available; //모집 가능 인원
+    private Integer available; //모집 가능 인원
 
     private String productName; //상품명
 
@@ -37,17 +37,11 @@ public class Post extends BaseEntity {
 
     private String dealTown; // 상품 거래 동네 ex. 상도동
 
-    private int totalPrice; //상품 총 가격
+    private Integer totalPrice; //상품 총 가격
 
     private String description; //설명
 
     @Enumerated(EnumType.STRING)
     private CapacityStatus capacityStatus; // 모집 상태
-
-    @OneToMany(mappedBy = "post")
-    private List<Post> postList;
-
-    @OneToMany(mappedBy = "post")
-    private List<Member> memberList;
 
 }

@@ -1,5 +1,5 @@
 package site.moamoa.backend.domain.enums;
 
 public enum RoleType {
-    GUEST, MEMBER
+    ROLE_GUEST, ROLE_MEMBER
 }
