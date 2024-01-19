@@ -7,6 +7,7 @@ import lombok.*;
 import site.moamoa.backend.domain.common.BaseEntity;
 import site.moamoa.backend.domain.embedded.Address;
 import site.moamoa.backend.domain.enums.CapacityStatus;
+import site.moamoa.backend.domain.mapping.PostImage;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,7 +18,6 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Post extends BaseEntity {
-  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
