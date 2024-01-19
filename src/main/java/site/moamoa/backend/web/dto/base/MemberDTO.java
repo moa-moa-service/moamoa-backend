@@ -1,10 +1,12 @@
 package site.moamoa.backend.web.dto.base;
 
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
+import lombok.Builder;
 import org.springframework.web.multipart.MultipartFile;
 
-public class MemberDTO {
-    String nickname;
-    MultipartFile profileImage;
-    String townName;
+@Builder
+public record MemberDTO(
+        String nickname,
+        MultipartFile profileImage,
+        String townName
+) {
 }
