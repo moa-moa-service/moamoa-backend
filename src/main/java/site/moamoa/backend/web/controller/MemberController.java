@@ -6,11 +6,18 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
+import site.moamoa.backend.web.dto.base.AuthInfoDTO;
+import site.moamoa.backend.web.dto.request.MemberRequestDTO;
+import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberAddress;
+import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberImage;
+import site.moamoa.backend.web.dto.response.MemberResponseDTO.GetMyInfoResult;
+import site.moamoa.backend.web.dto.response.PostResponseDTO;
+import site.moamoa.backend.web.dto.response.PostResponseDTO.GetMyPostList;
+
+import static site.moamoa.backend.web.dto.response.MemberResponseDTO.*;
 
 @Tag(name = "Member API", description = "사용자 정보 관련 API")
 @RequiredArgsConstructor
@@ -25,13 +32,13 @@ public class MemberController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> getMemberByNickname(
-            //TODO: Security 추가시 인증부 구현 필요
+    public ApiResponseDTO<GetMyInfoResult> getMemberByNickname(
+            @AuthenticationPrincipal AuthInfoDTO auth,
             @Parameter(description = "사용자 이름", example = "Luke")
             @RequestParam String nickname
     ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+        GetMyInfoResult resultDTO = null;   //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @PatchMapping("/api/members/image")
@@ -42,11 +49,12 @@ public class MemberController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> updateMyImage(
-            //TODO: Security 추가시 인증부 구현 필요
-    ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+    public ApiResponseDTO<UpdateMemberImageResult> updateMyImage(
+            @AuthenticationPrincipal AuthInfoDTO auth,
+            @RequestBody UpdateMemberImage request
+            ) {
+        UpdateMemberImageResult resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @PatchMapping("/api/members/location")
@@ -57,11 +65,12 @@ public class MemberController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> updateMyLocation(
-            //TODO: Security 추가시 인증부 구현 필요
+    public ApiResponseDTO<UpdateMemberAddressResult> updateMyLocation(
+            @AuthenticationPrincipal AuthInfoDTO auth,
+            @RequestBody UpdateMemberAddress request
     ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+        UpdateMemberAddressResult resultDTO = null; //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @GetMapping("/api/members/post")
@@ -72,13 +81,13 @@ public class MemberController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> getPostsByParticipating(
-            //TODO: Security 추가시 인증부 구현 필요
+    public ApiResponseDTO<GetMyPostList> getPostsByParticipating(
+            @AuthenticationPrincipal AuthInfoDTO auth,
             @Parameter(description = "모집 마감 여부(ONGOING, END)", example = "END")
             @RequestParam String status
     ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+        GetMyPostList resultDTO = null;     //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
 }

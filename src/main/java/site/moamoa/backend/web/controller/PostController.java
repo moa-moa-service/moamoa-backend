@@ -8,8 +8,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
+import site.moamoa.backend.web.dto.base.AuthInfoDTO;
+import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
+import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
+import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
 
 @Tag(name = "공동구매 게시글 API", description = "공동구매 페이지 관련 API")
 @RequiredArgsConstructor
@@ -24,11 +29,11 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> getPostsByRanking(
-            //TODO: Security 추가시 인증부 구현 필요
+    public ApiResponseDTO<GetPosts> getPostsByRanking(
+            @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+        GetPosts resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @GetMapping("/api/posts/latest")
@@ -39,11 +44,11 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> getPostsByLatest(
-            //TODO: Security 추가시 인증부 구현 필요
+    public ApiResponseDTO<GetPosts> getPostsByLatest(
+            @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+        GetPosts resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @GetMapping("/api/posts/near")
@@ -54,11 +59,11 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> getPostsByNear(
-            //TODO: Security 추가시 인증부 구현 필요
+    public ApiResponseDTO<GetPosts> getPostsByNear(
+            @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+        GetPosts resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @GetMapping("/api/posts/recent-keyword")
@@ -69,11 +74,11 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> getPostsByRecentKeyword(
-            //TODO: Security 추가시 인증부 구현 필요
+    public ApiResponseDTO<GetPosts> getPostsByRecentKeyword(
+            @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+        GetPosts resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @PostMapping("/api/posts")
@@ -84,12 +89,12 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> registerPost(
-            //TODO: Security 추가시 인증부 구현 필요
-            //TODO: @RequestBody 구현 필요
-    ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+    public ApiResponseDTO<AddPostResult> registerPost(
+            @AuthenticationPrincipal AuthInfoDTO auth,
+            @RequestBody AddPost request
+            ) {
+        AddPostResult resultDTO = null; //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @PatchMapping("/api/posts/{postId}")
@@ -100,16 +105,16 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> updatePost(
-            //TODO: Security 추가시 인증부 구현 필요
-            //TODO: @RequestBody 구현 필요
+    public ApiResponseDTO<UpdatePostInfoResult> updatePost(
+            @AuthenticationPrincipal AuthInfoDTO auth,
+            @RequestBody UpdatePostInfo request,
             @PathVariable
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+        UpdatePostInfoResult resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @PatchMapping("/api/posts/{postId}/status")
@@ -120,15 +125,15 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> updatePostStatus(
-            //TODO: Security 추가시 인증부 구현 필요
+    public ApiResponseDTO<UpdatePostStatusResult> updatePostStatus(
+            @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+        UpdatePostStatusResult resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @GetMapping("/api/posts/{postId}")
@@ -139,15 +144,15 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> getPost(
-            //TODO: Security 추가시 인증부 구현 필요
+    public ApiResponseDTO<GetPost> getPost(
+            @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+        GetPost resultDTO = null;   //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @PostMapping("/api/posts/{postId}/join")
@@ -158,15 +163,15 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> joinPost(
-            //TODO: Security 추가시 인증부 구현 필요
+    public ApiResponseDTO<AddMemberPostResult> joinPost(
+            @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+        AddMemberPostResult resultDTO = null;   //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @GetMapping("/api/posts")
@@ -177,8 +182,8 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> searchPostsByKeyword(
-            //TODO: Security 추가시 인증부 구현 필요
+    public ApiResponseDTO<GetPostsByKeyword> searchPostsByKeyword(
+            @AuthenticationPrincipal AuthInfoDTO auth,
             @Parameter(description = "검색어", example = "사과")
             @RequestParam final String keyword,
             @Parameter(description = "카테고리", example = "식품")
@@ -192,7 +197,7 @@ public class PostController {
             @Parameter(description = "최대 금액", example = "5000")
             @RequestParam final Integer maxPrice
     ) {
-        //TODO: 서비스 로직 추가 필요
-        return null;    //TODO: Result DTO 반환 필요
+        GetPostsByKeyword resultDTO = null; //TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 }
