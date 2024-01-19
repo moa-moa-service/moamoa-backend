@@ -10,16 +10,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
-import site.moamoa.backend.web.dto.request.MemberRequestDTO;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberAddress;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberImage;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO.GetMyInfoResult;
-import site.moamoa.backend.web.dto.response.PostResponseDTO;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.GetMyPostList;
 
 import static site.moamoa.backend.web.dto.response.MemberResponseDTO.*;
 
-@Tag(name = "Member API", description = "사용자 정보 관련 API")
+@Tag(name = "사용자 API", description = "사용자 정보 관련 API")
 @RequiredArgsConstructor
 @RestController
 public class MemberController {
