@@ -21,7 +21,7 @@ public class PostResponseDTO {
     @Getter
     @RequiredArgsConstructor
     public static class GetPosts {
-        List<PostDTO> postDtoList;
+        List<SimplePostDTO> SimplePostDtoList;
     }
 
     @Builder
