@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Post extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
@@ -43,5 +44,4 @@ public class Post extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     private CapacityStatus capacityStatus; // 모집 상태
-
 }
