@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 
-@Tag(name = "Keyword API", description = "검색어 관련 API")
+@Tag(name = "검색어 API", description = "검색어 관련 API")
 @RequiredArgsConstructor
 @RestController
 public class KeywordController {
 
-    @GetMapping("/api/keyword/ranking")
+    @GetMapping("/api/keywords/ranking")
     @Operation(
             summary = "우리 동네 인기 검색어 조회 (개발중)",
             description = "조회된 검색량을 기반으로 우리 동네 인기 검색어 리스트를 조회합니다."
@@ -29,7 +29,7 @@ public class KeywordController {
         return null;    //TODO: Result DTO 반환 필요
     }
 
-    @GetMapping("/api/keyword/recent")
+    @GetMapping("/api/keywords/recent")
     @Operation(
             summary = "사용자의 최근 검색어 조회 (개발중)",
             description = "사용자가 최근에 검색한 검색어 리스트를 조회합니다."

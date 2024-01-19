@@ -11,12 +11,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 
-@Tag(name = "Post API", description = "공동구매 페이지 관련 API")
+@Tag(name = "공동구매 게시글 API", description = "공동구매 페이지 관련 API")
 @RequiredArgsConstructor
 @RestController
 public class PostController {
 
-    @GetMapping("/api/post/ranking")
+    @GetMapping("/api/posts/ranking")
     @Operation(
             summary = "우리 동네 인기 공동구매 조회 (개발중)",
             description = "조회수를 기반으로 우리 동네 인기 공동구매 리스트를 조회합니다."
@@ -31,7 +31,7 @@ public class PostController {
         return null;    //TODO: Result DTO 반환 필요
     }
 
-    @GetMapping("/api/post/latest")
+    @GetMapping("/api/posts/latest")
     @Operation(
             summary = "최근 모집 시작한 공동구매 조회 (개발중)",
             description = "최근 모집을 시작한 공동구매 리스트를 조회합니다."
@@ -46,7 +46,7 @@ public class PostController {
         return null;    //TODO: Result DTO 반환 필요
     }
 
-    @GetMapping("/api/post/near")
+    @GetMapping("/api/posts/near")
     @Operation(
             summary = "우리 동네 공동구매 조회 (개발중)",
             description = "우리 동네 공동구매 리스트를 조회합니다."
@@ -61,7 +61,7 @@ public class PostController {
         return null;    //TODO: Result DTO 반환 필요
     }
 
-    @GetMapping("/api/post/recent-keyword")
+    @GetMapping("/api/posts/recent-keyword")
     @Operation(
             summary = "최근 검색한 키워드로 공동구매 조회 (개발중)",
             description = "최근 검색한 공동구매 리스트를 조회합니다."
@@ -76,7 +76,7 @@ public class PostController {
         return null;    //TODO: Result DTO 반환 필요
     }
 
-    @PostMapping("/api/post")
+    @PostMapping("/api/posts")
     @Operation(
             summary = "공동구매 등록 (개발중)",
             description = "공동구매 정보를 받아 새로운 공동구매 게시글을 등록합니다."
@@ -92,7 +92,7 @@ public class PostController {
         return null;    //TODO: Result DTO 반환 필요
     }
 
-    @PatchMapping("/api/post/{postId}")
+    @PatchMapping("/api/posts/{postId}")
     @Operation(
             summary = "공동구매 상세정보 수정 (개발중)",
             description = "공동구매 정보를 받아 기존의 공동구매 게시글을 수정합니다."
@@ -112,7 +112,7 @@ public class PostController {
         return null;    //TODO: Result DTO 반환 필요
     }
 
-    @PatchMapping("/api/post/{postId}/status")
+    @PatchMapping("/api/posts/{postId}/status")
     @Operation(
             summary = "공동구매 상태 변경 (개발중)",
             description = "기존의 공동구매 상태를 변경합니다."
@@ -131,7 +131,7 @@ public class PostController {
         return null;    //TODO: Result DTO 반환 필요
     }
 
-    @GetMapping("/api/post/{postId}")
+    @GetMapping("/api/posts/{postId}")
     @Operation(
             summary = "공동구매 상태 변경 (개발중)",
             description = "기존의 공동구매 상태를 변경합니다."
@@ -150,7 +150,7 @@ public class PostController {
         return null;    //TODO: Result DTO 반환 필요
     }
 
-    @PostMapping("/api/post/{postId}/join")
+    @PostMapping("/api/posts/{postId}/join")
     @Operation(
             summary = "공동구매 참여 (개발중)",
             description = "기존의 공동구매에 참여합니다."
@@ -169,7 +169,7 @@ public class PostController {
         return null;    //TODO: Result DTO 반환 필요
     }
 
-    @GetMapping("/api/post")
+    @GetMapping("/api/posts")
     @Operation(
             summary = "특정 키워드를 포함하는 공동구매 조회 (개발중)",
             description = "특정 키워드가 포함된 공동구매 게시글 리스트를 조회합니다."
@@ -177,7 +177,7 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> searchKeywordPost(
+    public ApiResponseDTO<?> searchPostsByKeyword(
             //TODO: Security 추가시 인증부 구현 필요
             @Parameter(description = "검색어", example = "사과")
             @RequestParam final String keyword,
