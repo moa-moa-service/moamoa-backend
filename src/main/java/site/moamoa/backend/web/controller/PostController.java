@@ -133,8 +133,8 @@ public class PostController {
 
     @GetMapping("/api/posts/{postId}")
     @Operation(
-            summary = "공동구매 상태 변경 (개발중)",
-            description = "기존의 공동구매 상태를 변경합니다."
+            summary = "공동구매 상세 조회 (개발중)",
+            description = "공동구매 게시글의 상세 정보를 조회합니다."
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
