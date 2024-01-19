@@ -11,13 +11,17 @@ import site.moamoa.backend.domain.enums.IsAuthorStatus;
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberPost extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_post_id")
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    private IsAuthorStatus isAuthorStatus; //글쓴이 여부
+
+    // Mapping
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
@@ -25,8 +29,5 @@ public class MemberPost extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
-
-    @Enumerated(EnumType.STRING)
-    private IsAuthorStatus isAuthorStatus; //글쓴이 여부
 
 }
