@@ -1,6 +1,8 @@
 package site.moamoa.backend.domain;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+
 import lombok.*;
 import site.moamoa.backend.domain.common.BaseEntity;
 import site.moamoa.backend.domain.embedded.Address;
@@ -15,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 public class Post extends BaseEntity {
+  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
@@ -44,4 +47,7 @@ public class Post extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CapacityStatus capacityStatus; // 모집 상태
 
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<PostImage> postImages = new ArrayList<>();
+  
 }
