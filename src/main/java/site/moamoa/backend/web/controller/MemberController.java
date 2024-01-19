@@ -17,7 +17,7 @@ import site.moamoa.backend.api_payload.ApiResponseDTO;
 @RestController
 public class MemberController {
 
-    @GetMapping("/api/member")
+    @GetMapping("/api/members")
     @Operation(
             summary = "사용자 정보 조회 (개발중)",
             description = "사용자의 정보를 조회합니다."
@@ -34,7 +34,7 @@ public class MemberController {
         return null;    //TODO: Result DTO 반환 필요
     }
 
-    @PatchMapping("/api/member/image")
+    @PatchMapping("/api/members/image")
     @Operation(
             summary = "사용자 프로필 사진 수정 (개발중)",
             description = "사용자의 프로필 사진 정보를 수정합니다."
@@ -49,7 +49,7 @@ public class MemberController {
         return null;    //TODO: Result DTO 반환 필요
     }
 
-    @PatchMapping("/api/member/location")
+    @PatchMapping("/api/members/location")
     @Operation(
             summary = "사용자 동네 수정 (개발중)",
             description = "사용자의 동네 정보를 수정합니다."
@@ -64,7 +64,7 @@ public class MemberController {
         return null;    //TODO: Result DTO 반환 필요
     }
 
-    @GetMapping("/api/member/post")
+    @GetMapping("/api/members/post")
     @Operation(
             summary = "사용자의 공동구매 참여 목록 조회 (개발중)",
             description = "사용자의 공동구매 참여 목록을 조회합니다."
