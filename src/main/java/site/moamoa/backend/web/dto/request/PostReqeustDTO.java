@@ -52,6 +52,7 @@ public class PostReqeustDTO {
         @Size(max = 10, message = "이미지는 최대 10개까지만 허용됩니다.")
         List<MultipartFile> image;
         Address dealLocation;
+        String productName;
         Integer price;
         String description;
     }
