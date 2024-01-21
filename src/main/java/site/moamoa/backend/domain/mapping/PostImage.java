@@ -9,17 +9,19 @@ import site.moamoa.backend.domain.common.BaseEntity;
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostImage extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_image_id")
     private Long id;
 
+    private String url;
+
+    // Mapping
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
 
-    private String url;
 
 }

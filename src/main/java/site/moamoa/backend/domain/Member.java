@@ -11,7 +11,7 @@ import site.moamoa.backend.domain.enums.RoleType;
 @Getter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
