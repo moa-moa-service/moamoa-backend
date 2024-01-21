@@ -13,7 +13,7 @@ public record PostDTO(
         Integer personnel,
         LocalDate deadline,
         String productName,
-        List<MultipartFile> image,
+        List<String> imageUrl,
         Address dealLocation,
         Integer price,
         String description

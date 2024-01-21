@@ -2,6 +2,7 @@ package site.moamoa.backend.web.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
+import site.moamoa.backend.service.post.query.PostQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
@@ -20,6 +22,8 @@ import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
 @RequiredArgsConstructor
 @RestController
 public class PostController {
+
+    private final PostQueryService postQueryService;
 
     @GetMapping("/api/posts/ranking")
     @Operation(
@@ -53,16 +57,21 @@ public class PostController {
 
     @GetMapping("/api/posts/near")
     @Operation(
-            summary = "우리 동네 공동구매 조회 (개발중)",
+            summary = "우리 동네 공동구매 조회",
             description = "우리 동네 공동구매 리스트를 조회합니다."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
+            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.",
+            content = @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(implementation = GetPosts.class)
+            )),
+            @ApiResponse(responseCode = "MEMBER404", description = "해당 사용자를 찾을 수 없습니다.", content = @Content)
     })
     public ApiResponseDTO<GetPosts> getPostsByNear(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetPosts resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        GetPosts resultDTO = postQueryService.findPosts(auth.id());
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
