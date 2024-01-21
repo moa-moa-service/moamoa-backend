@@ -11,15 +11,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
+import site.moamoa.backend.service.PostService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
+import site.moamoa.backend.web.dto.base.SimplePostDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
+
+import java.util.List;
+
 
 @Tag(name = "공동구매 게시글 API", description = "공동구매 페이지 관련 API")
 @RequiredArgsConstructor
 @RestController
 public class PostController {
+    private final PostService postService;
 
     @GetMapping("/api/posts/ranking")
     @Operation(
@@ -125,8 +131,8 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<UpdatePostStatusResult> updatePostStatus(
-            @AuthenticationPrincipal AuthInfoDTO auth,
+    public ApiResponseDTO<?> updatePostStatus(
+            //TODO: Security 추가시 인증부 구현 필요
             @PathVariable
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
@@ -182,7 +188,7 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<GetPostsByKeyword> searchPostsByKeyword(
+    public ApiResponseDTO<List<SimplePostDTO>> searchPostsByKeyword(
             @AuthenticationPrincipal AuthInfoDTO auth,
             @Parameter(description = "검색어", example = "사과")
             @RequestParam final String keyword,
@@ -197,7 +203,7 @@ public class PostController {
             @Parameter(description = "최대 금액", example = "5000")
             @RequestParam final Integer maxPrice
     ) {
-        GetPostsByKeyword resultDTO = null; //TODO: 서비스 로직 추가 필요
-        return ApiResponseDTO.onSuccess(resultDTO);
+        List<SimplePostDTO> simplePostDTOS = postService.findByKeyword(auth.id(), keyword);
+        return ApiResponseDTO.onSuccess(simplePostDTOS);
     }
 }
