@@ -21,7 +21,7 @@ public class PostQueryServiceImpl implements PostQueryService {
     private final MemberQueryService memberQueryService;
 
     @Override
-    public PostResponseDTO.GetPosts findPosts(Long id) {
+    public PostResponseDTO.GetPosts findPostsByNear(Long id) {
 
         Member member = memberQueryService.findMemberById(id);
         List<Post> posts = postRepository.findByDealTown(member.getTown());
