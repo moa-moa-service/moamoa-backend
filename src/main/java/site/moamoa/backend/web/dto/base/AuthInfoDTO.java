@@ -1,4 +1,4 @@
-package site.moamoa.backend.web.dto;
+package site.moamoa.backend.web.dto.base;
 
 import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;

@@ -17,7 +17,7 @@ import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.enums.RoleType;
 import site.moamoa.backend.global.jwt.service.JwtService;
 import site.moamoa.backend.repository.MemberRepository;
-import site.moamoa.backend.web.dto.AuthInfoDTO;
+import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 
 import java.io.IOException;
 import java.util.Set;

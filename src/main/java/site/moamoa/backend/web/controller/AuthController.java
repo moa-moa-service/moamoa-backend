@@ -1,34 +1,52 @@
 package site.moamoa.backend.web.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.global.oauth2.service.CustomOAuth2UserService;
-import site.moamoa.backend.web.dto.AuthInfoDTO;
-import site.moamoa.backend.web.dto.MemberRequestDTO;
+import site.moamoa.backend.web.dto.base.AuthInfoDTO;
+import site.moamoa.backend.web.dto.request.MemberRequestDTO;
+import site.moamoa.backend.web.dto.request.MemberRequestDTO.AddMemberInfo;
+import site.moamoa.backend.web.dto.response.MemberResponseDTO.AddMemberInfoResult;
 
+@Tag(name = "인증 API", description = "보안 인증 관련 API")
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
 public class AuthController {
     private final CustomOAuth2UserService oAuth2UserService;
 
-    @PostMapping("/member-info")
-    public String exceptionAPI(
+
+    @PostMapping("/api/auth/member-info")
+    @Operation(
+            summary = "사용자 추가 정보 등록",
+            description = "사용자의 추가 정보를 등록합니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
+    })
+    public ApiResponseDTO<AddMemberInfoResult> exceptionAPI(
             @AuthenticationPrincipal AuthInfoDTO auth, // security context에서 가져온 user임. member entity랑 다름
-            @RequestBody MemberRequestDTO.AddMemberInfo memberInfo
+            @RequestBody AddMemberInfo request
     ) {
-        Member member = oAuth2UserService.addMemberInfo(auth.id(), memberInfo);
+        Member member = oAuth2UserService.addMemberInfo(auth.id(), request);
         log.info("AuthController member : {}", member);
-        return "ok"; // todo 추후 응답 response에 맞게 반환
+        AddMemberInfoResult resultDTO = null; //TODO: 추후 응답 response에 맞게 반환
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @GetMapping("/after")
+    @Hidden
+    @GetMapping("/api/auth/after")
     public String test() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         log.info("test authentication : {}", authentication);

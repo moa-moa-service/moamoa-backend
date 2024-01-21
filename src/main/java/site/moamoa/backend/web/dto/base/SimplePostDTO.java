@@ -1,18 +1,16 @@
 package site.moamoa.backend.web.dto.base;
 
 import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
+import site.moamoa.backend.domain.enums.CapacityStatus;
 
 @Builder
-@Getter
-@RequiredArgsConstructor
-public class SimplePostDTO {
-    MultipartFile image;
-    String productName;
-    Integer personnel;
-    Integer dDay;
-    Integer price;
-    CapacityStatus status;
+public record SimplePostDTO(
+        MultipartFile image,
+        String productName,
+        Integer personnel,
+        Integer dDay,
+        Integer price,
+        CapacityStatus status
+) {
 }
