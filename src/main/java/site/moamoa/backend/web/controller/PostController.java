@@ -42,7 +42,7 @@ public class PostController {
 
     @GetMapping("/api/posts/latest")
     @Operation(
-            summary = "최근 모집 시작한 공동구매 조회 (개발중)",
+            summary = "최근 모집 시작한 공동구매 조회",
             description = "최근 모집을 시작한 공동구매 리스트를 조회합니다."
     )
     @ApiResponses(value = {
@@ -51,7 +51,7 @@ public class PostController {
     public ApiResponseDTO<GetPosts> getPostsByLatest(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetPosts resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        GetPosts resultDTO = postQueryService.findPostsByLatest();
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
@@ -62,10 +62,10 @@ public class PostController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.",
-            content = @Content(
-                    mediaType = "application/json",
-                    schema = @Schema(implementation = GetPosts.class)
-            )),
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = GetPosts.class)
+                    )),
             @ApiResponse(responseCode = "MEMBER404", description = "해당 사용자를 찾을 수 없습니다.", content = @Content)
     })
     public ApiResponseDTO<GetPosts> getPostsByNear(
@@ -101,7 +101,7 @@ public class PostController {
     public ApiResponseDTO<AddPostResult> registerPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
             @RequestBody AddPost request
-            ) {
+    ) {
         AddPostResult resultDTO = null; //TODO: 서비스 로직 추가 필요
         return ApiResponseDTO.onSuccess(resultDTO);
     }

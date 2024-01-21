@@ -4,4 +4,6 @@ import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
 public interface PostQueryService {
     PostResponseDTO.GetPosts findPostsByNear(Long id);
+
+    PostResponseDTO.GetPosts findPostsByLatest();
 }

@@ -22,13 +22,18 @@ public class PostQueryServiceImpl implements PostQueryService {
 
     @Override
     public PostResponseDTO.GetPosts findPostsByNear(Long id) {
-
         Member member = memberQueryService.findMemberById(id);
         List<Post> posts = postRepository.findByDealTown(member.getTown());
         return PostConverter.toGetPosts(
-                posts.stream()
-                        .map(PostConverter::toSimplePostDTO)
-                        .toList()
+                posts.stream().map(PostConverter::toSimplePostDTO).toList()
+        );
+    }
+
+    @Override
+    public PostResponseDTO.GetPosts findPostsByLatest() {
+        List<Post> posts = postRepository.findAllByOrderByCreatedAtDesc();
+        return PostConverter.toGetPosts(
+                posts.stream().map(PostConverter::toSimplePostDTO).toList()
         );
     }
 }
