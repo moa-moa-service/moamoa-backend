@@ -71,7 +71,7 @@ public class PostController {
     public ApiResponseDTO<GetPosts> getPostsByNear(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetPosts resultDTO = postQueryService.findPosts(auth.id());
+        GetPosts resultDTO = postQueryService.findPostsByNear(auth.id());
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
