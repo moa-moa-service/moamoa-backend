@@ -41,7 +41,8 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
+                        authorize.requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**",
+                                        "/health").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2Configure ->
