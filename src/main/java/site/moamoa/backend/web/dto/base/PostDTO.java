@@ -1,17 +1,16 @@
 package site.moamoa.backend.web.dto.base;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.Builder;
-import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.domain.embedded.Address;
 
 @Builder
 public record PostDTO(
-        Long categoryId,
+        String category,
         Integer personnel,
-        LocalDate deadline,
+        LocalDateTime deadline,
         String productName,
         List<String> imageUrl,
         Address dealLocation,

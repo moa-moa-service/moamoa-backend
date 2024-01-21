@@ -3,6 +3,8 @@ package site.moamoa.backend.service.post.query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.moamoa.backend.api_payload.code.status.ErrorStatus;
+import site.moamoa.backend.api_payload.exception.handler.PostHandler;
 import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
@@ -21,8 +23,8 @@ public class PostQueryServiceImpl implements PostQueryService {
     private final MemberQueryService memberQueryService;
 
     @Override
-    public PostResponseDTO.GetPosts findPostsByNear(Long id) {
-        Member member = memberQueryService.findMemberById(id);
+    public PostResponseDTO.GetPosts findPostsByNear(Long memberId) {
+        Member member = memberQueryService.findMemberById(memberId);
         List<Post> posts = postRepository.findByDealTown(member.getTown());
         return PostConverter.toGetPosts(
                 posts.stream().map(PostConverter::toSimplePostDTO).toList()
@@ -35,5 +37,12 @@ public class PostQueryServiceImpl implements PostQueryService {
         return PostConverter.toGetPosts(
                 posts.stream().map(PostConverter::toSimplePostDTO).toList()
         );
+    }
+
+    @Override
+    public PostResponseDTO.GetPost findPostById(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new PostHandler(ErrorStatus.POST_NOT_FOUND));
+        return PostConverter.toGetPost(PostConverter.toPostDTO(post));
     }
 }

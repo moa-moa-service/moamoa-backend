@@ -61,11 +61,7 @@ public class PostController {
             description = "우리 동네 공동구매 리스트를 조회합니다."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.",
-                    content = @Content(
-                            mediaType = "application/json",
-                            schema = @Schema(implementation = GetPosts.class)
-                    )),
+            @ApiResponse(responseCode = "COMMON200", description = "성공입니다."),
             @ApiResponse(responseCode = "MEMBER404", description = "해당 사용자를 찾을 수 없습니다.", content = @Content)
     })
     public ApiResponseDTO<GetPosts> getPostsByNear(
@@ -147,11 +143,12 @@ public class PostController {
 
     @GetMapping("/api/posts/{postId}")
     @Operation(
-            summary = "공동구매 상세 조회 (개발중)",
+            summary = "공동구매 상세 조회",
             description = "공동구매 게시글의 상세 정보를 조회합니다."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
+            @ApiResponse(responseCode = "COMMON200", description = "성공입니다."),
+            @ApiResponse(responseCode = "POST404", description = "해당 게시물을 찾을 수 없습니다.", content = @Content)
     })
     public ApiResponseDTO<GetPost> getPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
@@ -160,7 +157,7 @@ public class PostController {
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        GetPost resultDTO = null;   //TODO: 서비스 로직 추가 필요
+        GetPost resultDTO = postQueryService.findPostById(postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
