@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import site.moamoa.backend.repository.MemberRepository;
+import site.moamoa.backend.repository.member.MemberRepository;
 
 import java.util.Date;
 import java.util.Optional;

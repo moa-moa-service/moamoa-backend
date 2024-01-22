@@ -13,7 +13,7 @@ import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.enums.RoleType;
 import site.moamoa.backend.global.jwt.service.JwtService;
 import site.moamoa.backend.global.oauth2.CustomOAuth2User;
-import site.moamoa.backend.repository.MemberRepository;
+import site.moamoa.backend.repository.member.MemberRepository;
 
 import java.io.IOException;
 
