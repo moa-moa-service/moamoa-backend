@@ -10,11 +10,13 @@ import site.moamoa.backend.domain.embedded.Address;
 public record PostDTO(
         String category,
         Integer personnel,
+        Integer available,
         LocalDateTime deadline,
         String productName,
         List<String> imageUrl,
         Address dealLocation,
         Integer price,
-        String description
+        String description,
+        Integer viewCount
 ) {
 }

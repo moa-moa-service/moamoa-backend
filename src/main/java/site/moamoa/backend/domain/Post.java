@@ -44,6 +44,9 @@ public class Post extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CapacityStatus capacityStatus; // 모집 상태
 
+    @Column(columnDefinition = "INTEGER DEFAULT 0", nullable = false)
+    private Integer viewCount;  // 조회수
+
     // Mapping
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
