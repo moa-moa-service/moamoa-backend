@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.moamoa.backend.api_payload.code.status.ErrorStatus;
 import site.moamoa.backend.api_payload.exception.handler.MemberHandler;
 import site.moamoa.backend.domain.Member;
-import site.moamoa.backend.repository.MemberRepository;
+import site.moamoa.backend.repository.member.MemberRepository;
 
 @Service
 @Transactional(readOnly = true)

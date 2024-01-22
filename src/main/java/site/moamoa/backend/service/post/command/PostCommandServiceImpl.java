@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moamoa.backend.api_payload.code.status.ErrorStatus;
 import site.moamoa.backend.api_payload.exception.handler.PostHandler;
-import site.moamoa.backend.repository.PostRepository;
+import site.moamoa.backend.repository.post.PostRepository;
 
 import java.time.Duration;
 

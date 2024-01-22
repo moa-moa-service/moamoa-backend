@@ -8,7 +8,8 @@ import site.moamoa.backend.api_payload.exception.handler.PostHandler;
 import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
-import site.moamoa.backend.repository.PostRepository;
+import site.moamoa.backend.domain.embedded.Address;
+import site.moamoa.backend.repository.post.PostRepository;
 import site.moamoa.backend.service.member.query.MemberQueryService;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
@@ -24,8 +25,8 @@ public class PostQueryServiceImpl implements PostQueryService {
 
     @Override
     public PostResponseDTO.GetPosts findPostsByNear(Long memberId) {
-        Member member = memberQueryService.findMemberById(memberId);
-        List<Post> posts = postRepository.findAllByNear(member.getTown());
+        Address baseAddress = memberQueryService.findMemberById(memberId).getAddress();
+        List<Post> posts = postRepository.findAllByNear(baseAddress.getLatitude(), baseAddress.getLongitude());
         return PostConverter.toGetPosts(
                 posts.stream().map(PostConverter::toSimplePostDTO).toList()
         );
