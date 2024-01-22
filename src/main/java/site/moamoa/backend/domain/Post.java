@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import site.moamoa.backend.domain.common.BaseEntity;
 import site.moamoa.backend.domain.embedded.Address;
 import site.moamoa.backend.domain.enums.CapacityStatus;
@@ -17,6 +18,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicUpdate
 public class Post extends BaseEntity {
   
     @Id

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
+import site.moamoa.backend.service.post.command.PostCommandService;
 import site.moamoa.backend.service.post.query.PostQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
@@ -24,6 +25,7 @@ import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
 public class PostController {
 
     private final PostQueryService postQueryService;
+    private final PostCommandService postCommandService;
 
     @GetMapping("/api/posts/ranking")
     @Operation(
@@ -141,22 +143,23 @@ public class PostController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @GetMapping("/api/posts/{postId}")
+    @PostMapping("/api/posts/{postId}")
     @Operation(
             summary = "공동구매 상세 조회",
-            description = "공동구매 게시글의 상세 정보를 조회합니다."
+            description = "공동구매 게시글의 상세 정보를 조회하고 조회수를 증가시킵니다."
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다."),
             @ApiResponse(responseCode = "POST404", description = "해당 게시물을 찾을 수 없습니다.", content = @Content)
     })
-    public ApiResponseDTO<GetPost> getPost(
+    public ApiResponseDTO<GetPost> updateViewCountAndGetPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
+        postCommandService.updatePostViewCount(auth.id(), postId);
         GetPost resultDTO = postQueryService.findPostById(postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
