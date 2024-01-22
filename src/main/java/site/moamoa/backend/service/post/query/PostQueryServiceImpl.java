@@ -40,8 +40,9 @@ public class PostQueryServiceImpl implements PostQueryService {
     }
 
     @Override
-    public PostResponseDTO.GetPosts findPostsByRanking() {
-        List<Post> posts = postRepository.findAllByRanking();
+    public PostResponseDTO.GetPosts findPostsByRanking(Long memberId) {
+        Member member = memberQueryService.findMemberById(memberId);
+        List<Post> posts = postRepository.findAllByRanking(member.getTown());
         return PostConverter.toGetPosts(
                 posts.stream().map(PostConverter::toSimplePostDTO).toList()
         );

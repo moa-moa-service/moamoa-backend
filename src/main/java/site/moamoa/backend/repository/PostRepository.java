@@ -19,10 +19,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByRecent();
 
     @Query("SELECT p FROM Post p " +
+            "WHERE p.dealLocation = :town " +
             "ORDER BY " +
             "p.available ASC, " +
             "p.viewCount DESC")
-    List<Post> findAllByRanking();
+    List<Post> findAllByRanking(@Param("town") String town);
 
     @Modifying
     @Query("UPDATE Post p SET p.viewCount = p.viewCount + 1 WHERE p.id = :postId")

@@ -33,12 +33,13 @@ public class PostController {
             description = "조회수를 기반으로 우리 동네 인기 공동구매 리스트를 조회합니다."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
+            @ApiResponse(responseCode = "COMMON200", description = "성공입니다."),
+            @ApiResponse(responseCode = "MEMBER404", description = "해당 사용자를 찾을 수 없습니다.", content = @Content)
     })
     public ApiResponseDTO<GetPosts> getPostsByRanking(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetPosts resultDTO = postQueryService.findPostsByRanking();
+        GetPosts resultDTO = postQueryService.findPostsByRanking(auth.id());
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
