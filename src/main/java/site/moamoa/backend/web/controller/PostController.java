@@ -27,7 +27,7 @@ public class PostController {
 
     @GetMapping("/api/posts/ranking")
     @Operation(
-            summary = "우리 동네 인기 공동구매 조회 (개발중)",
+            summary = "우리 동네 인기 공동구매 조회",
             description = "조회수를 기반으로 우리 동네 인기 공동구매 리스트를 조회합니다."
     )
     @ApiResponses(value = {
@@ -36,7 +36,7 @@ public class PostController {
     public ApiResponseDTO<GetPosts> getPostsByRanking(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetPosts resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        GetPosts resultDTO = postQueryService.findPostsByRanking();
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

@@ -7,5 +7,7 @@ public interface PostQueryService {
 
     PostResponseDTO.GetPosts findPostsByLatest();
 
+    PostResponseDTO.GetPosts findPostsByRanking();
+
     PostResponseDTO.GetPost findPostById(Long postId);
 }
