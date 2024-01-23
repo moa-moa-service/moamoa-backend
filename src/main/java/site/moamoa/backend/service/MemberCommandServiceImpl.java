@@ -9,10 +9,7 @@ import site.moamoa.backend.aws.s3.AmazonS3Manager;
 import site.moamoa.backend.converter.MemberConverter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.repository.MemberRepository;
-import site.moamoa.backend.web.dto.request.MemberRequestDTO;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
-
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -23,8 +20,12 @@ public class MemberCommandServiceImpl implements MemberCommandService {
 
     @Override
     public MemberResponseDTO.UpdateMemberImageResult addMemberProfileImage(Long memberId, MultipartFile updateMemberImageDto) {
-        String memberProfileUrl = amazonS3Manager.uploadImage(amazonS3Manager.generateMemberProfileKeyName(), updateMemberImageDto);
         Member member = memberRepository.findById(memberId).orElseThrow((RuntimeException::new));
+        String memberProfileUrl = null;
+        if (updateMemberImageDto != null && !updateMemberImageDto.isEmpty()) {
+            memberProfileUrl = amazonS3Manager.uploadImage(amazonS3Manager.generateMemberProfileKeyName(), updateMemberImageDto);
+        }
+
         member.addProfileImage(memberProfileUrl);
         return MemberConverter.toUpdateMemberImageDTO(member);
     }

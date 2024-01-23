@@ -46,7 +46,7 @@ public class MemberController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @PostMapping(value = "/api/members/image", consumes = "multipart/form-data")
+    @PatchMapping(value = "/api/members/image", consumes = "multipart/form-data")
     @Operation(
             summary = "사용자 프로필 사진 저장 및 수정",
             description = "사용자의 프로필 사진 정보를 수정합니다."
@@ -56,9 +56,8 @@ public class MemberController {
     })
     public ApiResponseDTO<UpdateMemberImageResult> updateMyImage(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @RequestPart(value="profileImage") MultipartFile profileImage
+            @RequestPart(value="profileImage", required = false) MultipartFile profileImage //TODO DTO로 받으면 415 에러가 뜨는데 이유를 아직 잘 모르겠음 -> 추후 수정하겠음
             ) {
-        log.info("updateMemberImage : {}", profileImage);
         UpdateMemberImageResult resultDTO = memberCommandService.addMemberProfileImage(auth.id(), profileImage);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
