@@ -21,7 +21,7 @@ public class MemberConverter {
                 .build();
     }
 
-    public static PostResponseDTO.GetMyPostList toMyParticipatedPostResult(Long memberId, List<Post> postList) {
+    public static PostResponseDTO.GetMyPostList toMyParticipatedOrRecruitingPostResult(Long memberId, List<Post> postList) {
         List<SimplePostDTO> simplePostDTOS = postList.stream()
                 .map(MemberConverter::toSimplePostDTO)
                 .toList();

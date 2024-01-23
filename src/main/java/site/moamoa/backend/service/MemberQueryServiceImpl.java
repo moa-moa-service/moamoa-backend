@@ -23,8 +23,14 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     private final MemberPostRepository memberPostRepository;
 
     @Override
-    public PostResponseDTO.GetMyPostList GetMyParticipatedPostResult(Long memberId, CapacityStatus status) {
+    public PostResponseDTO.GetMyPostList getMyParticipatedPostResult(Long memberId, CapacityStatus status) {
         List<Post> participatedMember = memberPostRepository.findParticipatedMember(memberId, status);
-        return MemberConverter.toMyParticipatedPostResult(memberId, participatedMember);
+        return MemberConverter.toMyParticipatedOrRecruitingPostResult(memberId, participatedMember);
+    }
+
+    @Override
+    public PostResponseDTO.GetMyPostList getMyRecruitingPostResult(Long memberId, CapacityStatus status) {
+        List<Post> participatedMember = memberPostRepository.findRecruitingMember(memberId, status);
+        return MemberConverter.toMyParticipatedOrRecruitingPostResult(memberId, participatedMember);
     }
 }
