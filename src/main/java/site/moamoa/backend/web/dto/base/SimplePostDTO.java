@@ -6,7 +6,7 @@ import site.moamoa.backend.domain.enums.CapacityStatus;
 
 @Builder
 public record SimplePostDTO(
-        MultipartFile image,
+        String image,
         String productName,
         Integer personnel,
         Integer dDay,

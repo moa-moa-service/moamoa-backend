@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.domain.Member;
+import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.service.MemberCommandService;
+import site.moamoa.backend.service.MemberQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberAddress;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberImage;
@@ -28,6 +30,7 @@ import static site.moamoa.backend.web.dto.response.MemberResponseDTO.*;
 public class MemberController {
 
     private final MemberCommandService memberCommandService;
+    private final MemberQueryService memberQueryService;
 
     @GetMapping("/api/members")
     @Operation(
@@ -88,10 +91,11 @@ public class MemberController {
     })
     public ApiResponseDTO<GetMyPostList> getPostsByParticipating(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @Parameter(description = "모집 마감 여부(ONGOING, END)", example = "END")
-            @RequestParam String status
+
+            @Parameter(description = "모집 마감 여부(FULL, NOT_FULL)", example = "FULL")
+            @RequestParam(name = "status", defaultValue = "NOT_FULL") CapacityStatus status // 첫 화면이 모집 중이므로 defaultValue = "NOT_FULL"로 지정
     ) {
-        GetMyPostList resultDTO = null;     //TODO: 서비스 로직 추가 필요
+        GetMyPostList resultDTO = memberQueryService.GetMyParticipatedPostResult(auth.id(), status);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
