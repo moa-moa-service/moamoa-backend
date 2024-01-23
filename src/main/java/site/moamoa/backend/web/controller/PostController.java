@@ -76,7 +76,7 @@ public class PostController {
 
     @GetMapping("/api/posts/recent-keyword")
     @Operation(
-            summary = "최근 검색한 키워드로 공동구매 조회 (개발중)",
+            summary = "최근 검색한 키워드로 공동구매 조회",
             description = "최근 검색한 공동구매 리스트를 조회합니다."
     )
     @ApiResponses(value = {
@@ -85,7 +85,7 @@ public class PostController {
     public ApiResponseDTO<GetPosts> getPostsByRecentKeyword(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetPosts resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        GetPosts resultDTO = postQueryService.findPostsByRecentKeyword(auth.id());
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

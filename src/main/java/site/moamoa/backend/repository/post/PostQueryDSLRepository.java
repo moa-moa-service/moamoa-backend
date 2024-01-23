@@ -11,5 +11,7 @@ public interface PostQueryDSLRepository {
 
     List<Post> findAllByRecent();
 
+    List<Post> findAllByKeyword(String keyword);
+
     Long updateView(Long postId);
 }

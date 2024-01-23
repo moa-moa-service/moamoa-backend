@@ -76,6 +76,18 @@ public class PostQueryDSLRepositoryImpl implements PostQueryDSLRepository {
     }
 
     @Override
+    public List<Post> findAllByKeyword(String keyword) {
+        QPost post = QPost.post;
+
+        BooleanExpression condition = post.productName.contains(keyword);
+
+        return jpaQueryFactory
+                .selectFrom(post)
+                .where(condition)
+                .fetch();
+    }
+
+    @Override
     public Long updateView(Long postId) {
         QPost post = QPost.post;
 

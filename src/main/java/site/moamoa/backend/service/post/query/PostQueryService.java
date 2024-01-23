@@ -9,5 +9,7 @@ public interface PostQueryService {
 
     PostResponseDTO.GetPosts findPostsByRanking(Long memberId);
 
+    PostResponseDTO.GetPosts findPostsByRecentKeyword(Long memberId);
+
     PostResponseDTO.GetPost findPostById(Long postId);
 }

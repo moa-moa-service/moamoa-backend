@@ -1,6 +1,7 @@
 package site.moamoa.backend.service.post.query;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moamoa.backend.api_payload.code.status.ErrorStatus;
@@ -22,6 +23,9 @@ public class PostQueryServiceImpl implements PostQueryService {
 
     private final PostRepository postRepository;
     private final MemberQueryService memberQueryService;
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    private static final String MEMBER_RECENT_KEYWORD_KEY_PREFIX = "memberKeyword:";
 
     @Override
     public PostResponseDTO.GetPosts findPostsByNear(Long memberId) {
@@ -50,9 +54,21 @@ public class PostQueryServiceImpl implements PostQueryService {
     }
 
     @Override
+    public PostResponseDTO.GetPosts findPostsByRecentKeyword(Long memberId) {
+        String keyword = (String) redisTemplate.opsForList()
+                .index(MEMBER_RECENT_KEYWORD_KEY_PREFIX + memberId, 0);
+        List<Post> posts = postRepository.findAllByKeyword(keyword);
+        return PostConverter.toGetPosts(
+                posts.stream().map(PostConverter::toSimplePostDTO).toList()
+        );
+    }
+
+    @Override
     public PostResponseDTO.GetPost findPostById(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostHandler(ErrorStatus.POST_NOT_FOUND));
         return PostConverter.toGetPost(PostConverter.toPostDTO(post));
     }
+
+
 }
