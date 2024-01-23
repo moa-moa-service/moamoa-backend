@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.CapacityStatus;
+import site.moamoa.backend.web.dto.base.MemberDTO;
 import site.moamoa.backend.web.dto.base.SimplePostDTO;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
@@ -39,6 +40,18 @@ public class MemberConverter {
                 .dDay(Period.between(LocalDate.now(), post.getDeadline().toLocalDate()).getDays())
                 .price(post.getTotalPrice())
                 .status(post.getCapacityStatus())
+                .build();
+    }
+
+    public static MemberResponseDTO.GetMyInfoResult toMemberDTO(Member member) {
+        MemberDTO memberDTO = MemberDTO.builder()
+                .nickname(member.getNickname())
+                .profileImage(member.getProfileImage())
+                .townName(member.getTown())
+                .build();
+
+        return MemberResponseDTO.GetMyInfoResult.builder()
+                .memberDTO(memberDTO)
                 .build();
     }
 }

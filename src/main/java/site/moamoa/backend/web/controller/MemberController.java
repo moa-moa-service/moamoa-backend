@@ -16,6 +16,7 @@ import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.service.MemberCommandService;
 import site.moamoa.backend.service.MemberQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
+import site.moamoa.backend.web.dto.base.MemberDTO;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberAddress;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberImage;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO.GetMyInfoResult;
@@ -34,18 +35,16 @@ public class MemberController {
 
     @GetMapping("/api/members")
     @Operation(
-            summary = "사용자 정보 조회 (개발중)",
+            summary = "사용자 정보 조회",
             description = "사용자의 정보를 조회합니다."
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
     public ApiResponseDTO<GetMyInfoResult> getMemberByNickname(
-            @AuthenticationPrincipal AuthInfoDTO auth,
-            @Parameter(description = "사용자 이름", example = "Luke")
-            @RequestParam String nickname
+            @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetMyInfoResult resultDTO = null;   //TODO: 서비스 로직 추가 필요
+        GetMyInfoResult resultDTO = memberQueryService.getMyInfo(auth.id());
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
