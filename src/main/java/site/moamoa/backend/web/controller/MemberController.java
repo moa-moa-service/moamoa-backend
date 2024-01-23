@@ -116,4 +116,20 @@ public class MemberController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
+    @PostMapping("/api/members/deactivate")
+    @Operation(
+            summary = "사용자 회원 탈퇴",
+            description = "사용자가 회원 탈퇴 시에 deletion_status 필드가 DELETE로 처리됩니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
+    })
+    public ApiResponseDTO<DeleteMemberResult> deActiveMember(
+            @AuthenticationPrincipal AuthInfoDTO auth
+    ) {
+        //todo 탈퇴된 회원은 조회가 안되게 하도록 구현이 필요해보임.
+        DeleteMemberResult resultDTO = memberCommandService.deActiveMemberResult(auth.id());
+        return ApiResponseDTO.onSuccess(resultDTO);
+    }
+
 }

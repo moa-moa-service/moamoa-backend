@@ -37,4 +37,11 @@ public class MemberCommandServiceImpl implements MemberCommandService {
         member.addInfo(member.getNickname(), request.address());
         return MemberConverter.updateMemberAddressResult(member);
     }
+
+    @Override
+    public MemberResponseDTO.DeleteMemberResult deActiveMemberResult(Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
+        member.deactivate();
+        return MemberConverter.deActiveMemberResult(member);
+    }
 }

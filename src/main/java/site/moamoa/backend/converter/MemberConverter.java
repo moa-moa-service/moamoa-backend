@@ -66,6 +66,13 @@ public class MemberConverter {
                 .build();
     }
 
+    public static MemberResponseDTO.DeleteMemberResult deActiveMemberResult(Member member) {
+        return MemberResponseDTO.DeleteMemberResult.builder()
+                .userId(member.getId())
+                .updatedAt(member.getUpdatedAt())
+                .build();
+    }
+
     //dday 구하기
     private static int getDday(LocalDateTime deadLine) {
         LocalDateTime now = LocalDateTime.now();
