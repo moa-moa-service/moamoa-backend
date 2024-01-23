@@ -9,6 +9,7 @@ import site.moamoa.backend.aws.s3.AmazonS3Manager;
 import site.moamoa.backend.converter.MemberConverter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.repository.MemberRepository;
+import site.moamoa.backend.web.dto.request.MemberRequestDTO;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 
 @Service
@@ -28,5 +29,12 @@ public class MemberCommandServiceImpl implements MemberCommandService {
 
         member.addProfileImage(memberProfileUrl);
         return MemberConverter.toUpdateMemberImageDTO(member);
+    }
+
+    @Override
+    public MemberResponseDTO.UpdateMemberAddressResult updateMemberAddress(Long memberId, MemberRequestDTO.UpdateMemberAddress request) {
+        Member member = memberRepository.findById(memberId).orElseThrow((RuntimeException::new));
+        member.addInfo(member.getNickname(), request.address());
+        return MemberConverter.updateMemberAddressResult(member);
     }
 }

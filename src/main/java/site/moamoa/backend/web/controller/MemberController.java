@@ -66,7 +66,7 @@ public class MemberController {
 
     @PatchMapping("/api/members/location")
     @Operation(
-            summary = "사용자 동네 수정 (개발중)",
+            summary = "사용자 동네 수정",
             description = "사용자의 동네 정보를 수정합니다."
     )
     @ApiResponses(value = {
@@ -76,7 +76,7 @@ public class MemberController {
             @AuthenticationPrincipal AuthInfoDTO auth,
             @RequestBody UpdateMemberAddress request
     ) {
-        UpdateMemberAddressResult resultDTO = null; //TODO: 서비스 로직 추가 필요
+        UpdateMemberAddressResult resultDTO = memberCommandService.updateMemberAddress(auth.id(), request);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

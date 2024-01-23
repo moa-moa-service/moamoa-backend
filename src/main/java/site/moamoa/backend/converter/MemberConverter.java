@@ -54,4 +54,11 @@ public class MemberConverter {
                 .memberDTO(memberDTO)
                 .build();
     }
+
+    public static MemberResponseDTO.UpdateMemberAddressResult updateMemberAddressResult(Member member) {
+        return MemberResponseDTO.UpdateMemberAddressResult.builder()
+                .userId(member.getId())
+                .updatedAt(member.getUpdatedAt())
+                .build();
+    }
 }
