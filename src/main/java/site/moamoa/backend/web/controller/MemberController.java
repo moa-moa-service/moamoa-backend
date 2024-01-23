@@ -6,9 +6,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
+import site.moamoa.backend.domain.Member;
+import site.moamoa.backend.service.MemberCommandService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberAddress;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberImage;
@@ -20,7 +24,10 @@ import static site.moamoa.backend.web.dto.response.MemberResponseDTO.*;
 @Tag(name = "사용자 API", description = "사용자 정보 관련 API")
 @RequiredArgsConstructor
 @RestController
+@Slf4j
 public class MemberController {
+
+    private final MemberCommandService memberCommandService;
 
     @GetMapping("/api/members")
     @Operation(
@@ -39,9 +46,9 @@ public class MemberController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @PatchMapping("/api/members/image")
+    @PostMapping(value = "/api/members/image", consumes = "multipart/form-data")
     @Operation(
-            summary = "사용자 프로필 사진 수정 (개발중)",
+            summary = "사용자 프로필 사진 저장 및 수정",
             description = "사용자의 프로필 사진 정보를 수정합니다."
     )
     @ApiResponses(value = {
@@ -49,9 +56,10 @@ public class MemberController {
     })
     public ApiResponseDTO<UpdateMemberImageResult> updateMyImage(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @RequestBody UpdateMemberImage request
+            @RequestPart(value="profileImage") MultipartFile profileImage
             ) {
-        UpdateMemberImageResult resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        log.info("updateMemberImage : {}", profileImage);
+        UpdateMemberImageResult resultDTO = memberCommandService.addMemberProfileImage(auth.id(), profileImage);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

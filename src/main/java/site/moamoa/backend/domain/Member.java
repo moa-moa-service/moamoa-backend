@@ -51,4 +51,7 @@ public class Member extends BaseEntity {
         this.refreshToken = refreshToken;
     }
 
+    public void addProfileImage(String profileImage) {
+        this.profileImage = profileImage;
+    }
 }
