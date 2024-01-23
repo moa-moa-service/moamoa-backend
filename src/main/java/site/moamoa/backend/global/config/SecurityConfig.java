@@ -41,9 +41,11 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**",
+                        authorize
+                                .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**",
                                         "/health").permitAll()
-                                .anyRequest().authenticated()
+                                .requestMatchers("/api/auth/member-info").hasRole("GUEST")
+                                .anyRequest().hasRole("MEMBER")
                 )
                 .oauth2Login(oauth2Configure ->
                         oauth2Configure
