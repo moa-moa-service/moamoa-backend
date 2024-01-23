@@ -56,11 +56,11 @@ public class PostQueryDSLRepositoryImpl implements PostQueryDSLRepository {
     public List<Post> findAllByRanking(String town) {
         QPost post = QPost.post;
 
-        BooleanExpression condition = post.dealTown.eq(town);
+        BooleanExpression townCondition = town != null ? post.dealTown.eq(town) : null;
 
         return jpaQueryFactory
                 .selectFrom(post)
-                .where(condition)
+                .where(townCondition)
                 .orderBy(post.available.asc(), post.viewCount.desc())
                 .fetch();
     }
@@ -79,11 +79,11 @@ public class PostQueryDSLRepositoryImpl implements PostQueryDSLRepository {
     public List<Post> findAllByKeyword(String keyword) {
         QPost post = QPost.post;
 
-        BooleanExpression condition = post.productName.contains(keyword);
+        BooleanExpression keywordCondition = keyword != null ? post.productName.contains(keyword) : null;
 
         return jpaQueryFactory
                 .selectFrom(post)
-                .where(condition)
+                .where(keywordCondition)
                 .fetch();
     }
 
