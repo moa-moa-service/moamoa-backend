@@ -79,11 +79,20 @@ public class SwaggerConfig {
                                             .description("인증 코드")
                                             .example("V8l1td3fVCAbuJm40u")
                             ))
-                            .responses(new ApiResponses().addApiResponse(SuccessStatus._OK.getCode(),
-                                    new ApiResponse().description(SuccessStatus._OK.getMessage())))
+                            .responses(
+                                    new ApiResponses()
+                                            .addApiResponse(
+                                                    SuccessStatus._OK.getCode(),
+                                                    new ApiResponse().description(SuccessStatus._OK.getMessage())
+                                            )
+                                            .addApiResponse(
+                                                    SuccessStatus._ACCEPTED.getCode(),
+                                                    new ApiResponse().description(SuccessStatus._ACCEPTED.getMessage()))
+
+                            )
                             .addTagsItem("인증 API")
                             .summary("인증 토큰 발급")
-                            .description("인가 코드를 받아 인증 토큰을 받아옵니다.")
+                            .description("인가 코드를 받아 인증 토큰을 받아옵니다. 200 응답 코드가 온다면 메인으로, 202가 온다면 추가 정보를 입력해주세요.")
             ));
         };
     }

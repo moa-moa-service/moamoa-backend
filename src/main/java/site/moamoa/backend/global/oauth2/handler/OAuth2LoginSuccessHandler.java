@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import site.moamoa.backend.api_payload.code.status.SuccessStatus;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.enums.RoleType;
 import site.moamoa.backend.global.jwt.service.JwtService;
@@ -32,17 +33,15 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         log.info("OAuth2 Login 성공!");
         try {
             CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
+            String accessToken = jwtService.createAccessToken(oAuth2User.getId());
+            String refreshToken = jwtService.createRefreshToken();
+            memberSetRefreshToken(oAuth2User, refreshToken);
+            jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 
             // User의 Role이 GUEST일 경우 처음 요청한 회원
             if(oAuth2User.getRoleType() == RoleType.GUEST) {
-                String accessToken = jwtService.createAccessToken(oAuth2User.getId());
-                String refreshToken = jwtService.createRefreshToken();
-                memberSetRefreshToken(oAuth2User, refreshToken);
-                response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
-                jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
-                return;
+                response.setStatus(HttpServletResponse.SC_ACCEPTED);
             }
-            loginSuccess(response, oAuth2User); // 로그인 성공 시 access, refresh 토큰 생성
         } catch (Exception e) {
             throw e;
         }
