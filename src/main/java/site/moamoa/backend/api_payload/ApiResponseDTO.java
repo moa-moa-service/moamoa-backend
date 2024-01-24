@@ -38,7 +38,7 @@ public record ApiResponseDTO<T>(
     //Fail
     public static <T> ApiResponseDTO<T> onFailure(String code, String message, T data) {
         return new ApiResponseDTO<>(
-                true,
+                false,
                 code,
                 message,
                 data
