@@ -9,7 +9,8 @@ import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddPostResult;
 
 public class PostConverter {
-    public static Post toPost(AddPost addPost, Category category){
+
+    public static Post toPost(AddPost addPost, Category category, List<PostImage> postImages){
         return Post.builder()
             .available(addPost.personnel())
             .capacityStatus(CapacityStatus.NOT_FULL)
@@ -17,24 +18,12 @@ public class PostConverter {
             .personnel(addPost.personnel())
             .deadline(addPost.deadline())
             .productName(addPost.productName())
-//            .postImages(postImages)
+            .postImages(postImages)
             .dealLocation(addPost.dealLocation())
             .totalPrice(addPost.price())
             .description(addPost.description())
             .build();
     }
-//    public static Post toPost(AddPost addPost, Category category, List<PostImage> postImages){
-//        return Post.builder()
-//            .category(category)
-//            .personnel(addPost.personnel())
-//            .deadline(addPost.deadline())
-//            .productName(addPost.productName())
-//            .postImages(postImages)
-//            .dealLocation(addPost.dealLocation())
-//            .totalPrice(addPost.price())
-//            .description(addPost.description())
-//            .build();
-//    }
 
     public static AddPostResult toAddPostResult(Post post){
         return AddPostResult.builder()

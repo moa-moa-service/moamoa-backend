@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Positive;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -86,7 +87,7 @@ public class PostController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @PostMapping("/api/posts")
+    @PostMapping(value = "/api/posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
             summary = "공동구매 등록 (개발중)",
             description = "공동구매 정보를 받아 새로운 공동구매 게시글을 등록합니다."
@@ -96,12 +97,10 @@ public class PostController {
     })
     public ApiResponseDTO<AddPostResult> registerPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
-//            @RequestPart("files") List<MultipartFile> images,
-            @RequestBody AddPost request
+            @RequestPart("files") List<MultipartFile> images,
+            @RequestPart AddPost request
             ) {
-        AddPostResult resultDTO = postCommandService.registerPost(auth, request);
-
-//        AddPostResult resultDTO = postCommandService.registerPost(auth, request, images);
+        AddPostResult resultDTO = postCommandService.registerPost(auth, request, images);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

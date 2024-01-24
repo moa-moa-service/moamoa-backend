@@ -27,10 +27,12 @@ public class PostCommandServiceImpl implements PostCommandService {
     private final MemberPostCommandService memberPostCommandService;
 
     @Override
-    public AddPostResult registerPost(AuthInfoDTO auth, AddPost addPost) {
+    public AddPostResult registerPost(AuthInfoDTO auth, AddPost addPost, List<MultipartFile> images) {
         Category category = categoryQueryService.findCategoryById(addPost.categoryId());
-//        List<PostImage> postImages = postImageConverter.toPostImages(images);
-        Post newPost = PostConverter.toPost(addPost, category);
+        List<PostImage> postImages = postImageConverter.toPostImages(images);
+        Post newPost = PostConverter.toPost(addPost, category, postImages);
+        postImages
+            .forEach(postImage -> postImage.setPost(newPost));
         postRepository.save(newPost);
         Member authMember = memberQueryService.findMemberById(auth.id());
         MemberPost newMemberPost = MemberPostConverter.toMemberPost(newPost, authMember);
@@ -38,17 +40,4 @@ public class PostCommandServiceImpl implements PostCommandService {
         memberPostCommandService.save(newMemberPost);
         return result;
     }
-
-//    @Override
-//    public AddPostResult registerPost(AuthInfoDTO auth, AddPost addPost, List<MultipartFile> images) {
-//        Category category = categoryQueryService.findCategoryById(addPost.categoryId());
-//        List<PostImage> postImages = postImageConverter.toPostImages(images);
-//        Post newPost = PostConverter.toPost(addPost, category, postImages);
-//        Member authMember = memberQueryService.findMemberById(auth.id());
-//        MemberPost newMemberPost = MemberPostConverter.toMemberPost(newPost, authMember);
-//        AddPostResult result = PostConverter.toAddPostResult(newPost);
-//        postRepository.save(newPost);
-//        memberPostCommandService.save(newMemberPost);
-//        return result;
-//    }
 }
