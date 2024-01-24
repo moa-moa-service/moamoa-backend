@@ -6,7 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Builder
 public record MemberDTO(
         String nickname,
-        MultipartFile profileImage,
+        String profileImage,
         String townName
 ) {
 }

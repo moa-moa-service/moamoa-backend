@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import site.moamoa.backend.domain.Member;
+import site.moamoa.backend.global.oauth2.CustomOAuth2User;
 import site.moamoa.backend.repository.member.MemberRepository;
 
 import java.util.Date;
@@ -18,6 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Getter
 @Slf4j
+@Transactional(readOnly = true)
 public class JwtService {
     @Value("${jwt.secret.key}")
     private String secretKey;
@@ -141,5 +145,12 @@ public class JwtService {
             log.error("유효하지 않은 토큰입니다. {}", e.getMessage());
             return false;
         }
+    }
+
+    @Transactional
+    public void memberSetRefreshToken(CustomOAuth2User oAuth2User, String refreshToken) {
+        log.info("JwtService memberSetRefreshToken : {}", refreshToken);
+        Member member = memberRepository.findById(oAuth2User.getId()).orElseThrow(RuntimeException::new);
+        member.addRefreshToken(refreshToken);
     }
 }
