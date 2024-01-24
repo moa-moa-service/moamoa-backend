@@ -15,6 +15,18 @@ import java.util.stream.Collectors;
 public class KeywordService {
     private final RedisTemplate<String, String> redisTemplate;
 
+    //동네 인기 검색어 리스트 1위~10위까지 (조회수 기준)
+    public List<KeywordDTO> PopularSearcRankList(String townName) {
+        ZSetOperations<String, String> ZSetOperations = redisTemplate.opsForZSet();
+        Set<ZSetOperations.TypedTuple<String>> typedTuples = ZSetOperations.reverseRangeWithScores("town::"+ townName, 0, 9);  //score순으로 10개 보여줌
+        List<KeywordDTO> keywordDTOList = typedTuples.stream()
+                .map(typedTuple -> KeywordDTO.builder()
+                        .keyword(typedTuple.getValue())
+                        .build())
+                .collect(Collectors.toList());
+        return keywordDTOList;
+    }
+
     //개인 최근 검색어 리스트 1위~10위까지
     public List<KeywordDTO> RecentSearchRankList(Long memberId) {
         ZSetOperations<String, String> ZSetOperations = redisTemplate.opsForZSet();

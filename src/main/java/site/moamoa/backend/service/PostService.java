@@ -23,7 +23,7 @@ import static org.hibernate.query.sqm.tree.SqmNode.log;
 public class PostService {
     private final PostRepository postRepository;
     private final RedisTemplate<String, String> redisTemplate;
-    private final KeywordService keywordService;
+    private final MemberService memberService;
 
     @Transactional
     public Long createPost(PostDTO form){
@@ -41,12 +41,15 @@ public class PostService {
         return null;
     }
 
-    // queryDSL, 로그인 멤버 id 얻어오기 적용 후 위 메서드로 바꾸기
+    // queryDSL 적용 후 searchPostsByKeyword()로 바꾸기
     public List<SimplePostDTO> findByKeyword(Long memberId, String keyword) {
         try {
-            //redisTemplate.opsForZSet().addIfAbsent("searchBy::member1", keyword,0);
             redisTemplate.opsForZSet().add("member::" + memberId, keyword, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
             log.info("searching time : " + LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+
+            redisTemplate.opsForZSet().addIfAbsent("town::" + memberService.findById(memberId).getTown(), keyword,0);
+            redisTemplate.opsForZSet().add("town::" + memberService.findById(memberId).getTown(), keyword, 1);
+            //log.info("score : " + redisTemplate.opsForZSet().)
         } catch (Exception e) {
             System.out.println(e.toString());
         }

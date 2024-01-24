@@ -189,19 +189,19 @@ public class PostController {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
     public ApiResponseDTO<List<SimplePostDTO>> searchPostsByKeyword(
-            @AuthenticationPrincipal AuthInfoDTO auth,
+                    @AuthenticationPrincipal AuthInfoDTO auth,
             @Parameter(description = "검색어", example = "사과")
-            @RequestParam final String keyword,
+            @RequestParam(value="keyword") final String keyword,
             @Parameter(description = "카테고리", example = "식품")
-            @RequestParam final String category,
+            @RequestParam(value = "category") final String category,
             @Parameter(description = "모집까지 남은 일수", example = "4")
-            @RequestParam final Integer dDay,
+            @RequestParam(value = "dDay") final Integer dDay,
             @Parameter(description = "전체 모집 인원", example = "5")
-            @RequestParam final Integer total,
+            @RequestParam(value = "total") final Integer total,
             @Parameter(description = "최소 금액", example = "3000")
-            @RequestParam final Integer minPrice,
+            @RequestParam(value = "minPrice") final Integer minPrice,
             @Parameter(description = "최대 금액", example = "5000")
-            @RequestParam final Integer maxPrice
+            @RequestParam(value = "maxPrice") final Integer maxPrice
     ) {
         List<SimplePostDTO> simplePostDTOS = postService.findByKeyword(auth.id(), keyword);
         return ApiResponseDTO.onSuccess(simplePostDTOS);
