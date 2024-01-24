@@ -15,6 +15,7 @@ import site.moamoa.backend.service.member.query.MemberQueryService;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)
@@ -25,7 +26,7 @@ public class PostQueryServiceImpl implements PostQueryService {
     private final MemberQueryService memberQueryService;
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private static final String MEMBER_RECENT_KEYWORD_KEY_PREFIX = "memberKeyword:";
+    private static final String MEMBER_RECENT_KEYWORD_KEY_PREFIX = "member::";
 
     @Override
     public PostResponseDTO.GetPosts findPostsByNear(Long memberId) {
@@ -55,8 +56,9 @@ public class PostQueryServiceImpl implements PostQueryService {
 
     @Override
     public PostResponseDTO.GetPosts findPostsByRecentKeyword(Long memberId) {
-        String keyword = (String) redisTemplate.opsForList()
-                .index(MEMBER_RECENT_KEYWORD_KEY_PREFIX + memberId, 0);
+        Set<Object> range = redisTemplate.opsForZSet()
+                .range(MEMBER_RECENT_KEYWORD_KEY_PREFIX + memberId, 0, 0);
+        String keyword = range != null && !range.isEmpty() ? (String) range.iterator().next() : null;
         List<Post> posts = postRepository.findAllByKeyword(keyword);
         return PostConverter.toGetPosts(
                 posts.stream().map(PostConverter::toSimplePostDTO).toList()
