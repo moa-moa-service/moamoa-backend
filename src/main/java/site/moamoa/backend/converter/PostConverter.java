@@ -58,4 +58,15 @@ public class PostConverter {
                 .build();
     }
 
+    public static PostResponseDTO.GetMyPostList toMyParticipatedOrRecruitingPostResult(Long memberId, List<Post> postList) {
+        List<SimplePostDTO> simplePostDTOS = postList.stream()
+                .map(PostConverter::toSimplePostDTO)
+                .toList();
+
+        return PostResponseDTO.GetMyPostList.builder()
+                .userId(memberId)
+                .simplePostDtoList(simplePostDTOS)
+                .build();
+    }
+
 }

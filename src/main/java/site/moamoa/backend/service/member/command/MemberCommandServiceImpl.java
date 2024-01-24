@@ -1,4 +1,4 @@
-package site.moamoa.backend.service;
+package site.moamoa.backend.service.member.command;
 
 
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.aws.s3.AmazonS3Manager;
 import site.moamoa.backend.converter.MemberConverter;
 import site.moamoa.backend.domain.Member;
-import site.moamoa.backend.repository.MemberRepository;
+import site.moamoa.backend.repository.member.MemberRepository;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 

@@ -1,4 +1,4 @@
-package site.moamoa.backend.service;
+package site.moamoa.backend.service.member.command;
 
 import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.domain.Member;

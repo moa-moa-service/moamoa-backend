@@ -11,14 +11,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
-import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.enums.CapacityStatus;
-import site.moamoa.backend.service.MemberCommandService;
-import site.moamoa.backend.service.MemberQueryService;
+import site.moamoa.backend.service.member.command.MemberCommandService;
+import site.moamoa.backend.service.member.query.MemberQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
-import site.moamoa.backend.web.dto.base.MemberDTO;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberAddress;
-import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberImage;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO.GetMyInfoResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.GetMyPostList;
 
