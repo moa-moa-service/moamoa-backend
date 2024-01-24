@@ -17,7 +17,7 @@ import site.moamoa.backend.global.jwt.service.JwtService;
 import site.moamoa.backend.global.oauth2.handler.OAuth2LoginFailureHandler;
 import site.moamoa.backend.global.oauth2.handler.OAuth2LoginSuccessHandler;
 import site.moamoa.backend.global.oauth2.service.CustomOAuth2UserService;
-import site.moamoa.backend.repository.MemberRepository;
+import site.moamoa.backend.repository.member.MemberRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -41,8 +41,11 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(authorize ->
-                        authorize.requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-                                .anyRequest().authenticated()
+                        authorize
+                                .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**",
+                                        "/health").permitAll()
+                                .requestMatchers("/api/auth/member-info").hasRole("GUEST")
+                                .anyRequest().hasRole("MEMBER")
                 )
                 .oauth2Login(oauth2Configure ->
                         oauth2Configure

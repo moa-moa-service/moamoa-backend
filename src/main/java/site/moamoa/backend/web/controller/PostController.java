@@ -2,6 +2,7 @@ package site.moamoa.backend.web.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -12,6 +13,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.service.PostService;
+import site.moamoa.backend.service.post.command.PostCommandService;
+import site.moamoa.backend.service.post.query.PostQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.base.SimplePostDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
@@ -27,24 +30,28 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
+    private final PostQueryService postQueryService;
+    private final PostCommandService postCommandService;
+
     @GetMapping("/api/posts/ranking")
     @Operation(
-            summary = "우리 동네 인기 공동구매 조회 (개발중)",
+            summary = "우리 동네 인기 공동구매 조회",
             description = "조회수를 기반으로 우리 동네 인기 공동구매 리스트를 조회합니다."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
+            @ApiResponse(responseCode = "COMMON200", description = "성공입니다."),
+            @ApiResponse(responseCode = "MEMBER404", description = "해당 사용자를 찾을 수 없습니다.", content = @Content)
     })
     public ApiResponseDTO<GetPosts> getPostsByRanking(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetPosts resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        GetPosts resultDTO = postQueryService.findPostsByRanking(auth.id());
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @GetMapping("/api/posts/latest")
     @Operation(
-            summary = "최근 모집 시작한 공동구매 조회 (개발중)",
+            summary = "최근 모집 시작한 공동구매 조회",
             description = "최근 모집을 시작한 공동구매 리스트를 조회합니다."
     )
     @ApiResponses(value = {
@@ -53,28 +60,29 @@ public class PostController {
     public ApiResponseDTO<GetPosts> getPostsByLatest(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetPosts resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        GetPosts resultDTO = postQueryService.findPostsByLatest();
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @GetMapping("/api/posts/near")
     @Operation(
-            summary = "우리 동네 공동구매 조회 (개발중)",
+            summary = "우리 동네 공동구매 조회",
             description = "우리 동네 공동구매 리스트를 조회합니다."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
+            @ApiResponse(responseCode = "COMMON200", description = "성공입니다."),
+            @ApiResponse(responseCode = "MEMBER404", description = "해당 사용자를 찾을 수 없습니다.", content = @Content)
     })
     public ApiResponseDTO<GetPosts> getPostsByNear(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetPosts resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        GetPosts resultDTO = postQueryService.findPostsByNear(auth.id());
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @GetMapping("/api/posts/recent-keyword")
     @Operation(
-            summary = "최근 검색한 키워드로 공동구매 조회 (개발중)",
+            summary = "최근 검색한 키워드로 공동구매 조회",
             description = "최근 검색한 공동구매 리스트를 조회합니다."
     )
     @ApiResponses(value = {
@@ -83,7 +91,7 @@ public class PostController {
     public ApiResponseDTO<GetPosts> getPostsByRecentKeyword(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetPosts resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        GetPosts resultDTO = postQueryService.findPostsByRecentKeyword(auth.id());
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
@@ -98,7 +106,7 @@ public class PostController {
     public ApiResponseDTO<AddPostResult> registerPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
             @RequestBody AddPost request
-            ) {
+    ) {
         AddPostResult resultDTO = null; //TODO: 서비스 로직 추가 필요
         return ApiResponseDTO.onSuccess(resultDTO);
     }
@@ -142,22 +150,24 @@ public class PostController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @GetMapping("/api/posts/{postId}")
+    @PostMapping("/api/posts/{postId}")
     @Operation(
-            summary = "공동구매 상세 조회 (개발중)",
-            description = "공동구매 게시글의 상세 정보를 조회합니다."
+            summary = "공동구매 상세 조회",
+            description = "공동구매 게시글의 상세 정보를 조회하고 조회수를 증가시킵니다."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
+            @ApiResponse(responseCode = "COMMON200", description = "성공입니다."),
+            @ApiResponse(responseCode = "POST404", description = "해당 게시물을 찾을 수 없습니다.", content = @Content)
     })
-    public ApiResponseDTO<GetPost> getPost(
+    public ApiResponseDTO<GetPost> updateViewCountAndGetPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        GetPost resultDTO = null;   //TODO: 서비스 로직 추가 필요
+        postCommandService.updatePostViewCount(auth.id(), postId);
+        GetPost resultDTO = postQueryService.findPostById(postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

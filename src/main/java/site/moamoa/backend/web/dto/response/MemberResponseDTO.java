@@ -42,4 +42,11 @@ public class MemberResponseDTO {
     ) {
     }
 
+    @Builder
+    public record DeleteMemberResult(
+            Long userId,
+            LocalDateTime updatedAt
+    ) {
+    }
+
 }
