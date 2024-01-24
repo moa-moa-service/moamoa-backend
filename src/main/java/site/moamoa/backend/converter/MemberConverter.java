@@ -38,6 +38,7 @@ public class MemberConverter {
         getDday(post.getDeadline());
 
         return SimplePostDTO.builder()
+                .postId(post.getId())
                 .image(null) //todo 맨 앞 이미지 가져오게 변경
                 .productName(post.getProductName())
                 .personnel(post.getPersonnel())
