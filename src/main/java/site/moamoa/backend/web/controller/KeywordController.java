@@ -9,11 +9,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
-import site.moamoa.backend.service.KeywordService;
-import site.moamoa.backend.service.MemberService;
+import site.moamoa.backend.service.keyword.query.KeywordQueryService;
+import site.moamoa.backend.service.member.query.MemberQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.base.KeywordDTO;
-import site.moamoa.backend.web.dto.response.KeywordResponseDTO.GetKeywords;
 
 import java.util.List;
 
@@ -22,8 +21,8 @@ import java.util.List;
 @RestController
 public class KeywordController {
 
-    private final KeywordService keywordService;
-    private final MemberService memberService;
+    private final KeywordQueryService keywordQueryService;
+    private final MemberQueryService memberQueryService;
 
     @GetMapping("/api/keywords/ranking")
     @Operation(
@@ -36,7 +35,7 @@ public class KeywordController {
     public ApiResponseDTO<List<KeywordDTO>> getKeywordsByRanking(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        List<KeywordDTO> keywordDTOS = keywordService.PopularSearcRankList(memberService.findById(auth.id()).getTown());//TODO: 서비스 로직 추가 필요
+        List<KeywordDTO> keywordDTOS = keywordQueryService.popularSearchRankList(memberQueryService.findMemberById(auth.id()).getTown());//TODO: 서비스 로직 추가 필요
         return ApiResponseDTO.onSuccess(keywordDTOS);
     }
 
@@ -51,7 +50,7 @@ public class KeywordController {
     public ApiResponseDTO<List<KeywordDTO>> getKeywordsByRecent(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        List<KeywordDTO> keywordDTOS = keywordService.RecentSearchRankList(auth.id());//TODO: 서비스 로직 추가 필요
+        List<KeywordDTO> keywordDTOS = keywordQueryService.recentSearchRankList(auth.id());//TODO: 서비스 로직 추가 필요
         return ApiResponseDTO.onSuccess(keywordDTOS);
     }
 

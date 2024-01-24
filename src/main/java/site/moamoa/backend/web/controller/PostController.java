@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
-import site.moamoa.backend.service.PostService;
 import site.moamoa.backend.service.post.command.PostCommandService;
 import site.moamoa.backend.service.post.query.PostQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
@@ -28,7 +27,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class PostController {
-    private final PostService postService;
 
     private final PostQueryService postQueryService;
     private final PostCommandService postCommandService;
@@ -213,7 +211,7 @@ public class PostController {
             @Parameter(description = "최대 금액", example = "5000")
             @RequestParam(value = "maxPrice") final Integer maxPrice
     ) {
-        List<SimplePostDTO> simplePostDTOS = postService.findByKeyword(auth.id(), keyword);
+        List<SimplePostDTO> simplePostDTOS = postCommandService.findByKeyword(auth.id(), keyword);
         return ApiResponseDTO.onSuccess(simplePostDTOS);
     }
 }
