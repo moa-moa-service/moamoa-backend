@@ -7,19 +7,24 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Positive;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
+import site.moamoa.backend.web.service.PostCommandService;
 
 @Tag(name = "공동구매 게시글 API", description = "공동구매 페이지 관련 API")
 @RequiredArgsConstructor
 @RestController
 public class PostController {
+
+    private final PostCommandService postCommandService;
 
     @GetMapping("/api/posts/ranking")
     @Operation(
@@ -91,9 +96,12 @@ public class PostController {
     })
     public ApiResponseDTO<AddPostResult> registerPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
+//            @RequestPart("files") List<MultipartFile> images,
             @RequestBody AddPost request
             ) {
-        AddPostResult resultDTO = null; //TODO: 서비스 로직 추가 필요
+        AddPostResult resultDTO = postCommandService.registerPost(auth, request);
+
+//        AddPostResult resultDTO = postCommandService.registerPost(auth, request, images);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
