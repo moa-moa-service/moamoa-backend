@@ -17,7 +17,7 @@ import site.moamoa.backend.global.jwt.service.JwtService;
 import site.moamoa.backend.global.oauth2.handler.OAuth2LoginFailureHandler;
 import site.moamoa.backend.global.oauth2.handler.OAuth2LoginSuccessHandler;
 import site.moamoa.backend.global.oauth2.service.CustomOAuth2UserService;
-import site.moamoa.backend.repository.MemberRepository;
+import site.moamoa.backend.repository.member.MemberRepository;
 
 @Configuration
 @EnableWebSecurity

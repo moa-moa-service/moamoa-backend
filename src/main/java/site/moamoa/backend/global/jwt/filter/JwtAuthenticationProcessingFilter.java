@@ -16,7 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.enums.RoleType;
 import site.moamoa.backend.global.jwt.service.JwtService;
-import site.moamoa.backend.repository.MemberRepository;
+import site.moamoa.backend.repository.member.MemberRepository;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 
 import java.io.IOException;

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.global.oauth2.CustomOAuth2User;
-import site.moamoa.backend.repository.MemberRepository;
+import site.moamoa.backend.repository.member.MemberRepository;
 
 import java.util.Date;
 import java.util.Optional;
