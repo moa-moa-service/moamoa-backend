@@ -9,13 +9,21 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
+import site.moamoa.backend.service.KeywordService;
+import site.moamoa.backend.service.MemberService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
+import site.moamoa.backend.web.dto.base.KeywordDTO;
 import site.moamoa.backend.web.dto.response.KeywordResponseDTO.GetKeywords;
+
+import java.util.List;
 
 @Tag(name = "검색어 API", description = "검색어 관련 API")
 @RequiredArgsConstructor
 @RestController
 public class KeywordController {
+
+    private final KeywordService keywordService;
+    private final MemberService memberService;
 
     @GetMapping("/api/keywords/ranking")
     @Operation(
@@ -25,11 +33,11 @@ public class KeywordController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<GetKeywords> getKeywordsByRanking(
+    public ApiResponseDTO<List<KeywordDTO>> getKeywordsByRanking(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetKeywords resultDTO = null;//TODO: 서비스 로직 추가 필요
-        return ApiResponseDTO.onSuccess(resultDTO);
+        List<KeywordDTO> keywordDTOS = keywordService.PopularSearcRankList(memberService.findById(auth.id()).getTown());//TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(keywordDTOS);
     }
 
     @GetMapping("/api/keywords/recent")
@@ -40,11 +48,11 @@ public class KeywordController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<GetKeywords> getKeywordsByRecent(
+    public ApiResponseDTO<List<KeywordDTO>> getKeywordsByRecent(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetKeywords resultDTO = null;//TODO: 서비스 로직 추가 필요
-        return ApiResponseDTO.onSuccess(resultDTO);
+        List<KeywordDTO> keywordDTOS = keywordService.RecentSearchRankList(auth.id());//TODO: 서비스 로직 추가 필요
+        return ApiResponseDTO.onSuccess(keywordDTOS);
     }
 
 }

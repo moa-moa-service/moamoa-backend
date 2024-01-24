@@ -12,17 +12,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
+import site.moamoa.backend.service.PostService;
 import site.moamoa.backend.service.post.command.PostCommandService;
 import site.moamoa.backend.service.post.query.PostQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
+import site.moamoa.backend.web.dto.base.SimplePostDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
+
+import java.util.List;
+
 
 @Tag(name = "공동구매 게시글 API", description = "공동구매 페이지 관련 API")
 @RequiredArgsConstructor
 @RestController
 public class PostController {
+    private final PostService postService;
 
     private final PostQueryService postQueryService;
     private final PostCommandService postCommandService;
@@ -133,8 +139,8 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<UpdatePostStatusResult> updatePostStatus(
-            @AuthenticationPrincipal AuthInfoDTO auth,
+    public ApiResponseDTO<?> updatePostStatus(
+            //TODO: Security 추가시 인증부 구현 필요
             @PathVariable
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
@@ -192,22 +198,22 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<GetPostsByKeyword> searchPostsByKeyword(
-            @AuthenticationPrincipal AuthInfoDTO auth,
+    public ApiResponseDTO<List<SimplePostDTO>> searchPostsByKeyword(
+                    @AuthenticationPrincipal AuthInfoDTO auth,
             @Parameter(description = "검색어", example = "사과")
-            @RequestParam final String keyword,
+            @RequestParam(value="keyword") final String keyword,
             @Parameter(description = "카테고리", example = "식품")
-            @RequestParam final String category,
+            @RequestParam(value = "category") final String category,
             @Parameter(description = "모집까지 남은 일수", example = "4")
-            @RequestParam final Integer dDay,
+            @RequestParam(value = "dDay") final Integer dDay,
             @Parameter(description = "전체 모집 인원", example = "5")
-            @RequestParam final Integer total,
+            @RequestParam(value = "total") final Integer total,
             @Parameter(description = "최소 금액", example = "3000")
-            @RequestParam final Integer minPrice,
+            @RequestParam(value = "minPrice") final Integer minPrice,
             @Parameter(description = "최대 금액", example = "5000")
-            @RequestParam final Integer maxPrice
+            @RequestParam(value = "maxPrice") final Integer maxPrice
     ) {
-        GetPostsByKeyword resultDTO = null; //TODO: 서비스 로직 추가 필요
-        return ApiResponseDTO.onSuccess(resultDTO);
+        List<SimplePostDTO> simplePostDTOS = postService.findByKeyword(auth.id(), keyword);
+        return ApiResponseDTO.onSuccess(simplePostDTOS);
     }
 }

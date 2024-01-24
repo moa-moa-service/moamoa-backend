@@ -20,7 +20,6 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
 public class Post extends BaseEntity {
-  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
@@ -56,6 +55,7 @@ public class Post extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<PostImage> postImages = new ArrayList<>();
   
 }
