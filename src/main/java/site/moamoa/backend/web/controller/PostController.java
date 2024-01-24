@@ -196,7 +196,7 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<List<SimplePostDTO>> searchPostsByKeyword(
+    public ApiResponseDTO<GetPostsByKeyword> searchPostsByKeyword(
                     @AuthenticationPrincipal AuthInfoDTO auth,
             @Parameter(description = "검색어", example = "사과")
             @RequestParam(value="keyword") final String keyword,
@@ -211,7 +211,10 @@ public class PostController {
             @Parameter(description = "최대 금액", example = "5000")
             @RequestParam(value = "maxPrice") final Integer maxPrice
     ) {
-        List<SimplePostDTO> simplePostDTOS = postCommandService.findByKeyword(auth.id(), keyword);
-        return ApiResponseDTO.onSuccess(simplePostDTOS);
+        List<SimplePostDTO> simplePostDTOs = postQueryService.findByKeyword(auth.id(), keyword);
+        GetPostsByKeyword getPostsByKeyword = GetPostsByKeyword.builder().
+                simplePostDtoList(simplePostDTOs).
+                build();
+        return ApiResponseDTO.onSuccess(getPostsByKeyword);
     }
 }

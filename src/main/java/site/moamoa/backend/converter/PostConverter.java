@@ -16,7 +16,7 @@ public class PostConverter {
         Integer personnel = post.getPersonnel();
 
         return SimplePostDTO.builder()
-                .imageUrl(post.getPostImages().getFirst().getUrl())
+                .imageUrl(post.getPostImages().get(0).getUrl())
                 .productName(post.getProductName())
                 .personnel(personnel)
                 .viewCount(post.getViewCount())

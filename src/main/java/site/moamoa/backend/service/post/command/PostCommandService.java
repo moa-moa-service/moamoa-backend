@@ -6,6 +6,4 @@ import java.util.List;
 
 public interface PostCommandService {
     void updatePostViewCount(Long memberId, Long postId);
-
-    List<SimplePostDTO> findByKeyword(Long memberId, String keyword);
 }

@@ -43,31 +43,6 @@ public class PostCommandServiceImpl implements PostCommandService {
         }
     }
 
-    // queryDSL 적용 후 searchPostsByKeyword()로 바꾸기
-    @Override
-    public List<SimplePostDTO> findByKeyword(Long memberId, String keyword) {
-        try {
-            redisTemplate.opsForZSet()
-                    .add("member::" + memberId, keyword, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
-            log.info("searching time : " + LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
-
-            String town = memberQueryService.findMemberById(memberId).getTown();
-
-            redisTemplate.opsForZSet().addIfAbsent("town::" + town, keyword,0);
-            redisTemplate.opsForZSet().add("town::" + town, keyword, 1);
-            //log.info("score : " + redisTemplate.opsForZSet().)
-        } catch (Exception e) {
-            System.out.println(e.toString());
-        }
-
-        List<SimplePostDTO> simplePostDTOS = new ArrayList<>();
-        List<Post> posts = postRepository.findByProductNameContaining(keyword);
-        for(Post post : posts) {
-            simplePostDTOS.add(PostConverter.toSimplePostDTO(post));
-        }
-        return simplePostDTOS;
-    }
-
     private String buildPostViewKey(Long memberId, Long postId) {
         return POST_VIEW_KEY_PREFIX + memberId + ":" + postId;
     }
