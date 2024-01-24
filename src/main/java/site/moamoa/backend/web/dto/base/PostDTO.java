@@ -8,6 +8,7 @@ import site.moamoa.backend.domain.embedded.Address;
 
 @Builder
 public record PostDTO(
+        Long postId,
         String category,
         Integer personnel,
         Integer available,

@@ -5,6 +5,7 @@ import site.moamoa.backend.domain.enums.CapacityStatus;
 
 @Builder
 public record SimplePostDTO(
+        Long postId,
         String imageUrl,
         String productName,
         Integer viewCount,
