@@ -24,7 +24,11 @@ public enum ErrorStatus implements BaseErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST,"MEMBER401","멤버가 없습니다."),
 
     // 게시물 에러
-    POST_NOT_FOUND(HttpStatus.BAD_REQUEST,"POST401","게시물이 없습니다.");
+    POST_NOT_FOUND(HttpStatus.BAD_REQUEST,"POST401","게시물이 없습니다."),
+
+    // 멤버-게시물 에러
+    Member_POST_NOT_FOUND(HttpStatus.BAD_REQUEST,"MEMBER_POST401","공동구매 참여 기록이 없습니다."),
+    MEMBER_IS_NOT_AUTHOR(HttpStatus.BAD_REQUEST,"MEMBER_POST402","해당 멤버는 글쓴이가 아닙니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
