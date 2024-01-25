@@ -1,4 +1,4 @@
-package site.moamoa.backend.service;
+package site.moamoa.backend.service.category;
 
 import site.moamoa.backend.domain.Category;
 

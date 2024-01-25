@@ -1,4 +1,4 @@
-package site.moamoa.backend.service;
+package site.moamoa.backend.service.member;
 
 import site.moamoa.backend.domain.Member;
 

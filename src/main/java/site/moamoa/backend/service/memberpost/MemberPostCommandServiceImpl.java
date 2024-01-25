@@ -1,13 +1,13 @@
-package site.moamoa.backend.service;
+package site.moamoa.backend.service.memberpost;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.moamoa.backend.domain.mapping.MemberPost;
-import site.moamoa.backend.repository.MemberPostRepository;
+import site.moamoa.backend.repository.memberpost.MemberPostRepository;
 
 @AllArgsConstructor
 @Service
-public class MemberPostCommandServiceImpl implements MemberPostCommandService{
+public class MemberPostCommandServiceImpl implements MemberPostCommandService {
 
   private final MemberPostRepository memberPostRepository;
   @Override

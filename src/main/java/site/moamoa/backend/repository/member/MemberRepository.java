@@ -1,4 +1,4 @@
-package site.moamoa.backend.repository;
+package site.moamoa.backend.repository.member;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import site.moamoa.backend.domain.Member;

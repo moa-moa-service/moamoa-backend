@@ -1,12 +1,12 @@
-package site.moamoa.backend.service;
+package site.moamoa.backend.service.memberpost;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.moamoa.backend.domain.enums.IsAuthorStatus;
 import site.moamoa.backend.domain.mapping.MemberPost;
-import site.moamoa.backend.exception.MemberIsNotAuthorException;
-import site.moamoa.backend.exception.MemberPostNotFoundException;
-import site.moamoa.backend.repository.MemberPostRepository;
+import site.moamoa.backend.exception.member.MemberIsNotAuthorException;
+import site.moamoa.backend.exception.memberpost.MemberPostNotFoundException;
+import site.moamoa.backend.repository.memberpost.MemberPostRepository;
 
 @Service
 @AllArgsConstructor

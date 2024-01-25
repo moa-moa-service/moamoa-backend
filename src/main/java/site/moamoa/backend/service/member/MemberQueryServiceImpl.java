@@ -1,14 +1,14 @@
-package site.moamoa.backend.service;
+package site.moamoa.backend.service.member;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.moamoa.backend.domain.Member;
-import site.moamoa.backend.repository.MemberRepository;
-import site.moamoa.backend.exception.MemberNotFoundException;
+import site.moamoa.backend.repository.member.MemberRepository;
+import site.moamoa.backend.exception.member.MemberNotFoundException;
 
 @AllArgsConstructor
 @Service
-public class MemberQueryServiceImpl implements MemberQueryService{
+public class MemberQueryServiceImpl implements MemberQueryService {
 
   private final MemberRepository memberRepository;
 

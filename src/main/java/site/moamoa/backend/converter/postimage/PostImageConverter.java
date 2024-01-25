@@ -1,4 +1,4 @@
-package site.moamoa.backend.converter;
+package site.moamoa.backend.converter.postimage;
 
 import java.util.List;
 import java.util.stream.Collectors;
