@@ -31,11 +31,17 @@ public class PostCommandServiceImpl implements PostCommandService {
 
     private static final String POST_VIEW_KEY_PREFIX = "postView:";
     private static final Long EXPIRATION_VIEW_RECORD = 24 * 60 * 60L;  // 1 Day
+    private static final Long RECENT_KEYWORD_SIZE = 10L;
 
     //TODO : QueryDSL 적용한 코드로 고치기
     @Override
     public List<SimplePostDTO> findByKeyword(Long memberId, String keyword) {
         try {
+            String key = "member::" + memberId;
+            Long size = redisTemplate.opsForZSet().size(key);
+            if (size == (long) RECENT_KEYWORD_SIZE) {
+                redisTemplate.opsForZSet().popMin(key); //저장되는 키워드는 10개로 유지
+            }
             redisTemplate.opsForZSet()
                     .add("member::" + memberId, keyword, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
             //log.info("searching time : " + LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
@@ -45,7 +51,7 @@ public class PostCommandServiceImpl implements PostCommandService {
             redisTemplate.opsForZSet().incrementScore("town::" + town, keyword,1);
 
         } catch (Exception e) {
-            System.out.println(e.toString());
+            System.out.println(e);
         }
 
         List<SimplePostDTO> simplePostDTOS = new ArrayList<>();
