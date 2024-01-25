@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import site.moamoa.backend.domain.common.BaseEntity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Getter
 @Builder
