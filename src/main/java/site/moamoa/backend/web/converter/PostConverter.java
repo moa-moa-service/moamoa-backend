@@ -7,6 +7,7 @@ import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.mapping.PostImage;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddPostResult;
+import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostStatusResult;
 
 public class PostConverter {
 
@@ -32,5 +33,10 @@ public class PostConverter {
             .build();
     }
 
-
+    public static UpdatePostStatusResult toUpdatePostStatusResult(Post post) {
+        return UpdatePostStatusResult.builder()
+            .postId(post.getId())
+            .updatedAt(post.getUpdatedAt())
+            .build();
+    }
 }
