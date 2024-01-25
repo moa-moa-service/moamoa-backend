@@ -12,10 +12,16 @@ import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.embedded.Address;
 import site.moamoa.backend.repository.post.PostRepository;
 import site.moamoa.backend.service.member.query.MemberQueryService;
+import site.moamoa.backend.web.dto.base.SimplePostDTO;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import static org.hibernate.query.sqm.tree.SqmNode.log;
 
 @Service
 @Transactional(readOnly = true)
@@ -27,6 +33,7 @@ public class PostQueryServiceImpl implements PostQueryService {
     private final RedisTemplate<String, Object> redisTemplate;
 
     private static final String MEMBER_RECENT_KEYWORD_KEY_PREFIX = "member::";
+
 
     @Override
     public PostResponseDTO.GetPosts findPostsByNear(Long memberId) {

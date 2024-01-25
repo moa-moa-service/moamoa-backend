@@ -32,30 +32,18 @@ public class PostCommandServiceImpl implements PostCommandService {
     private static final String POST_VIEW_KEY_PREFIX = "postView:";
     private static final Long EXPIRATION_VIEW_RECORD = 24 * 60 * 60L;  // 1 Day
 
-    @Override
-    public void updatePostViewCount(Long memberId, Long postId) {
-        String key = buildPostViewKey(memberId, postId);
-
-        // 이미 조회한 경우 무시
-        if (isNewViewRecord(memberId, postId)) {
-            saveViewRecord(key);
-            updatePostView(postId);
-        }
-    }
-
-    // queryDSL 적용 후 searchPostsByKeyword()로 바꾸기
+    //TODO : QueryDSL 적용한 코드로 고치기
     @Override
     public List<SimplePostDTO> findByKeyword(Long memberId, String keyword) {
         try {
             redisTemplate.opsForZSet()
                     .add("member::" + memberId, keyword, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
-            log.info("searching time : " + LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+            //log.info("searching time : " + LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
 
             String town = memberQueryService.findMemberById(memberId).getTown();
-
             redisTemplate.opsForZSet().addIfAbsent("town::" + town, keyword,0);
-            redisTemplate.opsForZSet().add("town::" + town, keyword, 1);
-            //log.info("score : " + redisTemplate.opsForZSet().)
+            redisTemplate.opsForZSet().incrementScore("town::" + town, keyword,1);
+
         } catch (Exception e) {
             System.out.println(e.toString());
         }
@@ -66,6 +54,17 @@ public class PostCommandServiceImpl implements PostCommandService {
             simplePostDTOS.add(PostConverter.toSimplePostDTO(post));
         }
         return simplePostDTOS;
+    }
+
+    @Override
+    public void updatePostViewCount(Long memberId, Long postId) {
+        String key = buildPostViewKey(memberId, postId);
+
+        // 이미 조회한 경우 무시
+        if (isNewViewRecord(memberId, postId)) {
+            saveViewRecord(key);
+            updatePostView(postId);
+        }
     }
 
     private String buildPostViewKey(Long memberId, Long postId) {

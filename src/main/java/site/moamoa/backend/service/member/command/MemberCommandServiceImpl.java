@@ -19,6 +19,13 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     private final MemberRepository memberRepository;
     private final AmazonS3Manager amazonS3Manager;
 
+    /*
+    임시로 만든 메서드(테스트용)
+     */
+    public void add(Member member) {
+        memberRepository.save(member);
+    }
+
     @Override
     public MemberResponseDTO.UpdateMemberImageResult addMemberProfileImage(Long memberId, MultipartFile updateMemberImageDto) {
         Member member = memberRepository.findById(memberId).orElseThrow((RuntimeException::new));
