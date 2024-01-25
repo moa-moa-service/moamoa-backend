@@ -1,5 +1,6 @@
 package site.moamoa.backend.converter;
 
+import site.moamoa.backend.domain.Category;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.mapping.PostImage;
 import site.moamoa.backend.web.dto.base.PostDTO;
@@ -11,12 +12,12 @@ import java.util.List;
 
 public class PostConverter {
 
-    public static SimplePostDTO toSimplePostDTO(Post post) {
+    public static SimplePostDTO toSimplePostDTO(Post post, List<PostImage> postImageList) {
 
         Integer personnel = post.getPersonnel();
 
         return SimplePostDTO.builder()
-                .imageUrl(post.getPostImages().getFirst().getUrl())
+                .imageUrl(postImageList.getFirst().getUrl())
                 .productName(post.getProductName())
                 .personnel(personnel)
                 .viewCount(post.getViewCount())
@@ -32,12 +33,12 @@ public class PostConverter {
                 .build();
     }
 
-    public static PostDTO toPostDTO(Post post) {
+    public static PostDTO toPostDTO(Post post, List<PostImage> postImageList, Category category) {
 
         Integer personnel = post.getPersonnel();
 
         return PostDTO.builder()
-                .imageUrl(post.getPostImages().stream()
+                .imageUrl(postImageList.stream()
                         .map(PostImage::getUrl)
                         .toList())
                 .productName(post.getProductName())
@@ -45,7 +46,7 @@ public class PostConverter {
                 .viewCount(post.getViewCount())
                 .available(post.getAvailable())
                 .price(post.getTotalPrice() / personnel)
-                .category(post.getCategory().getName())
+                .category(category.getName())
                 .dealLocation(post.getDealLocation())
                 .deadline(post.getDeadline())
                 .description(post.getDescription())
@@ -69,7 +70,7 @@ public class PostConverter {
 
     public static PostResponseDTO.GetMyPostList toMyParticipatedOrRecruitingPostResult(Long memberId, List<Post> postList) {
         List<SimplePostDTO> simplePostDTOS = postList.stream()
-                .map(PostConverter::toSimplePostDTO)
+                .map(post -> PostConverter.toSimplePostDTO(post, post.getPostImages()))
                 .toList();
 
         return PostResponseDTO.GetMyPostList.builder()
