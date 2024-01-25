@@ -1,4 +1,4 @@
-package site.moamoa.backend.web.converter;
+package site.moamoa.backend.converter;
 
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;

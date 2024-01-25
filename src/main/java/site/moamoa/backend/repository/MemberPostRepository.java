@@ -1,4 +1,4 @@
-package site.moamoa.backend.web.repository;
+package site.moamoa.backend.repository;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

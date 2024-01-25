@@ -1,4 +1,4 @@
-package site.moamoa.backend.web.exception;
+package site.moamoa.backend.exception;
 
 import site.moamoa.backend.api_payload.code.status.ErrorStatus;
 import site.moamoa.backend.global.exception.GeneralException;

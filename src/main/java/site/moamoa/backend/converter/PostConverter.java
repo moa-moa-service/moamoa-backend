@@ -1,4 +1,4 @@
-package site.moamoa.backend.web.converter;
+package site.moamoa.backend.converter;
 
 import java.util.List;
 import site.moamoa.backend.domain.Category;

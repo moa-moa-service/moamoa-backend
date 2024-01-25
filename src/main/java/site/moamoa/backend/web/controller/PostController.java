@@ -18,7 +18,7 @@ import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
-import site.moamoa.backend.web.service.PostCommandService;
+import site.moamoa.backend.service.PostCommandService;
 
 @Tag(name = "공동구매 게시글 API", description = "공동구매 페이지 관련 API")
 @RequiredArgsConstructor
@@ -139,7 +139,7 @@ public class PostController {
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        UpdatePostStatusResult resultDTO = postCommandService.updatePostStatus(auth, postId); 
+        UpdatePostStatusResult resultDTO = postCommandService.updatePostStatus(auth, postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

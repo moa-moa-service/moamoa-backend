@@ -1,9 +1,9 @@
-package site.moamoa.backend.web.service;
+package site.moamoa.backend.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.moamoa.backend.domain.mapping.MemberPost;
-import site.moamoa.backend.web.repository.MemberPostRepository;
+import site.moamoa.backend.repository.MemberPostRepository;
 
 @AllArgsConstructor
 @Service

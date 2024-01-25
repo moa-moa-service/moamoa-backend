@@ -1,4 +1,4 @@
-package site.moamoa.backend.web.service;
+package site.moamoa.backend.service;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -10,15 +10,15 @@ import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.domain.mapping.PostImage;
-import site.moamoa.backend.web.converter.MemberPostConverter;
-import site.moamoa.backend.web.converter.PostConverter;
-import site.moamoa.backend.web.converter.PostImageConverter;
+import site.moamoa.backend.converter.MemberPostConverter;
+import site.moamoa.backend.converter.PostConverter;
+import site.moamoa.backend.converter.PostImageConverter;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddPostResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostStatusResult;
-import site.moamoa.backend.web.exception.PostNotFoundException;
-import site.moamoa.backend.web.repository.PostRepository;
+import site.moamoa.backend.exception.PostNotFoundException;
+import site.moamoa.backend.repository.PostRepository;
 
 @Service
 @RequiredArgsConstructor

@@ -1,4 +1,4 @@
-package site.moamoa.backend.web.service;
+package site.moamoa.backend.service;
 
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;

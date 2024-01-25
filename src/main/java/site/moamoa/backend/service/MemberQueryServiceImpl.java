@@ -1,10 +1,10 @@
-package site.moamoa.backend.web.service;
+package site.moamoa.backend.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.repository.MemberRepository;
-import site.moamoa.backend.web.exception.MemberNotFoundException;
+import site.moamoa.backend.exception.MemberNotFoundException;
 
 @AllArgsConstructor
 @Service
