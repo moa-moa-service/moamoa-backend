@@ -8,13 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-import site.moamoa.backend.api_payload.code.status.SuccessStatus;
-import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.enums.RoleType;
 import site.moamoa.backend.global.jwt.service.JwtService;
 import site.moamoa.backend.global.oauth2.CustomOAuth2User;
-import site.moamoa.backend.repository.member.MemberRepository;
 
 import java.io.IOException;
 

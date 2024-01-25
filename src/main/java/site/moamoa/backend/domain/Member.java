@@ -2,7 +2,6 @@ package site.moamoa.backend.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.SQLRestriction;
 import site.moamoa.backend.domain.common.BaseEntity;
 import site.moamoa.backend.domain.embedded.Address;
 import site.moamoa.backend.domain.enums.DeletionStatus;

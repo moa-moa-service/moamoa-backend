@@ -12,9 +12,8 @@ import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.service.keyword.query.KeywordQueryService;
 import site.moamoa.backend.service.member.query.MemberQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
-import site.moamoa.backend.web.dto.base.KeywordDTO;
 
-import java.util.List;
+import static site.moamoa.backend.web.dto.response.KeywordResponseDTO.GetKeywords;
 
 @Tag(name = "검색어 API", description = "검색어 관련 API")
 @RequiredArgsConstructor
@@ -32,11 +31,11 @@ public class KeywordController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<List<KeywordDTO>> getKeywordsByRanking(
+    public ApiResponseDTO<GetKeywords> getKeywordsByRanking(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        List<KeywordDTO> keywordDTOS = keywordQueryService.popularSearchRankList(memberQueryService.findMemberById(auth.id()).getTown());//TODO: 서비스 로직 추가 필요
-        return ApiResponseDTO.onSuccess(keywordDTOS);
+        GetKeywords resultDTO = keywordQueryService.popularSearchRankList(memberQueryService.findMemberById(auth.id()).getTown());
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
     @GetMapping("/api/keywords/recent")
@@ -47,11 +46,11 @@ public class KeywordController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<List<KeywordDTO>> getKeywordsByRecent(
+    public ApiResponseDTO<GetKeywords> getKeywordsByRecent(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        List<KeywordDTO> keywordDTOS = keywordQueryService.recentSearchRankList(auth.id());//TODO: 서비스 로직 추가 필요
-        return ApiResponseDTO.onSuccess(keywordDTOS);
+        GetKeywords resultDTO = keywordQueryService.recentSearchRankList(auth.id());
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 
 }
