@@ -13,8 +13,8 @@ import java.util.Map;
 @Getter
 public class OAuthAttributes {
 
-    private String nameAttributeKey; // OAuth2 로그인 진행 시 키가 되는 필드 값
-    private OAuth2UserInfo oauth2UserInfo; //로그인 유저 정보(닉네임, 이메일, 프로필 사진 등등)
+    private final String nameAttributeKey; // OAuth2 로그인 진행 시 키가 되는 필드 값
+    private final OAuth2UserInfo oauth2UserInfo; //로그인 유저 정보(닉네임, 이메일, 프로필 사진 등등)
 
     @Builder
     private OAuthAttributes(String nameAttributeKey, OAuth2UserInfo oauth2UserInfo) {
