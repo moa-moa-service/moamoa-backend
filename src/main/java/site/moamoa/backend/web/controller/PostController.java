@@ -139,7 +139,7 @@ public class PostController {
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        UpdatePostStatusResult resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        UpdatePostStatusResult resultDTO = postCommandService.updatePostStatus(auth, postId); 
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
