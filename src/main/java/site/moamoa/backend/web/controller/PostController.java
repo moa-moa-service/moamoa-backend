@@ -15,12 +15,9 @@ import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.service.post.command.PostCommandService;
 import site.moamoa.backend.service.post.query.PostQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
-import site.moamoa.backend.web.dto.base.SimplePostDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
-
-import java.util.List;
 
 
 @Tag(name = "공동구매 게시글 API", description = "공동구매 페이지 관련 API")
@@ -188,7 +185,6 @@ public class PostController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    //TODO : QueryDSL 적용한 코드로 고치기
     @GetMapping("/api/posts")
     @Operation(
             summary = "특정 키워드를 포함하는 공동구매 조회 (개발중)",
@@ -197,7 +193,7 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<GetPostsByKeyword> searchPostsByKeyword(
+    public ApiResponseDTO<GetPosts> searchPostsByKeyword(
                     @AuthenticationPrincipal AuthInfoDTO auth,
             @Parameter(description = "검색어", example = "사과")
             @RequestParam(value="keyword") final String keyword,
@@ -212,10 +208,10 @@ public class PostController {
             @Parameter(description = "최대 금액", example = "5000")
             @RequestParam(value = "maxPrice") final Integer maxPrice
     ) {
-        List<SimplePostDTO> simplePostDTOs = postCommandService.findByKeyword(auth.id(), keyword);
-        GetPostsByKeyword getPostsByKeyword = GetPostsByKeyword.builder().
-                simplePostDtoList(simplePostDTOs).
-                build();
-        return ApiResponseDTO.onSuccess(getPostsByKeyword);
+        if (!keyword.isEmpty()) {
+            postCommandService.updateKeywordCount(auth.id(), keyword);
+        }
+        GetPosts resultDTO = postQueryService.findPostsByConditions(keyword, category, dDay, total, minPrice, maxPrice);
+        return ApiResponseDTO.onSuccess(resultDTO);
     }
 }
