@@ -188,6 +188,7 @@ public class PostController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
+    //TODO : QueryDSL 적용한 코드로 고치기
     @GetMapping("/api/posts")
     @Operation(
             summary = "특정 키워드를 포함하는 공동구매 조회 (개발중)",
@@ -211,7 +212,7 @@ public class PostController {
             @Parameter(description = "최대 금액", example = "5000")
             @RequestParam(value = "maxPrice") final Integer maxPrice
     ) {
-        List<SimplePostDTO> simplePostDTOs = postQueryService.findByKeyword(auth.id(), keyword);
+        List<SimplePostDTO> simplePostDTOs = postCommandService.findByKeyword(auth.id(), keyword);
         GetPostsByKeyword getPostsByKeyword = GetPostsByKeyword.builder().
                 simplePostDtoList(simplePostDTOs).
                 build();

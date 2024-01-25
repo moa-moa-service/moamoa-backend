@@ -11,6 +11,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.service.member.command.MemberCommandServiceImpl;
+import site.moamoa.backend.service.post.command.PostCommandServiceImpl;
 import site.moamoa.backend.service.post.query.PostQueryServiceImpl;
 import site.moamoa.backend.web.dto.base.KeywordDTO;
 
@@ -24,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class KeywordQueryServiceImplTest {
     @Autowired KeywordQueryServiceImpl keywordService;
-    @Autowired PostQueryServiceImpl postService;
+    @Autowired PostCommandServiceImpl postService;
     @Autowired MemberCommandServiceImpl memberService;
 
 
@@ -36,7 +37,8 @@ class KeywordQueryServiceImplTest {
                 build();
 
         //상품8 5번
-        //상품5 2번
+        //상품5 4번
+        //상품3 3번
         //나머지 1번
         memberService.add(member);
         postService.findByKeyword(1L, "상품");
@@ -45,7 +47,15 @@ class KeywordQueryServiceImplTest {
         Thread.sleep(1000);
         postService.findByKeyword(1L, "상품3");
         Thread.sleep(1000);
+        postService.findByKeyword(1L, "상품3");
+        Thread.sleep(1000);
+        postService.findByKeyword(1L, "상품3");
+        Thread.sleep(1000);
         postService.findByKeyword(1L, "상품4");
+        Thread.sleep(1000);
+        postService.findByKeyword(1L, "상품5");
+        Thread.sleep(1000);
+        postService.findByKeyword(1L, "상품5");
         Thread.sleep(1000);
         postService.findByKeyword(1L, "상품5");
         Thread.sleep(1000);

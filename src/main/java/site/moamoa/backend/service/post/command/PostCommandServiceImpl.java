@@ -32,6 +32,30 @@ public class PostCommandServiceImpl implements PostCommandService {
     private static final String POST_VIEW_KEY_PREFIX = "postView:";
     private static final Long EXPIRATION_VIEW_RECORD = 24 * 60 * 60L;  // 1 Day
 
+    //TODO : QueryDSL 적용한 코드로 고치기
+    @Override
+    public List<SimplePostDTO> findByKeyword(Long memberId, String keyword) {
+        try {
+            redisTemplate.opsForZSet()
+                    .add("member::" + memberId, keyword, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+            //log.info("searching time : " + LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+
+            String town = memberQueryService.findMemberById(memberId).getTown();
+            redisTemplate.opsForZSet().addIfAbsent("town::" + town, keyword,0);
+            redisTemplate.opsForZSet().incrementScore("town::" + town, keyword,1);
+
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+
+        List<SimplePostDTO> simplePostDTOS = new ArrayList<>();
+        List<Post> posts = postRepository.findByProductNameContaining(keyword);
+        for(Post post : posts) {
+            simplePostDTOS.add(PostConverter.toSimplePostDTO(post));
+        }
+        return simplePostDTOS;
+    }
+
     @Override
     public void updatePostViewCount(Long memberId, Long postId) {
         String key = buildPostViewKey(memberId, postId);

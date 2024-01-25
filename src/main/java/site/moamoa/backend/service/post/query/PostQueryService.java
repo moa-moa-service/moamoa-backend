@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface PostQueryService {
 
-    List<SimplePostDTO> findByKeyword(Long memberId, String keyword);
     PostResponseDTO.GetPosts findPostsByNear(Long memberId);
 
     PostResponseDTO.GetPosts findPostsByLatest();
