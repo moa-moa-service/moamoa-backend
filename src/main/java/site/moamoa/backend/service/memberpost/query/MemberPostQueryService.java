@@ -1,4 +1,4 @@
-package site.moamoa.backend.service.memberpost;
+package site.moamoa.backend.service.memberpost.query;
 
 public interface MemberPostQueryService {
 

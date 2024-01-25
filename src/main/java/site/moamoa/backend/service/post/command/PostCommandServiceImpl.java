@@ -1,4 +1,4 @@
-package site.moamoa.backend.service.post;
+package site.moamoa.backend.service.post.command;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +13,11 @@ import site.moamoa.backend.domain.mapping.PostImage;
 import site.moamoa.backend.converter.member.MemberPostConverter;
 import site.moamoa.backend.converter.post.PostConverter;
 import site.moamoa.backend.converter.postimage.PostImageConverter;
-import site.moamoa.backend.service.category.CategoryQueryService;
-import site.moamoa.backend.service.member.MemberQueryService;
-import site.moamoa.backend.service.memberpost.MemberPostCommandService;
-import site.moamoa.backend.service.memberpost.MemberPostQueryService;
+import site.moamoa.backend.service.category.query.CategoryQueryService;
+import site.moamoa.backend.service.member.query.MemberQueryService;
+import site.moamoa.backend.service.memberpost.command.MemberPostCommandService;
+import site.moamoa.backend.service.memberpost.query.MemberPostQueryService;
+import site.moamoa.backend.service.post.command.PostCommandService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddPostResult;

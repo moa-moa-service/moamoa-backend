@@ -1,10 +1,11 @@
-package site.moamoa.backend.service.category;
+package site.moamoa.backend.service.category.query;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.moamoa.backend.domain.Category;
 import site.moamoa.backend.exception.category.CategoryNotFoundException;
 import site.moamoa.backend.repository.category.CategoryRepository;
+import site.moamoa.backend.service.category.query.CategoryQueryService;
 
 @Service
 @RequiredArgsConstructor

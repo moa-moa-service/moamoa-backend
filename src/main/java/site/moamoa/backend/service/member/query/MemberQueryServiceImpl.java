@@ -1,4 +1,4 @@
-package site.moamoa.backend.service.member;
+package site.moamoa.backend.service.member.query;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
