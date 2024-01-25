@@ -24,7 +24,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class PostQueryServiceImpl implements PostQueryService {
 
-    private final RedisConfig redisConfig;
     private final PostRepository postRepository;
     private final MemberQueryService memberQueryService;
     private final RedisTemplate<String, Object> redisTemplate;
@@ -34,7 +33,7 @@ public class PostQueryServiceImpl implements PostQueryService {
         Address baseAddress = memberQueryService.findMemberById(memberId).getAddress();
         List<Post> posts = postRepository.findAllByNear(baseAddress.getLatitude(), baseAddress.getLongitude());
         return PostConverter.toGetPosts(
-                posts.stream().map(PostConverter::toSimplePostDTO).toList()
+                posts.stream().map(post -> PostConverter.toSimplePostDTO(post, post.getPostImages())).toList()
         );
     }
 
@@ -42,7 +41,7 @@ public class PostQueryServiceImpl implements PostQueryService {
     public PostResponseDTO.GetPosts findPostsByLatest() {
         List<Post> posts = postRepository.findAllByRecent();
         return PostConverter.toGetPosts(
-                posts.stream().map(PostConverter::toSimplePostDTO).toList()
+                posts.stream().map(post -> PostConverter.toSimplePostDTO(post, post.getPostImages())).toList()
         );
     }
 
@@ -51,7 +50,7 @@ public class PostQueryServiceImpl implements PostQueryService {
         Member member = memberQueryService.findMemberById(memberId);
         List<Post> posts = postRepository.findAllByRanking(member.getTown());
         return PostConverter.toGetPosts(
-                posts.stream().map(PostConverter::toSimplePostDTO).toList()
+                posts.stream().map(post -> PostConverter.toSimplePostDTO(post, post.getPostImages())).toList()
         );
     }
 
@@ -62,7 +61,7 @@ public class PostQueryServiceImpl implements PostQueryService {
         String keyword = range != null && !range.isEmpty() ? (String) range.iterator().next() : null;
         List<Post> posts = postRepository.findAllByKeyword(keyword);
         return PostConverter.toGetPosts(
-                posts.stream().map(PostConverter::toSimplePostDTO).toList()
+                posts.stream().map(post -> PostConverter.toSimplePostDTO(post, post.getPostImages())).toList()
         );
     }
 
@@ -70,7 +69,7 @@ public class PostQueryServiceImpl implements PostQueryService {
     public PostResponseDTO.GetPosts findPostsByConditions(String keyword, String category, Integer dDay, Integer total, Integer minPrice, Integer maxPrice) {
         List<Post> posts = postRepository.findAllByKeywordAndCondition(keyword, category, dDay, total, minPrice, maxPrice);
         return PostConverter.toGetPosts(
-                posts.stream().map(PostConverter::toSimplePostDTO).toList()
+                posts.stream().map(post -> PostConverter.toSimplePostDTO(post, post.getPostImages())).toList()
         );
     }
 
@@ -78,7 +77,7 @@ public class PostQueryServiceImpl implements PostQueryService {
     public PostResponseDTO.GetPost findPostById(Long postId) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostHandler(ErrorStatus.POST_NOT_FOUND));
-        return PostConverter.toGetPost(PostConverter.toPostDTO(post));
+        return PostConverter.toGetPost(PostConverter.toPostDTO(post, post.getPostImages(), post.getCategory()));
     }
 
 
