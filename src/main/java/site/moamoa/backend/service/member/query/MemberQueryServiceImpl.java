@@ -10,7 +10,7 @@ import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.CapacityStatus;
-import site.moamoa.backend.repository.MemberPostRepository;
+import site.moamoa.backend.repository.mapping.MemberPostRepository;
 import site.moamoa.backend.repository.member.MemberRepository;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;

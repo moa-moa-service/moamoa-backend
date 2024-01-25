@@ -1,4 +1,4 @@
-package site.moamoa.backend.repository;
+package site.moamoa.backend.repository.mapping;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

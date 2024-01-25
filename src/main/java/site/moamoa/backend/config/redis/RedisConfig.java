@@ -1,4 +1,4 @@
-package site.moamoa.backend.config;
+package site.moamoa.backend.config.redis;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
@@ -10,13 +10,14 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-
 @Configuration
 @RequiredArgsConstructor
 @EnableRedisRepositories
 public class RedisConfig {
 
     private final RedisProperties redisProperties;
+
+
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
