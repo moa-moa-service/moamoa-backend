@@ -2,6 +2,8 @@ package site.moamoa.backend.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import site.moamoa.backend.api_payload.code.status.ErrorStatus;
+import site.moamoa.backend.api_payload.exception.handler.MemberHandler;
 import site.moamoa.backend.domain.common.BaseEntity;
 import site.moamoa.backend.domain.embedded.Address;
 import site.moamoa.backend.domain.enums.DeletionStatus;
@@ -73,7 +75,7 @@ public class Member extends BaseEntity {
             String[] split = addressName.split(" ");
             return split[2];
         } catch (ArrayIndexOutOfBoundsException e) {
-            throw new RuntimeException("주소 정보가 올바르지 않습니다. 주소는 '시 동 이름' 형태여야 합니다: " + addressName);
+            throw new MemberHandler(ErrorStatus.MEMBER_INVALID_ADDRESS_FORMAT);
         }
     }
 }

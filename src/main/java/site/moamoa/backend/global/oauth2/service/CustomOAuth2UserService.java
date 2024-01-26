@@ -10,6 +10,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.moamoa.backend.api_payload.code.status.ErrorStatus;
+import site.moamoa.backend.api_payload.exception.handler.MemberHandler;
 import site.moamoa.backend.converter.MemberConverter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.global.oauth2.CustomOAuth2User;
@@ -77,9 +79,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     @Transactional
     public MemberResponseDTO.AddMemberInfoResult addMemberInfo(Long memberId, MemberRequestDTO.AddMemberInfo memberInfo) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 멤버입니다."));
+                .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
         if (member.getNickname() != null) {
-            throw new RuntimeException("이미 등록한 유저입니다.");
+            throw new MemberHandler(ErrorStatus.MEMBER_ALREADY_EXISTS);
         }
         member.addInfo(memberInfo.nickname(), memberInfo.location());
         return MemberConverter.addMemberInfoResult(member);
