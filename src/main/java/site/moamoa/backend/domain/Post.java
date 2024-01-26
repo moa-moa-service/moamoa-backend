@@ -3,6 +3,7 @@ package site.moamoa.backend.domain;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 
+import java.util.Optional;
 import lombok.*;
 import site.moamoa.backend.domain.common.BaseEntity;
 import site.moamoa.backend.domain.embedded.Address;
@@ -11,6 +12,7 @@ import site.moamoa.backend.domain.mapping.PostImage;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 
 @Entity
 @Getter
@@ -51,4 +53,15 @@ public class Post extends BaseEntity {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostImage> postImages = new ArrayList<>();
+
+    public void updateInfo(UpdatePostInfo request, Category category, List<PostImage> images) {
+        this.category = category;
+        this.personnel = Optional.ofNullable(request.personnel()).orElse(this.personnel);
+        this.deadline = Optional.ofNullable(request.deadline()).orElse(this.deadline);
+        this.postImages = images;
+        this.dealLocation = Optional.ofNullable(request.dealLocation()).orElse(this.dealLocation);
+        this.productName = Optional.ofNullable(request.productName()).orElse(this.productName);
+        this.totalPrice = Optional.ofNullable(request.price()).orElse(this.totalPrice);
+        this.description = Optional.ofNullable(request.description()).orElse(this.description);
+    }
 }
