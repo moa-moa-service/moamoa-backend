@@ -82,7 +82,8 @@ cloud:
         memberProfiles: member-profiles
         posts: posts
     region:
-      static: ap-northeast-1
+      static: ap-northeast-2
+
     stack:
       auto: false
     credentials:

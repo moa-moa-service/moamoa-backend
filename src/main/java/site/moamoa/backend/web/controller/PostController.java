@@ -8,9 +8,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Positive;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.service.post.command.PostCommandService;
 import site.moamoa.backend.service.post.query.PostQueryService;
@@ -18,6 +21,7 @@ import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
+import site.moamoa.backend.service.post.command.PostCommandService;
 
 
 @Tag(name = "공동구매 게시글 API", description = "공동구매 페이지 관련 API")
@@ -90,7 +94,7 @@ public class PostController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @PostMapping("/api/posts")
+    @PostMapping(value = "/api/posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
             summary = "공동구매 등록 (개발중)",
             description = "공동구매 정보를 받아 새로운 공동구매 게시글을 등록합니다."
@@ -100,9 +104,10 @@ public class PostController {
     })
     public ApiResponseDTO<AddPostResult> registerPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @RequestBody AddPost request
-    ) {
-        AddPostResult resultDTO = null; //TODO: 서비스 로직 추가 필요
+            @RequestPart("request") AddPost request,
+            @RequestPart("files") List<MultipartFile> images
+            ) {
+        AddPostResult resultDTO = postCommandService.registerPost(auth, request, images);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
@@ -116,13 +121,14 @@ public class PostController {
     })
     public ApiResponseDTO<UpdatePostInfoResult> updatePost(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @RequestBody UpdatePostInfo request,
+            @RequestPart("request") UpdatePostInfo request,
+            @RequestPart("files") List<MultipartFile> images,
             @PathVariable
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        UpdatePostInfoResult resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        UpdatePostInfoResult resultDTO = postCommandService.updatePostInfo(auth, request, images, postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
@@ -134,14 +140,14 @@ public class PostController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
-    public ApiResponseDTO<?> updatePostStatus(
-            //TODO: Security 추가시 인증부 구현 필요
+    public ApiResponseDTO<UpdatePostStatusResult> updatePostStatus(
+            @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        UpdatePostStatusResult resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        UpdatePostStatusResult resultDTO = postCommandService.updatePostStatus(auth, postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
@@ -181,7 +187,7 @@ public class PostController {
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        AddMemberPostResult resultDTO = null;   //TODO: 서비스 로직 추가 필요
+        AddMemberPostResult resultDTO = postCommandService.joinPost(auth, postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

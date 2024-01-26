@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -23,11 +23,11 @@ public class PostRequestDTO {
             Integer personnel,
             @NotNull
             @Future(message = "현재 날짜 이후의 날짜여야 합니다.")
-            LocalDate deadline,
+            LocalDateTime deadline,
             @NotNull
             String productName,
-            @Size(max = 10, message = "이미지는 최대 10개까지만 허용됩니다.")
-            List<MultipartFile> image,
+//            @Size(max = 10, message = "이미지는 최대 10개까지만 허용됩니다.")
+//            List<MultipartFile> image,
             @NotNull
             Address dealLocation,
             @NotNull
@@ -42,7 +42,7 @@ public class PostRequestDTO {
             @Max(value = 10, message = "최대 10명까지만 허용됩니다.")
             Integer personnel,
             @Future(message = "현재 날짜 이후의 날짜여야 합니다.")
-            LocalDate deadline,
+            LocalDateTime deadline,
             @Size(max = 10, message = "이미지는 최대 10개까지만 허용됩니다.")
             List<MultipartFile> image,
             Address dealLocation,
