@@ -18,4 +18,8 @@ public interface PostCommandService {
     UpdatePostInfoResult updatePostInfo(AuthInfoDTO auth, UpdatePostInfo request, List<MultipartFile> images, Long postId);
 
     AddMemberPostResult joinPost(AuthInfoDTO auth, Long postId);
+
+    void updateKeywordCount(Long memberId, String keyword);
+
+    void updatePostViewCount(Long memberId, Long postId);
 }

@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import site.moamoa.backend.api_payload.code.status.SuccessStatus;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 @RequiredArgsConstructor
@@ -61,29 +62,47 @@ public class SwaggerConfig {
         return openAPI -> {
             openAPI.path("/api/auth/authorize", new PathItem().get(
                     new Operation()
+                            .security(Collections.emptyList())
                             .responses(new ApiResponses().addApiResponse(SuccessStatus._OK.getCode(),
                                     new ApiResponse().description(SuccessStatus._OK.getMessage())))
                             .addTagsItem("인증 API")
-                            .summary("인가 코드 발급")
-                            .description("인가 코드를 받아옵니다.")
+                            .summary("인가 코드 발급 (Swagger로 테스트 불가능)")
+                            .description("인가 코드를 받아옵니다. (RequestURL을 통해 직접 테스트 필요)")
             ));
 
             openAPI.path("/api/auth/token", new PathItem().get(
                     new Operation()
-                            .parameters(Collections.singletonList(
+                            .parameters(Arrays.asList(
                                     new Parameter()
                                             .name("code")
                                             .in("query")
                                             .required(true)
                                             .schema(new Schema<>().type("string"))
-                                            .description("인증 코드")
-                                            .example("V8l1td3fVCAbuJm40u")
+                                            .description("인가 code")
+                                            .example("V8l1td3fVCAbuJm40u"),
+                                    new Parameter()
+                                            .name("state")
+                                            .in("query")
+                                            .required(true)
+                                            .schema(new Schema<>().type("string"))
+                                            .description("인가 state")
+                                            .example("C5DWJW1yJmCx7GdQsfrgQjkTMM_vc_5j7JLAbPpvNqE=")
                             ))
-                            .responses(new ApiResponses().addApiResponse(SuccessStatus._OK.getCode(),
-                                    new ApiResponse().description(SuccessStatus._OK.getMessage())))
+                            .responses(
+                                    new ApiResponses()
+                                            .addApiResponse(
+                                                    SuccessStatus._OK.getCode(),
+                                                    new ApiResponse().description(SuccessStatus._OK.getMessage())
+                                            )
+                                            .addApiResponse(
+                                                    SuccessStatus._ACCEPTED.getCode(),
+                                                    new ApiResponse().description(SuccessStatus._ACCEPTED.getMessage()))
+
+                            )
+                            .security(Collections.emptyList())
                             .addTagsItem("인증 API")
-                            .summary("인증 토큰 발급")
-                            .description("인가 코드를 받아 인증 토큰을 받아옵니다.")
+                            .summary("인증 토큰 발급 (Swagger로 테스트 불가능)")
+                            .description("인가 코드를 받아 인증 토큰을 받아옵니다. 200 응답 코드가 온다면 메인으로, 202가 온다면 추가 정보를 입력해주세요. (RequestURL을 통해 직접 테스트 필요)")
             ));
         };
     }

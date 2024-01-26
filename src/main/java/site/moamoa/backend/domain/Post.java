@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import java.util.Optional;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 import site.moamoa.backend.domain.common.BaseEntity;
 import site.moamoa.backend.domain.embedded.Address;
 import site.moamoa.backend.domain.enums.CapacityStatus;
@@ -19,8 +20,8 @@ import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicUpdate
 public class Post extends BaseEntity {
-  
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
@@ -46,11 +47,15 @@ public class Post extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CapacityStatus capacityStatus; // 모집 상태
 
+    @Column(columnDefinition = "INTEGER DEFAULT 0", nullable = false)
+    private Integer viewCount;  // 조회수
+
     // Mapping
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
 
+    @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostImage> postImages = new ArrayList<>();
 

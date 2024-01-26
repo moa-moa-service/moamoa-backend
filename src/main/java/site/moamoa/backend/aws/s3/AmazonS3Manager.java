@@ -42,7 +42,7 @@ public class AmazonS3Manager {
         metadata.setContentType(file.getContentType()); //다운로드가 아닌 브라우저로 조회를 하기 위함
         try{
             amazonS3.putObject(new PutObjectRequest(amazonConfig.getBucket(), keyName + ext, file.getInputStream(), metadata)
-                .withCannedAcl(CannedAccessControlList.PublicRead));
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
         } catch (IOException e) {
             log.error("파일을 업로드하는데 오류가 발생했습니다. : {}", (Object) e.getStackTrace());
         }

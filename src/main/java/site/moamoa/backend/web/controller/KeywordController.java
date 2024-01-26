@@ -9,13 +9,19 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
+import site.moamoa.backend.service.keyword.query.KeywordQueryService;
+import site.moamoa.backend.service.member.query.MemberQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
-import site.moamoa.backend.web.dto.response.KeywordResponseDTO.GetKeywords;
+
+import static site.moamoa.backend.web.dto.response.KeywordResponseDTO.GetKeywords;
 
 @Tag(name = "검색어 API", description = "검색어 관련 API")
 @RequiredArgsConstructor
 @RestController
 public class KeywordController {
+
+    private final KeywordQueryService keywordQueryService;
+    private final MemberQueryService memberQueryService;
 
     @GetMapping("/api/keywords/ranking")
     @Operation(
@@ -28,7 +34,7 @@ public class KeywordController {
     public ApiResponseDTO<GetKeywords> getKeywordsByRanking(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetKeywords resultDTO = null;//TODO: 서비스 로직 추가 필요
+        GetKeywords resultDTO = keywordQueryService.popularSearchRankList(memberQueryService.findMemberById(auth.id()).getTown());
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
@@ -43,7 +49,7 @@ public class KeywordController {
     public ApiResponseDTO<GetKeywords> getKeywordsByRecent(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetKeywords resultDTO = null;//TODO: 서비스 로직 추가 필요
+        GetKeywords resultDTO = keywordQueryService.recentSearchRankList(auth.id());
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

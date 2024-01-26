@@ -22,12 +22,6 @@ public class PostResponseDTO {
     }
 
     @Builder
-    public record GetPostsByKeyword(
-            List<SimplePostDTO> simplePostDtoList
-    ) {
-    }
-
-    @Builder
     public record AddPostResult(
             Long postId,
             LocalDateTime createdAt

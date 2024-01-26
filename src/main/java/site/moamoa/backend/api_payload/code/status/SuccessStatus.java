@@ -11,7 +11,8 @@ import site.moamoa.backend.api_payload.code.ReasonDTO;
 public enum SuccessStatus implements BaseCode {
 
     // 일반적인 응답
-    _OK(HttpStatus.OK, "COMMON200", "성공입니다.");
+    _OK(HttpStatus.OK, "COMMON200", "성공입니다."),
+    _ACCEPTED(HttpStatus.ACCEPTED , "COMMON202", "추가 정보가 필요합니다.");
 
     private final HttpStatus httpStatus;
     private final String code;
