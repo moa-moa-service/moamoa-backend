@@ -17,10 +17,13 @@ import site.moamoa.backend.service.category.query.CategoryQueryService;
 import site.moamoa.backend.service.member.query.MemberQueryService;
 import site.moamoa.backend.service.memberpost.command.MemberPostCommandService;
 import site.moamoa.backend.service.memberpost.query.MemberPostQueryService;
-import site.moamoa.backend.service.post.command.PostCommandService;
+import site.moamoa.backend.service.postimage.command.PostImageCommandService;
+import site.moamoa.backend.service.postimage.query.PostImageQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
+import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddPostResult;
+import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostInfoResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostStatusResult;
 import site.moamoa.backend.exception.post.PostNotFoundException;
 import site.moamoa.backend.repository.post.PostRepository;
@@ -34,6 +37,7 @@ public class PostCommandServiceImpl implements PostCommandService {
     private final MemberQueryService memberQueryService;
     private final MemberPostCommandService memberPostCommandService;
     private final MemberPostQueryService memberPostQueryService;
+    private final PostImageCommandService postImageCommandService;
 
     @Override
     public AddPostResult registerPost(AuthInfoDTO auth, AddPost addPost, List<MultipartFile> images) {
@@ -55,6 +59,21 @@ public class PostCommandServiceImpl implements PostCommandService {
         updatePostStatusToFull(postId);
         Post updatedPost = findPostById(postId);
         return PostConverter.toUpdatePostStatusResult(updatedPost);
+    }
+
+    @Override
+    public UpdatePostInfoResult updatePostInfo(AuthInfoDTO auth, UpdatePostInfo updatePostInfo,
+        List<MultipartFile> images, Long postId) {
+        memberPostQueryService.checkAuthor(auth.id(), postId);
+        Post updatePost = findPostById(postId);
+        Category category = categoryQueryService.findCategoryById(updatePostInfo.categoryId());
+        postImageCommandService.deletePostImageByPostId(postId);
+        List<PostImage> updatedImages = postImageConverter.toPostImages(images);
+        updatedImages
+            .forEach(postImage -> postImage.setPost(updatePost));
+        updatePost.updateInfo(updatePostInfo, category, updatedImages);
+        postRepository.save(updatePost);
+        return PostConverter.toUpdatePostInfoResult(updatePost);
     }
 
     public Post findPostById(Long postId) {
