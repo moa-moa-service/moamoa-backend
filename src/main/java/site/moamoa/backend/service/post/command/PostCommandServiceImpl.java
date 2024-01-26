@@ -34,6 +34,10 @@ import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostInfoResult
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostStatusResult;
 import site.moamoa.backend.repository.post.PostRepository;
 
+import static site.moamoa.backend.config.redis.RedisKey.EXPIRATION_VIEW_RECORD;
+import static site.moamoa.backend.config.redis.RedisKey.POST_VIEW_KEY_PREFIX;
+
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -46,6 +50,8 @@ public class PostCommandServiceImpl implements PostCommandService {
     private final MemberPostQueryService memberPostQueryService;
     private final PostImageCommandService postImageCommandService;
     private final RedisTemplate<String, Object> redisTemplate;
+
+    private static final Long RECENT_KEYWORD_SIZE = 10L;
 
     @Override
     public AddPostResult registerPost(AuthInfoDTO auth, AddPost addPost, List<MultipartFile> images) {
@@ -96,13 +102,19 @@ public class PostCommandServiceImpl implements PostCommandService {
 
     @Override
     public void updateKeywordCount(Long memberId, String keyword) {
+        String memberKey = RedisKey.MEMBER_KEYWORD_KEY_PREFIX + memberId;
         redisTemplate.opsForZSet()
-            .add(RedisKey.MEMBER_KEYWORD_KEY_PREFIX + memberId, keyword, LocalDateTime.now().toEpochSecond(
-                ZoneOffset.UTC));
+                .add(memberKey, keyword, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+        Long size = redisTemplate.opsForZSet().size(memberKey);
+        if (size >= (long) RECENT_KEYWORD_SIZE) {
+            redisTemplate.opsForZSet().popMin(memberKey);
+        }
+
 
         String town = memberQueryService.findMemberById(memberId).getTown();
-        redisTemplate.opsForZSet().addIfAbsent(RedisKey.TOWN_KEYWORD_COUNT_KEY_PREFIX + town, keyword, 0);
-        redisTemplate.opsForZSet().incrementScore(RedisKey.TOWN_KEYWORD_COUNT_KEY_PREFIX + town, keyword, 1);
+        String townKey = RedisKey.TOWN_KEYWORD_COUNT_KEY_PREFIX + town;
+        redisTemplate.opsForZSet().addIfAbsent(townKey, keyword, 0);
+        redisTemplate.opsForZSet().incrementScore(townKey, keyword, 1);
     }
 
     @Override

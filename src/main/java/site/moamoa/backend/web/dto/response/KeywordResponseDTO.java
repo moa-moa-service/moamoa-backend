@@ -1,5 +1,6 @@
 package site.moamoa.backend.web.dto.response;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import lombok.Builder;
@@ -10,6 +11,13 @@ public class KeywordResponseDTO {
     @Builder
     public record GetKeywords(
             List<KeywordDTO> keywords
+    ) {
+    }
+
+    @Builder
+    public record DeleteKeywordResult(
+            Long userId,
+            LocalDateTime deletedAt
     ) {
     }
 }
