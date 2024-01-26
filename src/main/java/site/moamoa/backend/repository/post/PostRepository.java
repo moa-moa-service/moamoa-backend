@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.CapacityStatus;
 
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, Long>, PostQueryDSLRepository {
 
   @Transactional
   @Modifying
