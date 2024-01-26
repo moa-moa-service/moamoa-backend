@@ -14,6 +14,10 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+import static site.moamoa.backend.config.redis.RedisKey.EXPIRATION_VIEW_RECORD;
+import static site.moamoa.backend.config.redis.RedisKey.POST_VIEW_KEY_PREFIX;
+
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -23,14 +27,22 @@ public class PostCommandServiceImpl implements PostCommandService {
     private final MemberQueryService memberQueryService;
     private final RedisTemplate<String, Object> redisTemplate;
 
+    private static final Long RECENT_KEYWORD_SIZE = 10L;
+
     @Override
     public void updateKeywordCount(Long memberId, String keyword) {
+        String memberKey = RedisKey.MEMBER_KEYWORD_KEY_PREFIX + memberId;
         redisTemplate.opsForZSet()
-                .add(RedisKey.MEMBER_KEYWORD_KEY_PREFIX + memberId, keyword, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+                .add(memberKey, keyword, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+        Long size = redisTemplate.opsForZSet().size(memberKey);
+        if (size >= (long) RECENT_KEYWORD_SIZE) {
+            redisTemplate.opsForZSet().popMin(memberKey);
+        }
 
         String town = memberQueryService.findMemberById(memberId).getTown();
-        redisTemplate.opsForZSet().addIfAbsent(RedisKey.TOWN_KEYWORD_COUNT_KEY_PREFIX + town, keyword, 0);
-        redisTemplate.opsForZSet().incrementScore(RedisKey.TOWN_KEYWORD_COUNT_KEY_PREFIX + town, keyword, 1);
+        String townKey = RedisKey.TOWN_KEYWORD_COUNT_KEY_PREFIX + town;
+        redisTemplate.opsForZSet().addIfAbsent(townKey, keyword, 0);
+        redisTemplate.opsForZSet().incrementScore(townKey, keyword, 1);
     }
 
     @Override
