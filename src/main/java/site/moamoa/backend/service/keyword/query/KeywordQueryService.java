@@ -8,4 +8,7 @@ public interface KeywordQueryService {
 
     //개인 최근 검색어 리스트 1위~10위까지
     KeywordResponseDTO.GetKeywords recentSearchRankList(Long memberId);
+
+    //개인 최근 검색어 중 삭제
+    KeywordResponseDTO.DeleteKeywordResult deleteRecentKeyword(Long memberId, String keyword);
 }

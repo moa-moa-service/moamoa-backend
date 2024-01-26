@@ -14,6 +14,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+import static site.moamoa.backend.config.redis.RedisKey.EXPIRATION_VIEW_RECORD;
+import static site.moamoa.backend.config.redis.RedisKey.POST_VIEW_KEY_PREFIX;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -27,16 +30,18 @@ public class PostCommandServiceImpl implements PostCommandService {
 
     @Override
     public void updateKeywordCount(Long memberId, String keyword) {
+        String memberKey = RedisKey.MEMBER_KEYWORD_KEY_PREFIX + memberId;
         redisTemplate.opsForZSet()
-                .add(RedisKey.MEMBER_KEYWORD_KEY_PREFIX + memberId, keyword, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
-        Long size = redisTemplate.opsForZSet().size(RedisKey.MEMBER_KEYWORD_KEY_PREFIX + memberId);
-        if (size == (long) RECENT_KEYWORD_SIZE) {
-            redisTemplate.opsForZSet().popMin(RedisKey.MEMBER_KEYWORD_KEY_PREFIX + memberId); //저장되는 키워드는 10개로 유지
+                .add(memberKey, keyword, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
+        Long size = redisTemplate.opsForZSet().size(memberKey);
+        if (size >= (long) RECENT_KEYWORD_SIZE) {
+            redisTemplate.opsForZSet().popMin(memberKey);
         }
 
         String town = memberQueryService.findMemberById(memberId).getTown();
-        redisTemplate.opsForZSet().addIfAbsent(RedisKey.TOWN_KEYWORD_COUNT_KEY_PREFIX + town, keyword, 0);
-        redisTemplate.opsForZSet().incrementScore(RedisKey.TOWN_KEYWORD_COUNT_KEY_PREFIX + town, keyword, 1);
+        String townKey = RedisKey.TOWN_KEYWORD_COUNT_KEY_PREFIX + town;
+        redisTemplate.opsForZSet().addIfAbsent(townKey, keyword, 0);
+        redisTemplate.opsForZSet().incrementScore(townKey, keyword, 1);
     }
 
     @Override
@@ -51,7 +56,7 @@ public class PostCommandServiceImpl implements PostCommandService {
     }
 
     private String buildPostViewKey(Long memberId, Long postId) {
-        return RedisKey.POST_VIEW_KEY_PREFIX + memberId + ":" + postId;
+        return POST_VIEW_KEY_PREFIX + memberId + ":" + postId;
     }
 
     private boolean isNewViewRecord(Long memberId, Long postId) {
@@ -60,7 +65,7 @@ public class PostCommandServiceImpl implements PostCommandService {
 
     private void saveViewRecord(String key) {
         redisTemplate.opsForSet().add(key, true);
-        redisTemplate.expire(key, Duration.ofSeconds(RedisKey.EXPIRATION_VIEW_RECORD));
+        redisTemplate.expire(key, Duration.ofSeconds(EXPIRATION_VIEW_RECORD));
     }
 
     private void updatePostView(Long postId) {

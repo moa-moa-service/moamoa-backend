@@ -10,3 +10,4 @@ public class RedisKey {
     // Redis Expire Time
     public static final Long EXPIRATION_VIEW_RECORD = 24 * 60 * 60L;  // 1 Day
 }
+
