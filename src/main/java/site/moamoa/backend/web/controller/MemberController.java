@@ -87,9 +87,8 @@ public class MemberController {
     })
     public ApiResponseDTO<GetMyPostList> getPostsByParticipating(
             @AuthenticationPrincipal AuthInfoDTO auth,
-
             @Parameter(description = "모집 마감 여부(FULL, NOT_FULL)", example = "FULL")
-            @RequestParam(name = "status", defaultValue = "NOT_FULL") CapacityStatus status // 첫 화면이 모집 중이므로 defaultValue = "NOT_FULL"로 지정
+            @RequestParam(name = "status", defaultValue = "NOT_FULL") final CapacityStatus status // 첫 화면이 모집 중이므로 defaultValue = "NOT_FULL"로 지정
     ) {
         GetMyPostList resultDTO = memberQueryService.getMyParticipatedPostResult(auth.id(), status);
         return ApiResponseDTO.onSuccess(resultDTO);
@@ -107,7 +106,7 @@ public class MemberController {
             @AuthenticationPrincipal AuthInfoDTO auth,
 
             @Parameter(description = "모집 마감 여부(FULL, NOT_FULL)", example = "FULL")
-            @RequestParam(name = "status", defaultValue = "NOT_FULL") CapacityStatus status
+            @RequestParam(name = "status", defaultValue = "NOT_FULL") final CapacityStatus status
     ) {
         GetMyPostList resultDTO = memberQueryService.getMyRecruitingPostResult(auth.id(), status);
         return ApiResponseDTO.onSuccess(resultDTO);
