@@ -2,6 +2,8 @@ package site.moamoa.backend.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import site.moamoa.backend.api_payload.code.status.ErrorStatus;
+import site.moamoa.backend.api_payload.exception.handler.MemberHandler;
 import site.moamoa.backend.domain.common.BaseEntity;
 import site.moamoa.backend.domain.embedded.Address;
 import site.moamoa.backend.domain.enums.DeletionStatus;
@@ -50,6 +52,7 @@ public class Member extends BaseEntity {
     }
 
     public void addInfo(String nickname, Address address) {
+        this.town = getTownName(address.getName());
         this.nickname = nickname;
         this.address = address;
         this.roleType = RoleType.MEMBER;
@@ -65,5 +68,14 @@ public class Member extends BaseEntity {
 
     public void deactivate() {
         this.deletionStatus = DeletionStatus.DELETE;  // 계정 탈퇴하면 deletionStatus를 DELETE로 설정.
+    }
+
+    public String getTownName(String addressName) {
+        try {
+            String[] split = addressName.split(" ");
+            return split[2];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new MemberHandler(ErrorStatus.MEMBER_INVALID_ADDRESS_FORMAT);
+        }
     }
 }

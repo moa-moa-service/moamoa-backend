@@ -87,9 +87,8 @@ public class MemberController {
     })
     public ApiResponseDTO<GetMyPostList> getPostsByParticipating(
             @AuthenticationPrincipal AuthInfoDTO auth,
-
             @Parameter(description = "모집 마감 여부(FULL, NOT_FULL)", example = "FULL")
-            @RequestParam(name = "status", defaultValue = "NOT_FULL") CapacityStatus status // 첫 화면이 모집 중이므로 defaultValue = "NOT_FULL"로 지정
+            @RequestParam(name = "status", defaultValue = "NOT_FULL") final CapacityStatus status // 첫 화면이 모집 중이므로 defaultValue = "NOT_FULL"로 지정
     ) {
         GetMyPostList resultDTO = memberQueryService.getMyParticipatedPostResult(auth.id(), status);
         return ApiResponseDTO.onSuccess(resultDTO);
@@ -107,7 +106,7 @@ public class MemberController {
             @AuthenticationPrincipal AuthInfoDTO auth,
 
             @Parameter(description = "모집 마감 여부(FULL, NOT_FULL)", example = "FULL")
-            @RequestParam(name = "status", defaultValue = "NOT_FULL") CapacityStatus status
+            @RequestParam(name = "status", defaultValue = "NOT_FULL") final CapacityStatus status
     ) {
         GetMyPostList resultDTO = memberQueryService.getMyRecruitingPostResult(auth.id(), status);
         return ApiResponseDTO.onSuccess(resultDTO);
@@ -126,21 +125,6 @@ public class MemberController {
     ) {
         //todo 탈퇴된 회원은 조회가 안되게 하도록 구현이 필요해보임.
         DeleteMemberResult resultDTO = memberCommandService.deActiveMemberResult(auth.id());
-        return ApiResponseDTO.onSuccess(resultDTO);
-    }
-
-    @PostMapping("/api/members/logout")
-    @Operation(
-            summary = "사용자 로그아웃 (개발중)",
-            description = "사용자가 로그아웃을 합니다."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
-    })
-    public ApiResponseDTO<DeleteMemberResult> logoutMember(
-            @AuthenticationPrincipal AuthInfoDTO auth
-    ) {
-        DeleteMemberResult resultDTO = null;
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

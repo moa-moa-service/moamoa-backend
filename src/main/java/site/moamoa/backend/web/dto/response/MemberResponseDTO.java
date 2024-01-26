@@ -9,7 +9,7 @@ public class MemberResponseDTO {
 
     @Builder
     public record AddMemberInfoResult(
-            Long memberId,
+            Long userId,
             LocalDateTime createdAt
     ) {
 
@@ -47,6 +47,14 @@ public class MemberResponseDTO {
             Long userId,
             LocalDateTime updatedAt
     ) {
+    }
+
+    @Builder
+    public record LogoutInfo (
+            Long userId,
+            LocalDateTime updatedAt
+    ) {
+
     }
 
 }

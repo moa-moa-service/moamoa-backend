@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import site.moamoa.backend.api_payload.code.status.ErrorStatus;
+import site.moamoa.backend.api_payload.exception.handler.MemberHandler;
 import site.moamoa.backend.aws.s3.AmazonS3Manager;
 import site.moamoa.backend.converter.MemberConverter;
 import site.moamoa.backend.domain.Member;
@@ -22,7 +24,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
 
     @Override
     public MemberResponseDTO.UpdateMemberImageResult addMemberProfileImage(Long memberId, MultipartFile updateMemberImageDto) {
-        Member member = memberRepository.findById(memberId).orElseThrow((RuntimeException::new));
+        Member member = findMemberById(memberId);
         String memberProfileUrl = null;
         if (updateMemberImageDto != null && !updateMemberImageDto.isEmpty()) {
             memberProfileUrl = amazonS3Manager.uploadImage(amazonS3Manager.generateMemberProfileKeyName(), updateMemberImageDto);
@@ -34,15 +36,21 @@ public class MemberCommandServiceImpl implements MemberCommandService {
 
     @Override
     public MemberResponseDTO.UpdateMemberAddressResult updateMemberAddress(Long memberId, MemberRequestDTO.UpdateMemberAddress request) {
-        Member member = memberRepository.findById(memberId).orElseThrow((RuntimeException::new));
+        Member member = findMemberById(memberId);
         member.addInfo(member.getNickname(), request.address());
         return MemberConverter.updateMemberAddressResult(member);
     }
 
     @Override
     public MemberResponseDTO.DeleteMemberResult deActiveMemberResult(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
+        Member member = findMemberById(memberId);
         member.deactivate();
         return MemberConverter.deActiveMemberResult(member);
     }
+
+    public Member findMemberById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
+    }
+
 }

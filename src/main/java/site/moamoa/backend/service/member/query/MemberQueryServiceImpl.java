@@ -39,7 +39,8 @@ public class MemberQueryServiceImpl implements MemberQueryService {
 
     @Override
     public MemberResponseDTO.GetMyInfoResult getMyInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
         return MemberConverter.toMemberDTO(member);
     }
 
