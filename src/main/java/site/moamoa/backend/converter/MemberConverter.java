@@ -37,4 +37,18 @@ public class MemberConverter {
                 .updatedAt(member.getUpdatedAt())
                 .build();
     }
+
+    public static MemberResponseDTO.AddMemberInfoResult addMemberInfoResult(Member member) {
+        return MemberResponseDTO.AddMemberInfoResult.builder()
+                .userId(member.getId())
+                .createdAt(member.getCreatedAt())
+                .build();
+    }
+
+    public static MemberResponseDTO.LogoutInfo logoutMemberInfoResult(Member member) {
+        return MemberResponseDTO.LogoutInfo.builder()
+                .userId(member.getId())
+                .updatedAt(member.getUpdatedAt())
+                .build();
+    }
 }

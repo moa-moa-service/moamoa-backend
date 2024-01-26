@@ -129,19 +129,4 @@ public class MemberController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @PostMapping("/api/members/logout")
-    @Operation(
-            summary = "사용자 로그아웃 (개발중)",
-            description = "사용자가 로그아웃을 합니다."
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
-    })
-    public ApiResponseDTO<DeleteMemberResult> logoutMember(
-            @AuthenticationPrincipal AuthInfoDTO auth
-    ) {
-        DeleteMemberResult resultDTO = null;
-        return ApiResponseDTO.onSuccess(resultDTO);
-    }
-
 }
