@@ -16,7 +16,6 @@ import site.moamoa.backend.service.member.command.MemberCommandService;
 import site.moamoa.backend.service.member.query.MemberQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberAddress;
-import site.moamoa.backend.web.dto.response.MemberResponseDTO.GetMyInfoResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.GetMyPostList;
 
 import static site.moamoa.backend.web.dto.response.MemberResponseDTO.*;

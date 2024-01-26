@@ -1,9 +1,5 @@
 package site.moamoa.backend.service.post.command;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -12,14 +8,15 @@ import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.code.status.ErrorStatus;
 import site.moamoa.backend.api_payload.exception.handler.PostHandler;
 import site.moamoa.backend.config.redis.RedisKey;
+import site.moamoa.backend.converter.member.MemberPostConverter;
+import site.moamoa.backend.converter.post.PostConverter;
+import site.moamoa.backend.converter.postimage.PostImageConverter;
 import site.moamoa.backend.domain.Category;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.domain.mapping.PostImage;
-import site.moamoa.backend.converter.member.MemberPostConverter;
-import site.moamoa.backend.converter.post.PostConverter;
-import site.moamoa.backend.converter.postimage.PostImageConverter;
+import site.moamoa.backend.repository.post.PostRepository;
 import site.moamoa.backend.service.category.query.CategoryQueryService;
 import site.moamoa.backend.service.member.query.MemberQueryService;
 import site.moamoa.backend.service.memberpost.command.MemberPostCommandService;
@@ -32,16 +29,18 @@ import site.moamoa.backend.web.dto.response.PostResponseDTO.AddMemberPostResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddPostResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostInfoResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostStatusResult;
-import site.moamoa.backend.repository.post.PostRepository;
 
-import static site.moamoa.backend.config.redis.RedisKey.EXPIRATION_VIEW_RECORD;
-import static site.moamoa.backend.config.redis.RedisKey.POST_VIEW_KEY_PREFIX;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.List;
 
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class PostCommandServiceImpl implements PostCommandService {
+
     private final PostRepository postRepository;
     private final CategoryQueryService categoryQueryService;
     private final PostImageConverter postImageConverter;
@@ -106,10 +105,9 @@ public class PostCommandServiceImpl implements PostCommandService {
         redisTemplate.opsForZSet()
                 .add(memberKey, keyword, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC));
         Long size = redisTemplate.opsForZSet().size(memberKey);
-        if (size >= (long) RECENT_KEYWORD_SIZE) {
+        if (size > RECENT_KEYWORD_SIZE) {
             redisTemplate.opsForZSet().popMin(memberKey);
         }
-
 
         String town = memberQueryService.findMemberById(memberId).getTown();
         String townKey = RedisKey.TOWN_KEYWORD_COUNT_KEY_PREFIX + town;
@@ -128,15 +126,11 @@ public class PostCommandServiceImpl implements PostCommandService {
         }
     }
 
-    public Post findPostById(Long postId) {
+    private Post findPostById(Long postId) {
         return postRepository.findById(postId).orElseThrow(
                 () -> new PostHandler(ErrorStatus.POST_NOT_FOUND)
             );
     }
-
-//    private void updatePostStatusToFull(Long postId) {
-//        postRepository.updateStatusToFull(postId, CapacityStatus.NOT_FULL, CapacityStatus.FULL);
-//    }
 
     private String buildPostViewKey(Long memberId, Long postId) {
         return RedisKey.POST_VIEW_KEY_PREFIX + memberId + ":" + postId;

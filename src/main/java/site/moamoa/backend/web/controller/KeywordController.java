@@ -13,10 +13,9 @@ import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.service.keyword.query.KeywordQueryService;
 import site.moamoa.backend.service.member.query.MemberQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
-import site.moamoa.backend.web.dto.response.KeywordResponseDTO;
 
-import static site.moamoa.backend.web.dto.response.KeywordResponseDTO.GetKeywords;
 import static site.moamoa.backend.web.dto.response.KeywordResponseDTO.DeleteKeywordResult;
+import static site.moamoa.backend.web.dto.response.KeywordResponseDTO.GetKeywords;
 
 @Tag(name = "검색어 API", description = "검색어 관련 API")
 @RequiredArgsConstructor
@@ -58,7 +57,7 @@ public class KeywordController {
 
     @GetMapping("/api/keywords/{keyword}")
     @Operation(
-            summary = "사용자의 최근 검색어 삭제 (개발중)",
+            summary = "사용자의 최근 검색어 삭제",
             description = "사용자가 본인의 최근 검색어를 삭제합니다."
     )
     @ApiResponses(value = {
