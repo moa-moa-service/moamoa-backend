@@ -9,6 +9,7 @@ import site.moamoa.backend.config.redis.RedisKey;
 import site.moamoa.backend.converter.KeywordConverter;
 import site.moamoa.backend.web.dto.response.KeywordResponseDTO;
 
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
@@ -49,5 +50,6 @@ public class KeywordQueryServiceImpl implements KeywordQueryService {
         zSetOperations.remove(memberKey, keyword);
         LocalDateTime deletedTime = LocalDateTime.now();
         return KeywordConverter.toDeleteKeywordResult(memberId, deletedTime);
+
     }
 }

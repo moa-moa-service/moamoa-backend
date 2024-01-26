@@ -17,6 +17,7 @@ import java.time.ZoneOffset;
 import static site.moamoa.backend.config.redis.RedisKey.EXPIRATION_VIEW_RECORD;
 import static site.moamoa.backend.config.redis.RedisKey.POST_VIEW_KEY_PREFIX;
 
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -56,7 +57,7 @@ public class PostCommandServiceImpl implements PostCommandService {
     }
 
     private String buildPostViewKey(Long memberId, Long postId) {
-        return POST_VIEW_KEY_PREFIX + memberId + ":" + postId;
+        return RedisKey.POST_VIEW_KEY_PREFIX + memberId + ":" + postId;
     }
 
     private boolean isNewViewRecord(Long memberId, Long postId) {
@@ -65,7 +66,7 @@ public class PostCommandServiceImpl implements PostCommandService {
 
     private void saveViewRecord(String key) {
         redisTemplate.opsForSet().add(key, true);
-        redisTemplate.expire(key, Duration.ofSeconds(EXPIRATION_VIEW_RECORD));
+        redisTemplate.expire(key, Duration.ofSeconds(RedisKey.EXPIRATION_VIEW_RECORD));
     }
 
     private void updatePostView(Long postId) {

@@ -11,4 +11,5 @@ public interface KeywordQueryService {
 
     //개인 최근 검색어 중 삭제
     KeywordResponseDTO.DeleteKeywordResult deleteRecentKeyword(Long memberId, String keyword);
+
 }
