@@ -69,4 +69,8 @@ public class Post extends BaseEntity {
         this.totalPrice = Optional.ofNullable(request.price()).orElse(this.totalPrice);
         this.description = Optional.ofNullable(request.description()).orElse(this.description);
     }
+
+    public void updateStatusToFull() {
+        this.capacityStatus = CapacityStatus.FULL;
+    }
 }

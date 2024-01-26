@@ -15,7 +15,6 @@ import site.moamoa.backend.config.redis.RedisKey;
 import site.moamoa.backend.domain.Category;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
-import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.domain.mapping.PostImage;
 import site.moamoa.backend.converter.member.MemberPostConverter;
@@ -65,7 +64,8 @@ public class PostCommandServiceImpl implements PostCommandService {
     @Override
     public UpdatePostStatusResult updatePostStatus(AuthInfoDTO auth, Long postId) {
         memberPostQueryService.checkAuthor(auth.id(), postId);
-        updatePostStatusToFull(postId);
+        Post updatePost = findPostById(postId);
+        updatePost.updateStatusToFull();
         Post updatedPost = findPostById(postId);
         return PostConverter.toUpdatePostStatusResult(updatedPost);
     }
@@ -122,9 +122,9 @@ public class PostCommandServiceImpl implements PostCommandService {
             );
     }
 
-    private void updatePostStatusToFull(Long postId) {
-        postRepository.updateStatusToFull(postId, CapacityStatus.NOT_FULL, CapacityStatus.FULL);
-    }
+//    private void updatePostStatusToFull(Long postId) {
+//        postRepository.updateStatusToFull(postId, CapacityStatus.NOT_FULL, CapacityStatus.FULL);
+//    }
 
     private String buildPostViewKey(Long memberId, Long postId) {
         return RedisKey.POST_VIEW_KEY_PREFIX + memberId + ":" + postId;

@@ -15,6 +15,7 @@ public class PostConverter {
     public static Post toPost(AddPost addPost, Category category, List<PostImage> postImages){
         return Post.builder()
             .available(addPost.personnel())
+            .viewCount(0)
             .capacityStatus(CapacityStatus.NOT_FULL)
             .category(category)
             .personnel(addPost.personnel())

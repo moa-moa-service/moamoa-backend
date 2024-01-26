@@ -3,8 +3,7 @@ package site.moamoa.backend.service.memberpost.command;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import site.moamoa.backend.domain.mapping.MemberPost;
-import site.moamoa.backend.repository.memberpost.MemberPostRepository;
-import site.moamoa.backend.service.memberpost.command.MemberPostCommandService;
+import site.moamoa.backend.repository.mapping.MemberPostRepository;
 
 @AllArgsConstructor
 @Service

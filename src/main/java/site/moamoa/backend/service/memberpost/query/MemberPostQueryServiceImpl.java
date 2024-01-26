@@ -7,7 +7,7 @@ import site.moamoa.backend.api_payload.exception.handler.MemberHandler;
 import site.moamoa.backend.api_payload.exception.handler.MemberPostHandler;
 import site.moamoa.backend.domain.enums.IsAuthorStatus;
 import site.moamoa.backend.domain.mapping.MemberPost;
-import site.moamoa.backend.repository.memberpost.MemberPostRepository;
+import site.moamoa.backend.repository.mapping.MemberPostRepository;
 
 @Service
 @AllArgsConstructor
