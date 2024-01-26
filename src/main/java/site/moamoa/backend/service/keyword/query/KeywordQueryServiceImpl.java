@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import site.moamoa.backend.config.redis.RedisKey;
 import site.moamoa.backend.converter.KeywordConverter;
 import site.moamoa.backend.web.dto.response.KeywordResponseDTO;
-import site.moamoa.backend.config.redis.RedisKey;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
