@@ -18,10 +18,10 @@ import site.moamoa.backend.service.member.query.MemberQueryService;
 import site.moamoa.backend.service.memberpost.command.MemberPostCommandService;
 import site.moamoa.backend.service.memberpost.query.MemberPostQueryService;
 import site.moamoa.backend.service.postimage.command.PostImageCommandService;
-import site.moamoa.backend.service.postimage.query.PostImageQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
+import site.moamoa.backend.web.dto.response.PostResponseDTO.AddMemberPostResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddPostResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostInfoResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostStatusResult;
@@ -48,7 +48,7 @@ public class PostCommandServiceImpl implements PostCommandService {
             .forEach(postImage -> postImage.setPost(newPost));
         postRepository.save(newPost);
         Member authMember = memberQueryService.findMemberById(auth.id());
-        MemberPost newMemberPost = MemberPostConverter.toMemberPost(newPost, authMember);
+        MemberPost newMemberPost = MemberPostConverter.toMemberPostAsAuthor(newPost, authMember);
         memberPostCommandService.save(newMemberPost);
         return PostConverter.toAddPostResult(newPost);
     }
@@ -74,6 +74,15 @@ public class PostCommandServiceImpl implements PostCommandService {
         updatePost.updateInfo(updatePostInfo, category, updatedImages);
         postRepository.save(updatePost);
         return PostConverter.toUpdatePostInfoResult(updatePost);
+    }
+
+    @Override
+    public AddMemberPostResult joinPost(AuthInfoDTO auth, Long postId) {
+        Member authMember = memberQueryService.findMemberById(auth.id());
+        Post joinPost = findPostById(postId);
+        MemberPost newMemberPost = MemberPostConverter.toMemberPostAsParticipator(joinPost, authMember);
+        memberPostCommandService.save(newMemberPost);
+        return MemberPostConverter.toAddMemberPostResult(newMemberPost);
     }
 
     public Post findPostById(Long postId) {

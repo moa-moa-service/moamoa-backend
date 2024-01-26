@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
+import site.moamoa.backend.web.dto.response.PostResponseDTO.AddMemberPostResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddPostResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostInfoResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostStatusResult;
@@ -15,4 +16,6 @@ public interface PostCommandService {
     UpdatePostStatusResult updatePostStatus(AuthInfoDTO auth, Long postId);
 
     UpdatePostInfoResult updatePostInfo(AuthInfoDTO auth, UpdatePostInfo request, List<MultipartFile> images, Long postId);
+
+    AddMemberPostResult joinPost(AuthInfoDTO auth, Long postId);
 }
