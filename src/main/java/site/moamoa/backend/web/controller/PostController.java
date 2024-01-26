@@ -97,8 +97,8 @@ public class PostController {
     })
     public ApiResponseDTO<AddPostResult> registerPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @RequestPart("files") List<MultipartFile> images,
-            @RequestPart AddPost request
+            @RequestPart("request") AddPost request,
+            @RequestPart("files") List<MultipartFile> images
             ) {
         AddPostResult resultDTO = postCommandService.registerPost(auth, request, images);
         return ApiResponseDTO.onSuccess(resultDTO);
@@ -114,13 +114,14 @@ public class PostController {
     })
     public ApiResponseDTO<UpdatePostInfoResult> updatePost(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @RequestBody UpdatePostInfo request,
+            @RequestPart("request") UpdatePostInfo request,
+            @RequestPart("files") List<MultipartFile> images,
             @PathVariable
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        UpdatePostInfoResult resultDTO = null;  //TODO: 서비스 로직 추가 필요
+        UpdatePostInfoResult resultDTO = postCommandService.updatePostInfo(auth, request, images, postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
