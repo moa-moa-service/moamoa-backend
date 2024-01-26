@@ -50,6 +50,7 @@ public class Member extends BaseEntity {
     }
 
     public void addInfo(String nickname, Address address) {
+        this.town = getTownName(address.getName());
         this.nickname = nickname;
         this.address = address;
         this.roleType = RoleType.MEMBER;
@@ -65,5 +66,14 @@ public class Member extends BaseEntity {
 
     public void deactivate() {
         this.deletionStatus = DeletionStatus.DELETE;  // 계정 탈퇴하면 deletionStatus를 DELETE로 설정.
+    }
+
+    public String getTownName(String addressName) {
+        try {
+            String[] split = addressName.split(" ");
+            return split[2];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new RuntimeException("주소 정보가 올바르지 않습니다. 주소는 '시 동 이름' 형태여야 합니다: " + addressName);
+        }
     }
 }

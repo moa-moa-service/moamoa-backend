@@ -45,4 +45,5 @@ public class MemberCommandServiceImpl implements MemberCommandService {
         member.deactivate();
         return MemberConverter.deActiveMemberResult(member);
     }
+
 }
