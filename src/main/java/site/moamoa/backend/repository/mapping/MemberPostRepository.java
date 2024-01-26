@@ -1,5 +1,6 @@
 package site.moamoa.backend.repository.mapping;
 
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -15,4 +16,6 @@ public interface MemberPostRepository extends JpaRepository<MemberPost, Long> {
 
     @Query("SELECT mp.post FROM MemberPost mp WHERE mp.member.id = :memberId AND mp.isAuthorStatus = 'Author' AND mp.post.capacityStatus = :capacityStatus")
     List<Post> findRecruitingMember(@Param("memberId") Long memberId, @Param("capacityStatus") CapacityStatus capacityStatus);
+
+    Optional<MemberPost> findByMemberIdAndPostId(Long memberId, Long postId);
 }

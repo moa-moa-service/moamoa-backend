@@ -9,6 +9,8 @@ import site.moamoa.backend.config.redis.RedisKey;
 import site.moamoa.backend.converter.KeywordConverter;
 import site.moamoa.backend.web.dto.response.KeywordResponseDTO;
 
+
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -38,5 +40,16 @@ public class KeywordQueryServiceImpl implements KeywordQueryService {
         return KeywordConverter.toGetKeywords(
                 Objects.requireNonNull(typedTuples).stream().map(typedTuple -> KeywordConverter.toKeywordDTO(typedTuple.getValue())).toList()
         );
+    }
+
+    //개인 최근 검색어 중 삭제
+    @Override
+    public KeywordResponseDTO.DeleteKeywordResult deleteRecentKeyword(Long memberId, String keyword) {
+        String memberKey = RedisKey.MEMBER_KEYWORD_KEY_PREFIX + memberId;
+        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
+        zSetOperations.remove(memberKey, keyword);
+        LocalDateTime deletedTime = LocalDateTime.now();
+        return KeywordConverter.toDeleteKeywordResult(memberId, deletedTime);
+
     }
 }

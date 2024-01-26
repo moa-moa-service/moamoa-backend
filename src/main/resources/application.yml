@@ -82,12 +82,13 @@ cloud:
         memberProfiles: member-profiles
         posts: posts
     region:
-      static: ap-northeast-1
+      static: ap-northeast-2
+
     stack:
       auto: false
     credentials:
-      access-key: ${local.s3.access}
-      secret-key: ${local.s3.secret}
+      accessKey: ${local.s3.access}
+      secretKey: ${local.s3.secret}
 
 ---
 # Develop branch Setting
@@ -141,8 +142,8 @@ cloud:
     stack:
       auto: false
     credentials:
-      access-key: ${develop.s3.access}
-      secret-key: ${develop.s3.secret}
+      accessKey: ${develop.s3.access}
+      secretKey: ${develop.s3.secret}
 
 ---
 
