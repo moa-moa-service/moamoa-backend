@@ -33,7 +33,6 @@ import site.moamoa.backend.web.dto.response.PostResponseDTO.AddMemberPostResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddPostResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostInfoResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostStatusResult;
-import site.moamoa.backend.exception.post.PostNotFoundException;
 import site.moamoa.backend.repository.post.PostRepository;
 
 @Service
@@ -119,7 +118,7 @@ public class PostCommandServiceImpl implements PostCommandService {
 
     public Post findPostById(Long postId) {
         return postRepository.findById(postId).orElseThrow(
-                () -> new PostNotFoundException()
+                () -> new PostHandler(ErrorStatus.POST_NOT_FOUND)
             );
     }
 
