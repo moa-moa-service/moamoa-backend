@@ -178,7 +178,7 @@ public class PostController {
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        AddMemberPostResult resultDTO = null;   //TODO: 서비스 로직 추가 필요
+        AddMemberPostResult resultDTO = postCommandService.joinPost(auth, postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
