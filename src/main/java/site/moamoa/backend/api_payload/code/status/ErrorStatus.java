@@ -17,11 +17,11 @@ public enum ErrorStatus implements BaseErrorCode {
     _FORBIDDEN(HttpStatus.FORBIDDEN, "COMMON403", "금지된 요청입니다."),
     _NOT_FOUND(HttpStatus.NOT_FOUND, "COMMON404", "찾을 수 없습니다."),
 
-    // 카테고리 에러
+    // Category
     CATEGORY_NOT_FOUND(HttpStatus.BAD_REQUEST,"CATEGORY404","해당 카테고리를 찾을 수 없습니다."),
 
-    // 멤버-게시물 에러
-    MEMBER_IS_NOT_AUTHOR(HttpStatus.BAD_REQUEST,"MEMBER_POST401","해당 멤버는 글쓴이가 아닙니다."),
+    // Member-Post
+    MEMBER_IS_NOT_AUTHOR(HttpStatus.FORBIDDEN,"MEMBER_POST403","해당 멤버에게는 금지된 요청입니다."),
     MEMBER_POST_NOT_FOUND(HttpStatus.BAD_REQUEST,"MEMBER_POST404","공동구매 참여 기록이 없습니다."),
 
     // Member
@@ -30,8 +30,12 @@ public enum ErrorStatus implements BaseErrorCode {
     MEMBER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "MEMBER4001", "이미 추가 정보가 등록된 멤버입니다."),
 
     // Post
-    POST_NOT_FOUND(HttpStatus.NOT_FOUND, "POST404", "해당 공동구매 게시글을 찾을 수 없습니다.");
+    POST_NOT_FOUND(HttpStatus.NOT_FOUND, "POST404", "해당 공동구매 게시글을 찾을 수 없습니다."),
 
+    // Keyword
+    KEYWORD_NOT_FOUND(HttpStatus.NOT_FOUND, "KEYWORD404", "해당 검색어를 찾을 수 없습니다."),
+
+    ;
 
     private final HttpStatus httpStatus;
     private final String code;

@@ -205,7 +205,7 @@ public class PostController {
             @AuthenticationPrincipal AuthInfoDTO auth,
             @Parameter(description = "검색어", example = "사과")
             @RequestParam(value = "keyword", required = false) final String keyword,
-            @Parameter(description = "카테고리ID", example = "식품ID")
+            @Parameter(description = "카테고리ID", example = "1")
             @RequestParam(value = "categoryId", required = false) final Long categoryId,
             @Parameter(description = "모집까지 남은 일수", example = "4")
             @RequestParam(value = "dDay", required = false) final Integer dDay,

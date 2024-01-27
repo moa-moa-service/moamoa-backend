@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
+import site.moamoa.backend.api_payload.code.status.ErrorStatus;
+import site.moamoa.backend.api_payload.exception.handler.KeywordHandler;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -71,7 +73,10 @@ public class RedisModuleServiceImpl implements RedisModuleService {
     @Override
     public void deleteKeywordByMemberRecent(Long memberId, String keyword) {
         String key = MEMBER_KEYWORD_KEY_PREFIX + memberId;
-        redisZSetTemplate.opsForZSet().remove(key, keyword);
+
+        if (Objects.requireNonNull(redisZSetTemplate.opsForZSet().remove(key, keyword)) == 0L) {
+            throw new KeywordHandler(ErrorStatus.KEYWORD_NOT_FOUND);
+        }
     }
 
     @Override
