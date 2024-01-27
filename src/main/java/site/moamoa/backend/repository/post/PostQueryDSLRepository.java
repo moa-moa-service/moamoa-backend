@@ -13,7 +13,7 @@ public interface PostQueryDSLRepository {
 
     List<Post> findAllByKeyword(String keyword);
 
-    List<Post> findAllByKeywordAndCondition(String keyword, String category, Integer dDay, Integer total, Integer minPrice, Integer maxPrice);
+    List<Post> findAllByKeywordAndCondition(String keyword, Long categoryId, Integer dDay, Integer total, Integer minPrice, Integer maxPrice);
 
     Long updateView(Long postId);
 }

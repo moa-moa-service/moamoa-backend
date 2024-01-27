@@ -73,4 +73,8 @@ public class Post extends BaseEntity {
     public void updateStatusToFull() {
         this.capacityStatus = CapacityStatus.FULL;
     }
+
+    public void updateViewCount() {
+        this.viewCount++;
+    }
 }

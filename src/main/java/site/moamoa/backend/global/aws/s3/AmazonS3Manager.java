@@ -1,4 +1,4 @@
-package site.moamoa.backend.aws.s3;
+package site.moamoa.backend.global.aws.s3;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;

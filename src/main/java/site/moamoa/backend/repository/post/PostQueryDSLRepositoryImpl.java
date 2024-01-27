@@ -44,6 +44,7 @@ public class PostQueryDSLRepositoryImpl implements PostQueryDSLRepository {
         return jpaQueryFactory
                 .selectFrom(post)
                 .orderBy(distanceExpression.asc())
+                .limit(10)
                 .fetch();
     }
 
@@ -52,7 +53,9 @@ public class PostQueryDSLRepositoryImpl implements PostQueryDSLRepository {
         QPost post = QPost.post;
 
         BooleanBuilder conditions = new BooleanBuilder();
-        addConditionIfNotNull(conditions, town, post.dealTown.eq(town));
+        if (town != null) {
+            addCondition(conditions, post.dealTown.eq(town));
+        }
 
         return jpaQueryFactory
                 .selectFrom(post)
@@ -76,7 +79,9 @@ public class PostQueryDSLRepositoryImpl implements PostQueryDSLRepository {
         QPost post = QPost.post;
 
         BooleanBuilder conditions = new BooleanBuilder();
-        addConditionIfNotNull(conditions, keyword, post.productName.contains(keyword));
+        if (keyword != null) {
+            addCondition(conditions, post.productName.contains(keyword));
+        }
 
         return jpaQueryFactory
                 .selectFrom(post)
@@ -85,19 +90,31 @@ public class PostQueryDSLRepositoryImpl implements PostQueryDSLRepository {
     }
 
     @Override
-    public List<Post> findAllByKeywordAndCondition(String keyword, String category, Integer dDay, Integer total, Integer minPrice, Integer maxPrice) {
+    public List<Post> findAllByKeywordAndCondition(String keyword, Long categoryId, Integer dDay, Integer total, Integer minPrice, Integer maxPrice) {
         QPost post = QPost.post;
 
         BooleanBuilder conditions = new BooleanBuilder();
 
-        addConditionIfNotNull(conditions, keyword, post.productName.contains(keyword));
-        addConditionIfNotNull(conditions, category, post.category.name.matches(category));
-        addConditionIfNotNull(conditions, dDay, post.deadline.between(LocalDateTime.now(), LocalDate.now().plusDays(dDay).atStartOfDay()));
-        addConditionIfNotNull(conditions, total, post.personnel.goe(total));
+        if (keyword != null) {
+            addCondition(conditions, post.productName.contains(keyword));
+        }
+        if (categoryId != null) {
+            addCondition(conditions, post.category.id.eq(categoryId));
+        }
+        if (dDay != null) {
+            addCondition(conditions, post.deadline.between(LocalDateTime.now(), LocalDate.now().plusDays(dDay).atStartOfDay()));
+        }
+        if (total != null) {
+            addCondition(conditions, post.personnel.goe(total));
+        }
 
         NumberExpression<Integer> priceForOne = post.totalPrice.divide(post.personnel);
-        addConditionIfNotNull(conditions, minPrice, priceForOne.goe(minPrice));
-        addConditionIfNotNull(conditions, maxPrice, priceForOne.loe(maxPrice));
+        if (minPrice != null) {
+            addCondition(conditions, priceForOne.goe(minPrice));
+        }
+        if (maxPrice != null) {
+            addCondition(conditions, priceForOne.loe(maxPrice));
+        }
 
         return jpaQueryFactory
                 .selectFrom(post)
@@ -117,9 +134,7 @@ public class PostQueryDSLRepositoryImpl implements PostQueryDSLRepository {
     }
 
     // 값이 not null인 경우에만 조건을 추가하는 메서드
-    private void addConditionIfNotNull(BooleanBuilder builder, Object value, BooleanExpression condition) {
-        if (value != null) {
-            builder.and(condition);
-        }
+    private void addCondition(BooleanBuilder builder, BooleanExpression condition) {
+        builder.and(condition);
     }
 }

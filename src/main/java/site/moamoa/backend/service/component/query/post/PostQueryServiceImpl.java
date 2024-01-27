@@ -12,6 +12,7 @@ import site.moamoa.backend.service.module.post.PostModuleService;
 import site.moamoa.backend.service.module.redis.RedisModuleService;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -56,7 +57,10 @@ public class PostQueryServiceImpl implements PostQueryService {
     @Override
     public PostResponseDTO.GetPosts findPostsByRecentKeyword(Long memberId) {
         String keyword = redisModuleService.getKeywordByMemberRecentFirst(memberId);
-        List<Post> posts = postModuleService.findPostsByKeyword(keyword);
+        List<Post> posts = new ArrayList<>();
+        if (keyword != null) {
+            posts = postModuleService.findPostsByKeyword(keyword);
+        }
 
         return PostConverter.toGetPosts(
                 posts.stream().map(post -> PostConverter.toSimplePostDTO(post, post.getPostImages())).toList()

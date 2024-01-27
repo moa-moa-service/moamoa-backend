@@ -78,7 +78,7 @@ public class RedisModuleServiceImpl implements RedisModuleService {
     public String getKeywordByMemberRecentFirst(Long memberId) {
         return Objects.requireNonNull(redisZSetTemplate.opsForZSet()
                 .range(MEMBER_KEYWORD_KEY_PREFIX + memberId, 0, 0)).stream()
-                .findFirst().orElse("");
+                .findFirst().orElse(null);
     }
 
     private void savePostViewRecord(String key) {
