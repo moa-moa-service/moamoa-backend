@@ -3,11 +3,14 @@ package site.moamoa.backend.service.component.query.post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import site.moamoa.backend.converter.MemberConverter;
 import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.embedded.Address;
+import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.service.module.member.MemberModuleService;
+import site.moamoa.backend.service.module.member_post.MemberPostModuleService;
 import site.moamoa.backend.service.module.post.PostModuleService;
 import site.moamoa.backend.service.module.redis.RedisModuleService;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
@@ -22,6 +25,7 @@ public class PostQueryServiceImpl implements PostQueryService {
 
     private final PostModuleService postModuleService;
     private final MemberModuleService memberModuleService;
+    private final MemberPostModuleService memberPostModuleService;
 
     private final RedisModuleService redisModuleService;
 
@@ -79,9 +83,8 @@ public class PostQueryServiceImpl implements PostQueryService {
     @Override
     public PostResponseDTO.GetPost findPostById(Long postId) {
         Post post = postModuleService.findPostById(postId);
+        Member admin = memberPostModuleService.findMemberPostByPostIdAndIsAuthor(postId);
 
-        return PostConverter.toGetPost(PostConverter.toPostDTO(post, post.getPostImages(), post.getCategory()));
+        return PostConverter.toGetPost(PostConverter.toPostDTO(post, post.getPostImages(), post.getCategory()), MemberConverter.toMemberDTO(admin));
     }
-
-
 }

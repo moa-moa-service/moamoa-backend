@@ -10,8 +10,10 @@ import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.CapacityStatus;
-import site.moamoa.backend.repository.mapping.MemberPostRepository;
+import site.moamoa.backend.repository.mapping.member_post.MemberPostRepository;
 import site.moamoa.backend.repository.member.MemberRepository;
+import site.moamoa.backend.service.module.member.MemberModuleService;
+import site.moamoa.backend.service.module.member_post.MemberPostModuleService;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
@@ -22,31 +24,24 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberQueryServiceImpl implements MemberQueryService {
 
-    private final MemberRepository memberRepository;
-    private final MemberPostRepository memberPostRepository;
+    private final MemberModuleService memberModuleService;
+    private final MemberPostModuleService memberPostModuleService;
 
     @Override
     public PostResponseDTO.GetMyPostList getMyParticipatedPostResult(Long memberId, CapacityStatus status) {
-        List<Post> participatedMember = memberPostRepository.findParticipatedMember(memberId, status);
+        List<Post> participatedMember = memberPostModuleService.findPostsByParticipating(memberId, status);
         return PostConverter.toMyParticipatedOrRecruitingPostResult(memberId, participatedMember);
     }
 
     @Override
     public PostResponseDTO.GetMyPostList getMyRecruitingPostResult(Long memberId, CapacityStatus status) {
-        List<Post> participatedMember = memberPostRepository.findRecruitingMember(memberId, status);
+        List<Post> participatedMember = memberPostModuleService.findPostsByRecruiting(memberId, status);
         return PostConverter.toMyParticipatedOrRecruitingPostResult(memberId, participatedMember);
     }
 
     @Override
     public MemberResponseDTO.GetMyInfoResult getMyInfo(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
-        return MemberConverter.toMemberDTO(member);
-    }
-
-    @Override
-    public Member findMemberById(Long id) {
-        return memberRepository.findById(id)
-                .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
+        Member member = memberModuleService.findMemberById(memberId);
+        return MemberConverter.toGetMyInfoResult(member);
     }
 }
