@@ -30,8 +30,15 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     public MemberResponseDTO.UpdateMemberImageResult addMemberProfileImage(Long memberId, MultipartFile updateMemberImageDto) {
         Member member = memberModuleService.findMemberById(memberId);
         String memberProfileUrl = defaultImageUrl;
+
         if (updateMemberImageDto != null) {
             memberProfileUrl = amazonS3Manager.uploadImage(amazonS3Manager.generateMemberProfileKeyName(), updateMemberImageDto);
+        }
+
+        String profileImage = member.getProfileImage();
+        if (!profileImage.equals(defaultImageUrl)) {
+            String key = amazonS3Manager.extractImageNameFromUrl(profileImage);
+            amazonS3Manager.deleteImage(key);
         }
 
         member.addProfileImage(memberProfileUrl);
