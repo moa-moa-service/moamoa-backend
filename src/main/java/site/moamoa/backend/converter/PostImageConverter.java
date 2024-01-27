@@ -1,4 +1,4 @@
-package site.moamoa.backend.converter.postimage;
+package site.moamoa.backend.converter;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
