@@ -133,7 +133,6 @@ public class PostQueryDSLRepositoryImpl implements PostQueryDSLRepository {
                 .execute();
     }
 
-    // 값이 not null인 경우에만 조건을 추가하는 메서드
     private void addCondition(BooleanBuilder builder, BooleanExpression condition) {
         builder.and(condition);
     }
