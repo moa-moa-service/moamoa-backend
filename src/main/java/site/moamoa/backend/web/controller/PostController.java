@@ -17,13 +17,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
-import site.moamoa.backend.service.post.command.PostCommandService;
-import site.moamoa.backend.service.post.query.PostQueryService;
+import site.moamoa.backend.service.component.command.post.PostCommandService;
+import site.moamoa.backend.service.component.query.post.PostQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
-import site.moamoa.backend.service.post.command.PostCommandService;
 
 
 @Tag(name = "공동구매 게시글 API", description = "공동구매 페이지 관련 API")

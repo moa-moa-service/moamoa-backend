@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
-import site.moamoa.backend.service.keyword.query.KeywordQueryService;
-import site.moamoa.backend.service.member.query.MemberQueryService;
+import site.moamoa.backend.service.component.query.keyword.KeywordQueryService;
+import site.moamoa.backend.service.component.query.member.MemberQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 
 import static site.moamoa.backend.web.dto.response.KeywordResponseDTO.DeleteKeywordResult;
