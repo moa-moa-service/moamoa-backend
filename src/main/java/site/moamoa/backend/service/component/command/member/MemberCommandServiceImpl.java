@@ -2,6 +2,7 @@ package site.moamoa.backend.service.component.command.member;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,12 +23,14 @@ import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 public class MemberCommandServiceImpl implements MemberCommandService {
     private final MemberModuleService memberModuleService;
     private final AmazonS3Manager amazonS3Manager;
+    @Value("${default.profileImage.url}")
+    private String defaultImageUrl;
 
     @Override
     public MemberResponseDTO.UpdateMemberImageResult addMemberProfileImage(Long memberId, MultipartFile updateMemberImageDto) {
         Member member = memberModuleService.findMemberById(memberId);
-        String memberProfileUrl = null;
-        if (updateMemberImageDto != null && !updateMemberImageDto.isEmpty()) {
+        String memberProfileUrl = defaultImageUrl;
+        if (updateMemberImageDto != null) {
             memberProfileUrl = amazonS3Manager.uploadImage(amazonS3Manager.generateMemberProfileKeyName(), updateMemberImageDto);
         }
 

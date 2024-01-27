@@ -36,6 +36,10 @@ jwt:
     expiration: ${jwt.refresh.expiration}
     header: Authorization-refresh
 
+default:
+  profileImage:
+    url: ${default.profile.image.url}
+
 ---
 # Local Setting
 spring:

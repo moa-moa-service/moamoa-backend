@@ -12,7 +12,6 @@ import java.util.Map;
 
 @Getter
 public class OAuthAttributes {
-
     private final String nameAttributeKey; // OAuth2 로그인 진행 시 키가 되는 필드 값
     private final OAuth2UserInfo oauth2UserInfo; //로그인 유저 정보(닉네임, 이메일, 프로필 사진 등등)
 
@@ -34,7 +33,7 @@ public class OAuthAttributes {
 
     /**
      * of메소드로 OAuthAttributes 객체가 생성되어, 유저 정보들이 담긴 OAuth2UserInfo가 주입된 상태
-     * 우리가 사용하는 Member로 앤타타에 맞게 변환
+     * 우리가 사용하는 Member로 변환
      */
     public Member toEntity(OAuth2UserInfo oauth2UserInfo) {
         return Member.builder()

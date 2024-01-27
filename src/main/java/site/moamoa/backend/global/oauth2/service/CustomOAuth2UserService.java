@@ -2,6 +2,7 @@ package site.moamoa.backend.global.oauth2.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -28,6 +29,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final MemberRepository memberRepository;
+    @Value("${default.profileImage.url}")
+    private String defaultImageUrl;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -73,6 +76,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private Member saveUser(OAuthAttributes attributes) {
         Member createdUser = attributes.toEntity(attributes.getOauth2UserInfo());
+        createdUser.addProfileImage(defaultImageUrl);
         return memberRepository.save(createdUser);
     }
 

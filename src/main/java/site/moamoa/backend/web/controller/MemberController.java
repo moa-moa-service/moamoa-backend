@@ -54,7 +54,7 @@ public class MemberController {
     })
     public ApiResponseDTO<UpdateMemberImageResult> updateMyImage(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @RequestPart(value="profileImage", required = false) MultipartFile profileImage //TODO DTO로 받으면 415 에러가 뜨는데 이유를 아직 잘 모르겠음 -> 추후 수정하겠음
+            @RequestPart(value="profileImage", required = false) MultipartFile profileImage
             ) {
         UpdateMemberImageResult resultDTO = memberCommandService.addMemberProfileImage(auth.id(), profileImage);
         return ApiResponseDTO.onSuccess(resultDTO);
