@@ -81,7 +81,7 @@ public class MemberController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @GetMapping("/api/members/post")
+    @GetMapping("/api/members/posts")
     @Operation(
             summary = "사용자의 공동구매 참여 목록 조회",
             description = "사용자의 공동구매 참여 목록을 조회합니다."
