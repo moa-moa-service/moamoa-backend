@@ -1,6 +1,7 @@
 package site.moamoa.backend.web.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -10,8 +11,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
-import site.moamoa.backend.service.keyword.query.KeywordQueryService;
-import site.moamoa.backend.service.member.query.MemberQueryService;
+import site.moamoa.backend.service.component.command.keyword.KeywordCommandService;
+import site.moamoa.backend.service.component.query.keyword.KeywordQueryService;
+import site.moamoa.backend.service.component.query.member.MemberQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 
 import static site.moamoa.backend.web.dto.response.KeywordResponseDTO.DeleteKeywordResult;
@@ -22,6 +24,7 @@ import static site.moamoa.backend.web.dto.response.KeywordResponseDTO.GetKeyword
 @RestController
 public class KeywordController {
 
+    private final KeywordCommandService keywordCommandService;
     private final KeywordQueryService keywordQueryService;
     private final MemberQueryService memberQueryService;
 
@@ -61,13 +64,14 @@ public class KeywordController {
             description = "사용자가 본인의 최근 검색어를 삭제합니다."
     )
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
+            @ApiResponse(responseCode = "COMMON200", description = "성공입니다."),
+            @ApiResponse(responseCode = "KEYWORD404", description = "해당 검색어를 찾을 수 없습니다.", content = @Content)
     })
     public ApiResponseDTO<DeleteKeywordResult> deleteMemberKeyword(
             @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable("keyword") String keyword
     ) {
-        DeleteKeywordResult deleteKeywordResult = keywordQueryService.deleteRecentKeyword(auth.id(), keyword);
+        DeleteKeywordResult deleteKeywordResult = keywordCommandService.deleteRecentKeyword(auth.id(), keyword);
         return ApiResponseDTO.onSuccess(deleteKeywordResult);
     }
 
