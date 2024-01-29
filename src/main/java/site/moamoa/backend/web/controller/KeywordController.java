@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.service.component.command.keyword.KeywordCommandService;
 import site.moamoa.backend.service.component.query.keyword.KeywordQueryService;
-import site.moamoa.backend.service.component.query.member.MemberQueryService;
+import site.moamoa.backend.service.module.member.MemberModuleServiceImpl;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 
 import static site.moamoa.backend.web.dto.response.KeywordResponseDTO.DeleteKeywordResult;
@@ -26,7 +26,7 @@ public class KeywordController {
 
     private final KeywordCommandService keywordCommandService;
     private final KeywordQueryService keywordQueryService;
-    private final MemberQueryService memberQueryService;
+    private final MemberModuleServiceImpl memberQueryService;
 
     @GetMapping("/api/keywords/ranking")
     @Operation(
