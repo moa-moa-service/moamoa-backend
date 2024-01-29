@@ -13,7 +13,7 @@ public class MemberRequestDTO {
             @NotNull
             String town,
             @NotNull
-            Address location
+            Address address
     ) {
     }
 
