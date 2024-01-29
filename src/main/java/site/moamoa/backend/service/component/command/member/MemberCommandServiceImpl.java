@@ -48,7 +48,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     @Override
     public MemberResponseDTO.UpdateMemberAddressResult updateMemberAddress(Long memberId, MemberRequestDTO.UpdateMemberAddress request) {
         Member member = memberModuleService.findMemberById(memberId);
-        member.addInfo(member.getNickname(), request.address());
+        member.addInfo(member.getNickname(), request.town(), request.address());
         return MemberConverter.updateMemberAddressResult(member);
     }
 

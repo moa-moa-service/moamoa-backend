@@ -9,6 +9,9 @@ public class MemberRequestDTO {
     public record AddMemberInfo(
             @NotNull
             String nickname,
+
+            @NotNull
+            String town,
             @NotNull
             Address location
     ) {
@@ -20,6 +23,7 @@ public class MemberRequestDTO {
     }
 
     public record UpdateMemberAddress(
+            String town,
             Address address
     ) {
     }

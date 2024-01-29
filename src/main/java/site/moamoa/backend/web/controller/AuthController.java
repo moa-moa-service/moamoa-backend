@@ -31,7 +31,7 @@ public class AuthController {
     @PostMapping("/api/auth/member-info")
     @Operation(
             summary = "사용자 추가 정보 등록",
-            description = "사용자의 추가 정보를 등록합니다."
+            description = "사용자의 추가 정보를 등록합니다. town = 동네, Address.name = 상세 주소"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
