@@ -87,7 +87,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         if (member.getNickname() != null) {
             throw new MemberHandler(ErrorStatus.MEMBER_ALREADY_EXISTS);
         }
-        member.addInfo(memberInfo.nickname(), memberInfo.town(), memberInfo.location());
+        member.addInfo(memberInfo.nickname(), memberInfo.town(), memberInfo.address());
         return MemberConverter.addMemberInfoResult(member);
     }
 
