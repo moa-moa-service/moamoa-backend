@@ -31,32 +31,18 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
     }
 
     @Override
-    public List<Post> findPostsByParticipating(Long memberId, CapacityStatus capacityStatus) {
+    public List<Post> findPostsByRecruitingAndParticipating(Long memberId,
+                                               IsAuthorStatus isAuthorStatus,
+                                               CapacityStatus capacityStatus) {
         QMemberPost memberPost = QMemberPost.memberPost;
 
         BooleanBuilder conditions = new BooleanBuilder();
         addCondition(conditions, memberPost.member.id.eq(memberId));
-        addCondition(conditions, memberPost.isAuthorStatus.eq(IsAuthorStatus.PARTICIPATOR));
+        addCondition(conditions, memberPost.isAuthorStatus.eq(isAuthorStatus));
         addCondition(conditions, memberPost.post.capacityStatus.eq(capacityStatus));
 
         return jpaQueryFactory
-                .selectFrom(memberPost.post)
-                .from(memberPost)
-                .where(conditions)
-                .fetch();
-    }
-
-    @Override
-    public List<Post> findPostsByRecruiting(Long memberId, CapacityStatus capacityStatus) {
-        QMemberPost memberPost = QMemberPost.memberPost;
-
-        BooleanBuilder conditions = new BooleanBuilder();
-        addCondition(conditions, memberPost.member.id.eq(memberId));
-        addCondition(conditions, memberPost.isAuthorStatus.eq(IsAuthorStatus.AUTHOR));
-        addCondition(conditions, memberPost.post.capacityStatus.eq(capacityStatus));
-
-        return jpaQueryFactory
-                .selectFrom(memberPost.post)
+                .select(memberPost.post)
                 .from(memberPost)
                 .where(conditions)
                 .fetch();

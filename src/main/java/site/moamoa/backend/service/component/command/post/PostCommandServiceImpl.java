@@ -68,7 +68,7 @@ public class PostCommandServiceImpl implements PostCommandService {
 
     @Override
     public UpdatePostStatusResult updatePostStatus(AuthInfoDTO auth, Long postId) {
-        memberPostQueryService.checkAuthor(auth.id(), postId);
+        //memberPostQueryService.checkAuthor(auth.id(), postId);
         Post updatePost = findPostById(postId);
         updatePost.updateStatusToFull();
         Post updatedPost = findPostById(postId);
@@ -78,7 +78,7 @@ public class PostCommandServiceImpl implements PostCommandService {
     @Override
     public UpdatePostInfoResult updatePostInfo(AuthInfoDTO auth, UpdatePostInfo updatePostInfo,
         List<MultipartFile> images, Long postId) {
-        memberPostQueryService.checkAuthor(auth.id(), postId);
+        //memberPostQueryService.checkAuthor(auth.id(), postId);
         Post updatePost = findPostById(postId);
         Category category = categoryQueryService.findCategoryById(updatePostInfo.categoryId());
         postImageCommandService.deletePostImageByPostId(postId);

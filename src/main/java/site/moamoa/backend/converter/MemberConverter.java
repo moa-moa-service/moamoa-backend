@@ -1,8 +1,11 @@
 package site.moamoa.backend.converter;
 
 import site.moamoa.backend.domain.Member;
+import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.web.dto.base.MemberDTO;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
+
+import java.util.List;
 
 public class MemberConverter {
     public static MemberResponseDTO.UpdateMemberImageResult toUpdateMemberImageDTO(Member member) {

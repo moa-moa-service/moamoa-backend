@@ -3,16 +3,12 @@ package site.moamoa.backend.service.component.query.member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.moamoa.backend.api_payload.code.status.ErrorStatus;
-import site.moamoa.backend.api_payload.exception.handler.MemberHandler;
 import site.moamoa.backend.converter.MemberConverter;
 import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.CapacityStatus;
-import site.moamoa.backend.repository.mapping.MemberPostRepository;
-import site.moamoa.backend.repository.member.MemberRepository;
-import site.moamoa.backend.service.component.query.member.MemberQueryService;
+import site.moamoa.backend.domain.enums.IsAuthorStatus;
 import site.moamoa.backend.service.module.member.MemberModuleService;
 import site.moamoa.backend.service.module.member_post.MemberPostModuleService;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
@@ -28,14 +24,8 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     private final MemberPostModuleService memberPostModuleService;
 
     @Override
-    public PostResponseDTO.GetMyPostList getMyParticipatedPostResult(Long memberId, CapacityStatus status) {
-        List<Post> participatedMember = memberPostModuleService.findPostsByParticipating(memberId, status);
-        return PostConverter.toMyParticipatedOrRecruitingPostResult(memberId, participatedMember);
-    }
-
-    @Override
-    public PostResponseDTO.GetMyPostList getMyRecruitingPostResult(Long memberId, CapacityStatus status) {
-        List<Post> participatedMember = memberPostModuleService.findPostsByRecruiting(memberId, status);
+    public PostResponseDTO.GetMyPostList getMyPostResult(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus) {
+        List<Post> participatedMember = memberPostModuleService.findPostsByRecruitingAndParticipating(memberId, isAuthorStatus, capacityStatus);
         return PostConverter.toMyParticipatedOrRecruitingPostResult(memberId, participatedMember);
     }
 
@@ -46,8 +36,16 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     }
 
     @Override
+    public MemberResponseDTO.GetOtherMemberInfo getOtherMemberInfo(Long memberId, CapacityStatus status) {
+        Member member = memberModuleService.findMemberById(memberId);
+        List<Post> posts = memberPostModuleService.findPostsByRecruitingAndParticipating(memberId, IsAuthorStatus.AUTHOR, status);
+        return PostConverter.toOtherRecruitingPostResult(member, posts);
+    }
+
+    @Override
     public Member findMemberById(Long memberId) {
         return memberModuleService.findMemberById(memberId);
     }
+
 
 }

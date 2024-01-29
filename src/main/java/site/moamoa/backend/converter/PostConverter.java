@@ -1,10 +1,13 @@
 package site.moamoa.backend.converter;
 
 import site.moamoa.backend.domain.Category;
+import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.mapping.PostImage;
+import site.moamoa.backend.web.dto.base.MemberDTO;
 import site.moamoa.backend.web.dto.base.PostDTO;
 import site.moamoa.backend.web.dto.base.SimplePostDTO;
+import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
 import java.time.LocalDateTime;
@@ -76,6 +79,23 @@ public class PostConverter {
 
         return PostResponseDTO.GetMyPostList.builder()
                 .userId(memberId)
+                .simplePostDtoList(simplePostDTOS)
+                .build();
+    }
+
+    public static MemberResponseDTO.GetOtherMemberInfo toOtherRecruitingPostResult(Member member, List<Post> postList) {
+        MemberDTO memberDTO = MemberDTO.builder()
+                .nickname(member.getNickname())
+                .profileImage(member.getProfileImage())
+                .townName(member.getTown())
+                .build();
+
+        List<SimplePostDTO> simplePostDTOS = postList.stream()
+                .map(post -> PostConverter.toSimplePostDTO(post, post.getPostImages()))
+                .toList();
+
+        return MemberResponseDTO.GetOtherMemberInfo.builder()
+                .memberDTO(memberDTO)
                 .simplePostDtoList(simplePostDTOS)
                 .build();
     }

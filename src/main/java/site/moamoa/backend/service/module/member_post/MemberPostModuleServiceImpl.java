@@ -40,12 +40,7 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService{
     }
 
     @Override
-    public List<Post> findPostsByParticipating(Long memberId, CapacityStatus status) {
-        return memberPostRepository.findPostsByParticipating(memberId, status);
-    }
-
-    @Override
-    public List<Post> findPostsByRecruiting(Long memberId, CapacityStatus status) {
-        return memberPostRepository.findPostsByRecruiting(memberId, status);
+    public List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus) {
+        return memberPostRepository.findPostsByRecruitingAndParticipating(memberId, isAuthorStatus, capacityStatus);
     }
 }
