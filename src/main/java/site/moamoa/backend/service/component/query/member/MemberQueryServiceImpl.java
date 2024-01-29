@@ -14,6 +14,7 @@ import site.moamoa.backend.repository.mapping.MemberPostRepository;
 import site.moamoa.backend.repository.member.MemberRepository;
 import site.moamoa.backend.service.component.query.member.MemberQueryService;
 import site.moamoa.backend.service.module.member.MemberModuleService;
+import site.moamoa.backend.service.module.member_post.MemberPostModuleService;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
@@ -24,16 +25,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MemberQueryServiceImpl implements MemberQueryService {
     private final MemberModuleService memberModuleService;
+    private final MemberPostModuleService memberPostModuleService;
 
     @Override
     public PostResponseDTO.GetMyPostList getMyParticipatedPostResult(Long memberId, CapacityStatus status) {
-        List<Post> participatedMember = memberModuleService.findParticipatedMember(memberId, status);
+        List<Post> participatedMember = memberPostModuleService.findPostsByParticipating(memberId, status);
         return PostConverter.toMyParticipatedOrRecruitingPostResult(memberId, participatedMember);
     }
 
     @Override
     public PostResponseDTO.GetMyPostList getMyRecruitingPostResult(Long memberId, CapacityStatus status) {
-        List<Post> participatedMember = memberModuleService.findRecruitingMember(memberId, status);
+        List<Post> participatedMember = memberPostModuleService.findPostsByRecruiting(memberId, status);
         return PostConverter.toMyParticipatedOrRecruitingPostResult(memberId, participatedMember);
     }
 

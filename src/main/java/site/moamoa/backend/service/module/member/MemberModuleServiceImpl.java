@@ -18,17 +18,6 @@ import java.util.List;
 @Slf4j
 public class MemberModuleServiceImpl implements MemberModuleService {
     private final MemberRepository memberRepository;
-    private final MemberPostRepository memberPostRepository;
-
-    @Override
-    public List<Post> findRecruitingMember(Long memberId, CapacityStatus status) {
-        return memberPostRepository.findRecruitingMember(memberId, status);
-    }
-
-    @Override
-    public List<Post> findParticipatedMember(Long memberId, CapacityStatus status) {
-        return memberPostRepository.findParticipatedMember(memberId, status);
-    }
 
     @Override
     public Member findMemberById(Long id) {
