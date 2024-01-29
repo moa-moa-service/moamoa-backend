@@ -3,10 +3,12 @@ package site.moamoa.backend.converter;
 import site.moamoa.backend.domain.Category;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
+import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.mapping.PostImage;
 import site.moamoa.backend.web.dto.base.MemberDTO;
 import site.moamoa.backend.web.dto.base.PostDTO;
 import site.moamoa.backend.web.dto.base.SimplePostDTO;
+import site.moamoa.backend.web.dto.request.PostRequestDTO;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
@@ -42,6 +44,7 @@ public class PostConverter {
         Integer personnel = post.getPersonnel();
 
         return PostDTO.builder()
+                .postId(post.getId())
                 .imageUrl(postImageList.stream()
                         .map(PostImage::getUrl)
                         .toList())
@@ -66,9 +69,10 @@ public class PostConverter {
                 .build();
     }
   
-    public static PostResponseDTO.GetPost toGetPost(PostDTO dto) {
+    public static PostResponseDTO.GetPost toGetPost(PostDTO postDto, MemberDTO adminDto) {
         return PostResponseDTO.GetPost.builder()
-                .postDto(dto)
+                .postDto(postDto)
+                .adminDto(adminDto)
                 .build();
     }
 
@@ -97,6 +101,43 @@ public class PostConverter {
         return MemberResponseDTO.GetOtherMemberInfo.builder()
                 .memberDTO(memberDTO)
                 .simplePostDtoList(simplePostDTOS)
+                .build();
+    }
+
+    public static Post toPost(PostRequestDTO.AddPost addPost, Category category, List<PostImage> postImages){
+        return Post.builder()
+                .available(addPost.personnel())
+                .viewCount(0)
+                .capacityStatus(CapacityStatus.NOT_FULL)
+                .category(category)
+                .personnel(addPost.personnel())
+                .deadline(addPost.deadline())
+                .productName(addPost.productName())
+                .postImages(postImages)
+                .dealLocation(addPost.dealLocation())
+                .totalPrice(addPost.price())
+                .description(addPost.description())
+                .build();
+    }
+
+    public static PostResponseDTO.AddPostResult toAddPostResult(Post post){
+        return PostResponseDTO.AddPostResult.builder()
+                .postId(post.getId())
+                .createdAt(post.getCreatedAt())
+                .build();
+    }
+
+    public static PostResponseDTO.UpdatePostInfoResult toUpdatePostInfoResult(Post post) {
+        return PostResponseDTO.UpdatePostInfoResult.builder()
+                .postId(post.getId())
+                .updatedAt(post.getUpdatedAt())
+                .build();
+    }
+
+    public static PostResponseDTO.UpdatePostStatusResult toUpdatePostStatusResult(Post post) {
+        return PostResponseDTO.UpdatePostStatusResult.builder()
+                .postId(post.getId())
+                .updatedAt(post.getUpdatedAt())
                 .build();
     }
 }

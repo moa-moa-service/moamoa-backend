@@ -2,7 +2,6 @@ package site.moamoa.backend.web.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -18,7 +17,6 @@ import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.enums.IsAuthorStatus;
 import site.moamoa.backend.service.component.command.member.MemberCommandService;
 import site.moamoa.backend.service.component.query.member.MemberQueryService;
-import site.moamoa.backend.service.component.query.member_post.MemberPostQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO.UpdateMemberAddress;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.GetMyPostList;

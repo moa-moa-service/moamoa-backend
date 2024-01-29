@@ -1,4 +1,4 @@
-package site.moamoa.backend.converter.member;
+package site.moamoa.backend.converter;
 
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
@@ -7,6 +7,7 @@ import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddMemberPostResult;
 
 public class MemberPostConverter {
+
   public static MemberPost toMemberPostAsAuthor(Post post, Member member) {
     return MemberPost.builder()
         .post(post)

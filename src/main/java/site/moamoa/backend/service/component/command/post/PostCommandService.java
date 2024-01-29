@@ -11,13 +11,13 @@ import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostInfoResult
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostStatusResult;
 
 public interface PostCommandService {
-    AddPostResult registerPost(AuthInfoDTO auth, AddPost addPost, List<MultipartFile> images);
+    AddPostResult registerPost(Long memberId, AddPost addPost, List<MultipartFile> images);
 
-    UpdatePostStatusResult updatePostStatus(AuthInfoDTO auth, Long postId);
+    UpdatePostStatusResult updatePostStatus(Long memberId, Long postId);
 
-    UpdatePostInfoResult updatePostInfo(AuthInfoDTO auth, UpdatePostInfo request, List<MultipartFile> images, Long postId);
+    UpdatePostInfoResult updatePostInfo(Long memberId, UpdatePostInfo request, List<MultipartFile> images, Long postId);
 
-    AddMemberPostResult joinPost(AuthInfoDTO auth, Long postId);
+    AddMemberPostResult joinPost(Long memberId, Long postId);
 
     void updateKeywordCount(Long memberId, String keyword);
 

@@ -1,4 +1,4 @@
-package site.moamoa.backend.config;
+package site.moamoa.backend.config.swagger;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

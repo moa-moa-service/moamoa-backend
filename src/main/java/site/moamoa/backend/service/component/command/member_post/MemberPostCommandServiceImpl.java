@@ -2,16 +2,11 @@ package site.moamoa.backend.service.component.command.member_post;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import site.moamoa.backend.domain.mapping.MemberPost;
-import site.moamoa.backend.repository.mapping.MemberPostRepository;
+import org.springframework.transaction.annotation.Transactional;
 
-@AllArgsConstructor
 @Service
+@Transactional
+@AllArgsConstructor
 public class MemberPostCommandServiceImpl implements MemberPostCommandService {
 
-  private final MemberPostRepository memberPostRepository;
-  @Override
-  public void save(MemberPost memberPost) {
-    memberPostRepository.save(memberPost);
-  }
 }

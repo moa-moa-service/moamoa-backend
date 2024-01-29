@@ -14,5 +14,6 @@ public interface MemberPostModuleService {
     void validMemberPostIsAuthor(Long memberId, Long postId);
 
     Member findMemberPostByPostIdAndIsAuthor(Long postId);
+
     List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus);
 }

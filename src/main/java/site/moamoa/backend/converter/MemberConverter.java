@@ -8,6 +8,16 @@ import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 import java.util.List;
 
 public class MemberConverter {
+
+    public static MemberDTO toMemberDTO(Member member) {
+        return MemberDTO.builder()
+                .memberId(member.getId())
+                .nickname(member.getNickname())
+                .profileImage(member.getProfileImage())
+                .townName(member.getTown())
+                .build();
+    }
+
     public static MemberResponseDTO.UpdateMemberImageResult toUpdateMemberImageDTO(Member member) {
         return MemberResponseDTO.UpdateMemberImageResult.builder()
                 .userId(member.getId())
@@ -15,8 +25,9 @@ public class MemberConverter {
                 .build();
     }
 
-    public static MemberResponseDTO.GetMyInfoResult toMemberDTO(Member member) {
+    public static MemberResponseDTO.GetMyInfoResult toGetMyInfoResult(Member member) {
         MemberDTO memberDTO = MemberDTO.builder()
+                .memberId(member.getId())
                 .nickname(member.getNickname())
                 .profileImage(member.getProfileImage())
                 .townName(member.getTown())

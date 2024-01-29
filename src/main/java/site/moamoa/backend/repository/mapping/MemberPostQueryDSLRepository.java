@@ -7,7 +7,7 @@ import site.moamoa.backend.domain.enums.IsAuthorStatus;
 
 import java.util.List;
 
-public interface MemberPostQueryDSLRepository {
-    Member findPostAdminByPostId(Long postId);
-    List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus);
-}
+//public interface MemberPostQueryDSLRepository {
+//    Member findPostAdminByPostId(Long postId);
+//    List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus);
+//}

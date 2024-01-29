@@ -6,13 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import site.moamoa.backend.api_payload.code.status.ErrorStatus;
-import site.moamoa.backend.api_payload.exception.handler.MemberHandler;
-import site.moamoa.backend.aws.s3.AmazonS3Manager;
 import site.moamoa.backend.converter.MemberConverter;
 import site.moamoa.backend.domain.Member;
-import site.moamoa.backend.repository.member.MemberRepository;
-import site.moamoa.backend.service.component.command.member.MemberCommandService;
+import site.moamoa.backend.global.aws.s3.AmazonS3Manager;
 import site.moamoa.backend.service.module.member.MemberModuleService;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
@@ -21,6 +17,7 @@ import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 @Transactional
 @RequiredArgsConstructor
 public class MemberCommandServiceImpl implements MemberCommandService {
+
     private final MemberModuleService memberModuleService;
     private final AmazonS3Manager amazonS3Manager;
     @Value("${default.profileImage.url}")

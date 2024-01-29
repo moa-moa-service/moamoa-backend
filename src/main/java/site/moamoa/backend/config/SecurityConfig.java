@@ -1,4 +1,4 @@
-package site.moamoa.backend.global.config;
+package site.moamoa.backend.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

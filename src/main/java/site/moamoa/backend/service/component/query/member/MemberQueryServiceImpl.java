@@ -20,6 +20,7 @@ import java.util.List;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberQueryServiceImpl implements MemberQueryService {
+
     private final MemberModuleService memberModuleService;
     private final MemberPostModuleService memberPostModuleService;
 
@@ -32,7 +33,7 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     @Override
     public MemberResponseDTO.GetMyInfoResult getMyInfo(Long memberId) {
         Member member = findMemberById(memberId);
-        return MemberConverter.toMemberDTO(member);
+        return MemberConverter.toGetMyInfoResult(member);
     }
 
     @Override
@@ -46,6 +47,4 @@ public class MemberQueryServiceImpl implements MemberQueryService {
     public Member findMemberById(Long memberId) {
         return memberModuleService.findMemberById(memberId);
     }
-
-
 }

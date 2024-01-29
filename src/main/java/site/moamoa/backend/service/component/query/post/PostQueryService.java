@@ -12,7 +12,7 @@ public interface PostQueryService {
 
     PostResponseDTO.GetPosts findPostsByRecentKeyword(Long memberId);
 
-    PostResponseDTO.GetPosts findPostsByConditions(String keyword, String category, Integer dDay, Integer total, Integer minPrice, Integer maxPrice);
+    PostResponseDTO.GetPosts findPostsByConditions(String keyword, Long categoryId, Integer dDay, Integer total, Integer minPrice, Integer maxPrice);
 
     PostResponseDTO.GetPost findPostById(Long postId);
 }

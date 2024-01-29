@@ -2,6 +2,7 @@ package site.moamoa.backend.web.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -108,7 +109,7 @@ public class PostController {
             @RequestPart("request") AddPost request,
             @RequestPart("files") List<MultipartFile> images
     ) {
-        AddPostResult resultDTO = postCommandService.registerPost(auth, request, images);
+        AddPostResult resultDTO = postCommandService.registerPost(auth.id(), request, images);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
@@ -129,7 +130,7 @@ public class PostController {
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        UpdatePostInfoResult resultDTO = postCommandService.updatePostInfo(auth, request, images, postId);
+        UpdatePostInfoResult resultDTO = postCommandService.updatePostInfo(auth.id(), request, images, postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
@@ -148,7 +149,7 @@ public class PostController {
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        UpdatePostStatusResult resultDTO = postCommandService.updatePostStatus(auth, postId);
+        UpdatePostStatusResult resultDTO = postCommandService.updatePostStatus(auth.id(), postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
@@ -188,7 +189,7 @@ public class PostController {
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        AddMemberPostResult resultDTO = postCommandService.joinPost(auth, postId);
+        AddMemberPostResult resultDTO = postCommandService.joinPost(auth.id(), postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
@@ -204,8 +205,8 @@ public class PostController {
             @AuthenticationPrincipal AuthInfoDTO auth,
             @Parameter(description = "검색어", example = "사과")
             @RequestParam(value = "keyword", required = false) final String keyword,
-            @Parameter(description = "카테고리", example = "식품")
-            @RequestParam(value = "category", required = false) final String category,
+            @Parameter(description = "카테고리ID", example = "1")
+            @RequestParam(value = "categoryId", required = false) final Long categoryId,
             @Parameter(description = "모집까지 남은 일수", example = "4")
             @RequestParam(value = "dDay", required = false) final Integer dDay,
             @Parameter(description = "전체 모집 인원", example = "5")
@@ -218,7 +219,7 @@ public class PostController {
         if (!keyword.isEmpty()) {
             postCommandService.updateKeywordCount(auth.id(), keyword);
         }
-        GetPosts resultDTO = postQueryService.findPostsByConditions(keyword, category, dDay, total, minPrice, maxPrice);
+        GetPosts resultDTO = postQueryService.findPostsByConditions(keyword, categoryId, dDay, total, minPrice, maxPrice);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 }

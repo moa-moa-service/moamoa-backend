@@ -10,7 +10,6 @@ public interface MemberQueryService {
 
     PostResponseDTO.GetMyPostList getMyPostResult(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus);
 
-
     MemberResponseDTO.GetMyInfoResult getMyInfo(Long memberId);
 
     Member findMemberById(Long memberId);
