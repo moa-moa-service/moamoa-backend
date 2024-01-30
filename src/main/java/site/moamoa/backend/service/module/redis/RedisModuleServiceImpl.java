@@ -11,7 +11,9 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -86,9 +88,20 @@ public class RedisModuleServiceImpl implements RedisModuleService {
                 .findFirst().orElse(null);
     }
 
+    @Override
+    public void expireAccessToken(String accessToken, Long expiration) {
+        redisTemplate.opsForValue().set(accessToken, "logout", expiration, TimeUnit.MILLISECONDS);
+    }
+
+    @Override
+    public Optional<String> getLogoutStatus(String accessToken) {
+        return Optional.ofNullable((String) redisTemplate.opsForValue().get(accessToken));
+    }
+
     private void savePostViewRecord(String key) {
         redisTemplate.opsForSet().add(key, true);
         redisTemplate.expire(key, Duration.ofSeconds(EXPIRATION_VIEW_RECORD));
     }
+
 
 }

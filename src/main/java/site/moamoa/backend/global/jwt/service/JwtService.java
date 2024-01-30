@@ -16,6 +16,7 @@ import site.moamoa.backend.converter.MemberConverter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.global.oauth2.CustomOAuth2User;
 import site.moamoa.backend.repository.member.MemberRepository;
+import site.moamoa.backend.service.module.redis.RedisModuleService;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 
 import java.util.Date;
@@ -48,7 +49,7 @@ public class JwtService {
     private static final String BEARER = "Bearer ";
 
     private final MemberRepository memberRepository;
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisModuleService redisModuleService;
 
     public String createAccessToken(Long id) {
         Date now = new Date();
@@ -69,7 +70,7 @@ public class JwtService {
 
     public void expiredAccessToken(String accessToken) {
         Long expiration = getExpiration(accessToken);
-        redisTemplate.opsForValue().set(accessToken, "logout", expiration, TimeUnit.MILLISECONDS);
+        redisModuleService.expireAccessToken(accessToken, expiration);
     }
 
     public void sendAccessToken(HttpServletResponse response, String accessToken) {
@@ -113,8 +114,8 @@ public class JwtService {
      */
     public Optional<Long> extractId(String accessToken) {
         log.info("JwtService : extractId 호출 후 토큰 유효성 검사 확인");
-        String isLogout = redisTemplate.opsForValue().get(accessToken);
-        if (isLogout == null || isLogout.isEmpty()) {
+        Optional<String> isLogout = redisModuleService.getLogoutStatus(accessToken);
+        if (isLogout.isEmpty()) {
             try {
                 // 토큰 유효성 검사하는 데에 사용할 알고리즘이 있는 JWT verifier builder 반환
                 return Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
