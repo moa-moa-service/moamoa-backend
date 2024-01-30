@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moamoa.backend.converter.MemberConverter;
@@ -21,11 +22,10 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-@Service
+@Component
 @RequiredArgsConstructor
 @Getter
 @Slf4j
-@Transactional(readOnly = true)
 public class JwtService {
     @Value("${jwt.secret.key}")
     private String secretKey;
@@ -105,7 +105,7 @@ public class JwtService {
     }
 
     /**
-     * AccessToken에서 Email 추출
+     * AccessToken에서 ID 추출
      * 추출 전에 JWT.require()로 검증기 생성
      * verify로 AceessToken 검증 후
      * 유효하다면 getClaim()으로 이메일 추출
@@ -168,17 +168,17 @@ public class JwtService {
         return expiration.getTime() - new Date().getTime();
     }
 
-    @Transactional
-    public void memberSetRefreshToken(CustomOAuth2User oAuth2User, String refreshToken) {
-        log.info("JwtService memberSetRefreshToken : {}", refreshToken);
-        Member member = memberRepository.findById(oAuth2User.getId()).orElseThrow(RuntimeException::new);
-        member.addRefreshToken(refreshToken);
-    }
-
-    @Transactional
-    public MemberResponseDTO.LogoutInfo memberDeleteRefreshToken(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
-        member.addRefreshToken(null);
-        return MemberConverter.logoutMemberInfoResult(member);
-    }
+//    @Transactional
+//    public void memberSetRefreshToken(CustomOAuth2User oAuth2User, String refreshToken) {
+//        log.info("JwtService memberSetRefreshToken : {}", refreshToken);
+//        Member member = memberRepository.findById(oAuth2User.getId()).orElseThrow(RuntimeException::new);
+//        member.addRefreshToken(refreshToken);
+//    }
+//
+//    @Transactional
+//    public MemberResponseDTO.LogoutInfo memberDeleteRefreshToken(Long memberId) {
+//        Member member = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
+//        member.addRefreshToken(null);
+//        return MemberConverter.logoutMemberInfoResult(member);
+//    }
 }

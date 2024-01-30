@@ -18,6 +18,7 @@ import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.global.oauth2.CustomOAuth2User;
 import site.moamoa.backend.global.oauth2.OAuthAttributes;
 import site.moamoa.backend.repository.member.MemberRepository;
+import site.moamoa.backend.service.module.member.MemberModuleService;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 
@@ -28,7 +29,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private final MemberRepository memberRepository;
+    private final MemberModuleService memberModuleService;
     @Value("${default.profileImage.url}")
     private String defaultImageUrl;
 
@@ -67,7 +68,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     private Member getUser(OAuthAttributes attributes) {
-        Member findUser = memberRepository.findBySocialId(attributes.getOauth2UserInfo().getId()).orElse(null);
+        Member findUser = memberModuleService.findMemberBySocialId(attributes.getOauth2UserInfo().getId()).orElse(null);
         if (findUser == null) {
             return saveUser(attributes);
         }
@@ -77,18 +78,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     private Member saveUser(OAuthAttributes attributes) {
         Member createdUser = attributes.toEntity(attributes.getOauth2UserInfo());
         createdUser.addProfileImage(defaultImageUrl);
-        return memberRepository.save(createdUser);
-    }
-
-    @Transactional
-    public MemberResponseDTO.AddMemberInfoResult addMemberInfo(Long memberId, MemberRequestDTO.AddMemberInfo memberInfo) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
-        if (member.getNickname() != null) {
-            throw new MemberHandler(ErrorStatus.MEMBER_ALREADY_EXISTS);
-        }
-        member.addInfo(memberInfo.nickname(), memberInfo.town(), memberInfo.address());
-        return MemberConverter.addMemberInfoResult(member);
+        return memberModuleService.save(createdUser);
     }
 
 }
