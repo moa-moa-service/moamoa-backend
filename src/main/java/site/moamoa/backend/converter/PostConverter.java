@@ -89,6 +89,7 @@ public class PostConverter {
 
     public static MemberResponseDTO.GetOtherMemberInfo toOtherRecruitingPostResult(Member member, List<Post> postList) {
         MemberDTO memberDTO = MemberDTO.builder()
+                .memberId(member.getId())
                 .nickname(member.getNickname())
                 .profileImage(member.getProfileImage())
                 .townName(member.getTown())

@@ -53,9 +53,6 @@ public class AmazonS3Manager {
     public String extractImageNameFromUrl(String url) {
         String bucket = amazonConfig.getBucket();
         String prefix = "https://" + bucket + ".s3." + amazonConfig.getRegion() + ".amazonaws.com/";
-        System.out.println(" amazonConfig.getRegion() = " +  amazonConfig.getRegion());
-        System.out.println(" bucket = " +  bucket);
-        System.out.println("prefix = " + prefix);
         return url.substring(prefix.length());
     }
 
