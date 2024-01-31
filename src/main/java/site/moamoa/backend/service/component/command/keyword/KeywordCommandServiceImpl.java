@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moamoa.backend.converter.KeywordConverter;
+import site.moamoa.backend.service.module.member.MemberModuleService;
 import site.moamoa.backend.service.module.redis.RedisModuleService;
 import site.moamoa.backend.web.dto.response.KeywordResponseDTO;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 public class KeywordCommandServiceImpl implements KeywordCommandService{
 
     private RedisModuleService redisModuleService;
+    private final MemberModuleService memberModuleService;
 
     //개인 최근 검색어 중 삭제
     @Override
@@ -22,5 +24,13 @@ public class KeywordCommandServiceImpl implements KeywordCommandService{
         redisModuleService.deleteKeywordByMemberRecent(memberId, keyword);
 
         return KeywordConverter.toDeleteKeywordResult(memberId, LocalDateTime.now());
+    }
+
+    @Override
+    public void updateKeywordCount(Long memberId, String keyword) {
+        redisModuleService.addKeywordToMemberRecent(memberId, keyword);
+
+        String town = memberModuleService.findMemberById(memberId).getTown();
+        redisModuleService.increaseTownKeywordCount(town, keyword);
     }
 }

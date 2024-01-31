@@ -92,14 +92,6 @@ public class PostCommandServiceImpl implements PostCommandService {
     }
 
     @Override
-    public void updateKeywordCount(Long memberId, String keyword) {
-        redisModuleService.addKeywordToMemberRecent(memberId, keyword);
-
-        String town = memberModuleService.findMemberById(memberId).getTown();
-        redisModuleService.increaseTownKeywordCount(town, keyword);
-    }
-
-    @Override
     public void updatePostViewCount(Long memberId, Long postId) {
         if (redisModuleService.isNewPostViewRecord(memberId, postId)) {
             Post post = postModuleService.findPostById(postId);

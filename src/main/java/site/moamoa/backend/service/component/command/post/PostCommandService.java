@@ -19,7 +19,5 @@ public interface PostCommandService {
 
     AddMemberPostResult joinPost(Long memberId, Long postId);
 
-    void updateKeywordCount(Long memberId, String keyword);
-
     void updatePostViewCount(Long memberId, Long postId);
 }
