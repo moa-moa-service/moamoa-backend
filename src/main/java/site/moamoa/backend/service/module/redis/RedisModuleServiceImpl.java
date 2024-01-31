@@ -53,7 +53,7 @@ public class RedisModuleServiceImpl implements RedisModuleService {
     @Override
     public boolean isNewPostViewRecord(Long memberId, Long postId) {
         String key = POST_VIEW_KEY_PREFIX + memberId + ":" + postId;
-        if (Boolean.FALSE.equals(redisTemplate.opsForSet().isMember(key, postId))) {
+        if (redisTemplate.opsForValue().get(key) == null) {
             savePostViewRecord(key);
             return true;
         }
@@ -82,12 +82,12 @@ public class RedisModuleServiceImpl implements RedisModuleService {
     @Override
     public String getKeywordByMemberRecentFirst(Long memberId) {
         return Objects.requireNonNull(redisZSetTemplate.opsForZSet()
-                .range(MEMBER_KEYWORD_KEY_PREFIX + memberId, 0, 0)).stream()
+                        .range(MEMBER_KEYWORD_KEY_PREFIX + memberId, 0, 0)).stream()
                 .findFirst().orElse(null);
     }
 
     private void savePostViewRecord(String key) {
-        redisTemplate.opsForSet().add(key, true);
+        redisTemplate.opsForValue().set(key, "read");
         redisTemplate.expire(key, Duration.ofSeconds(EXPIRATION_VIEW_RECORD));
     }
 
