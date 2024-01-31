@@ -58,7 +58,7 @@ public class KeywordController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @GetMapping("/api/keywords/{keyword}")
+    @GetMapping("/api/keywords/{keyword}/delete")
     @Operation(
             summary = "사용자의 최근 검색어 삭제",
             description = "사용자가 본인의 최근 검색어를 삭제합니다."
