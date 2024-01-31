@@ -49,6 +49,16 @@ public class AmazonS3Manager {
         return amazonS3.getUrl(amazonConfig.getBucket(), keyName + ext).toString();
     }
 
+    public String extractImageNameFromUrl(String url) {
+        String bucket = amazonConfig.getBucket();
+        String prefix = "https://" + bucket + ".s3." + amazonConfig.getRegion() + ".amazonaws.com/";
+        return url.substring(prefix.length());
+    }
+
+    public void deleteImage(final String imageName) {
+        amazonS3.deleteObject(amazonConfig.getBucket(), imageName);
+    }
+
     public String generateMemberProfileKeyName() {
         return amazonConfig.getMemberProfilePath() + '/' + UUID.randomUUID();
     }
