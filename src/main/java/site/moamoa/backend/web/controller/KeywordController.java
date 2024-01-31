@@ -26,7 +26,6 @@ public class KeywordController {
 
     private final KeywordCommandService keywordCommandService;
     private final KeywordQueryService keywordQueryService;
-    private final MemberQueryService memberQueryService;
 
     @GetMapping("/api/keywords/ranking")
     @Operation(
@@ -39,7 +38,7 @@ public class KeywordController {
     public ApiResponseDTO<GetKeywords> getKeywordsByRanking(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetKeywords resultDTO = keywordQueryService.popularSearchRankList(memberQueryService.findMemberById(auth.id()).getTown());
+        GetKeywords resultDTO = keywordQueryService.popularSearchRankList(auth.id());
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
