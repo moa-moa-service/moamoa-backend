@@ -219,7 +219,8 @@ public class PostController {
             @RequestParam(value = "maxPrice", required = false) final Integer maxPrice
     ) {
         if (!keyword.isEmpty()) {
-            keywordCommandService.updateKeywordCount(auth.id(), keyword);
+            keywordCommandService.addMemberKeyword(auth.id(), keyword);
+            keywordCommandService.updateTownKeywordCount(auth.id(), keyword);
         }
         GetPosts resultDTO = postQueryService.findPostsByConditions(keyword, categoryId, dDay, total, minPrice, maxPrice);
         return ApiResponseDTO.onSuccess(resultDTO);

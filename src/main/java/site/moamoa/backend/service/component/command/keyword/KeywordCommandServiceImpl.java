@@ -20,16 +20,19 @@ public class KeywordCommandServiceImpl implements KeywordCommandService{
 
     //개인 최근 검색어 중 삭제
     @Override
-    public KeywordResponseDTO.DeleteKeywordResult deleteRecentKeyword(Long memberId, String keyword) {
+    public KeywordResponseDTO.DeleteKeywordResult deleteMemberKeyword(Long memberId, String keyword) {
         redisModuleService.deleteKeywordByMemberRecent(memberId, keyword);
 
         return KeywordConverter.toDeleteKeywordResult(memberId, LocalDateTime.now());
     }
 
     @Override
-    public void updateKeywordCount(Long memberId, String keyword) {
+    public void addMemberKeyword(Long memberId, String keyword) {
         redisModuleService.addKeywordToMemberRecent(memberId, keyword);
+    }
 
+    @Override
+    public void updateTownKeywordCount(Long memberId, String keyword) {
         String town = memberModuleService.findMemberById(memberId).getTown();
         redisModuleService.increaseTownKeywordCount(town, keyword);
     }

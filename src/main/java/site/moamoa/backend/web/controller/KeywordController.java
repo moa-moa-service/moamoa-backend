@@ -71,7 +71,7 @@ public class KeywordController {
             @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable("keyword") String keyword
     ) {
-        DeleteKeywordResult deleteKeywordResult = keywordCommandService.deleteRecentKeyword(auth.id(), keyword);
+        DeleteKeywordResult deleteKeywordResult = keywordCommandService.deleteMemberKeyword(auth.id(), keyword);
         return ApiResponseDTO.onSuccess(deleteKeywordResult);
     }
 
