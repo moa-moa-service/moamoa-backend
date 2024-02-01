@@ -2,6 +2,9 @@ package site.moamoa.backend.service.module.post_image;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import site.moamoa.backend.converter.PostImageConverter;
+import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.mapping.PostImage;
 import site.moamoa.backend.global.aws.s3.AmazonS3Manager;
 import site.moamoa.backend.repository.postimage.PostImageRepository;
@@ -27,5 +30,12 @@ public class PostImageModuleServiceImpl implements PostImageModuleService{
     @Override
     public List<PostImage> findPostImageByPostId(Long postId) {
         return postImageRepository.findByPostId(postId);
+    }
+
+    @Override
+    public List<PostImage> setUpdatedImages(List<MultipartFile> images, Post updatePost) {
+        List<PostImage> postImages = PostImageConverter.toPostImages(images, amazonS3Manager);
+        postImages.forEach(postImage -> postImage.setPost(updatePost));
+        return postImages;
     }
 }

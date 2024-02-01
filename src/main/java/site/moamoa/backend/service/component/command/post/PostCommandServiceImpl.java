@@ -75,8 +75,7 @@ public class PostCommandServiceImpl implements PostCommandService {
         Post updatePost = postModuleService.findPostById(postId);
         Category category = categoryModuleService.findCategoryById(updatePostInfo.categoryId());
         postImageModuleService.deletePostImageByPostId(postId);
-        List<PostImage> updatedImages = PostImageConverter.toPostImages(images, amazonS3Manager);
-        updatedImages.forEach(postImage -> postImage.setPost(updatePost));
+        List<PostImage> updatedImages = postImageModuleService.setUpdatedImages(images, updatePost);
         updatePost.updateInfo(updatePostInfo, category, updatedImages);
         postModuleService.savePost(updatePost);
         return PostConverter.toUpdatePostInfoResult(updatePost);
