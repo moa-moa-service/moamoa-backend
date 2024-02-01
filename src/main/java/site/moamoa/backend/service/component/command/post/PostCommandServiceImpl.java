@@ -1,5 +1,6 @@
 package site.moamoa.backend.service.component.command.post;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,7 +74,10 @@ public class PostCommandServiceImpl implements PostCommandService {
                                                List<MultipartFile> images, Long postId) {
         memberPostModuleService.validMemberPostIsAuthor(memberId, postId);
         Post updatePost = postModuleService.findPostById(postId);
-        Category category = categoryModuleService.findCategoryById(updatePostInfo.categoryId());
+        // categoryId가 존재하면 해당 ID로 Category를 찾고, 그렇지 않으면 null
+        Category category = Optional.ofNullable(updatePostInfo.categoryId())
+            .map(categoryModuleService::findCategoryById)
+            .orElse(null);
         postImageModuleService.deletePostImageByPostId(postId);
         List<PostImage> updatedImages = postImageModuleService.setUpdatedImages(images, updatePost);
         updatePost.updateInfo(updatePostInfo, category, updatedImages);
