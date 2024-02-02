@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import site.moamoa.backend.domain.enums.RoleType;
 import site.moamoa.backend.global.jwt.service.JwtService;
 import site.moamoa.backend.global.oauth2.CustomOAuth2User;
+import site.moamoa.backend.service.component.command.member.MemberCommandService;
 
 import java.io.IOException;
 
@@ -20,6 +21,7 @@ import java.io.IOException;
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtService jwtService;
+    private final MemberCommandService memberCommandService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -28,7 +30,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
             String accessToken = jwtService.createAccessToken(oAuth2User.getId());
             String refreshToken = jwtService.createRefreshToken();
-            jwtService.memberSetRefreshToken(oAuth2User, refreshToken);
+            memberCommandService.memberSetRefreshToken(oAuth2User, refreshToken);
             jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
 
             // User의 Role이 GUEST일 경우 처음 요청한 회원

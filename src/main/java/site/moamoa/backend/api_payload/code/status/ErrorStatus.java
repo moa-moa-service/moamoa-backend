@@ -26,7 +26,6 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // Member
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER404", "해당 사용자를 찾을 수 없습니다."),
-    MEMBER_INVALID_ADDRESS_FORMAT(HttpStatus.BAD_REQUEST, "MEMBER4000", "동네 주소를 3단어 이상 형식으로 입력해주세요. ex.. ..도 ..시 ..읍/면/동/가 ... "),
     MEMBER_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, "MEMBER4001", "이미 추가 정보가 등록된 멤버입니다."),
 
     // Post

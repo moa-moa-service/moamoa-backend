@@ -51,9 +51,9 @@ public class Member extends BaseEntity {
         this.refreshToken = updateRefreshToken;
     }
 
-    public void addInfo(String nickname, Address address) {
-        this.town = getTownName(address.getName());
+    public void addInfo(String nickname, String town, Address address) {
         this.nickname = nickname;
+        this.town = town;
         this.address = address;
         this.roleType = RoleType.MEMBER;
     }
@@ -70,12 +70,4 @@ public class Member extends BaseEntity {
         this.deletionStatus = DeletionStatus.DELETE;  // 계정 탈퇴하면 deletionStatus를 DELETE로 설정.
     }
 
-    public String getTownName(String addressName) {
-        try {
-            String[] split = addressName.split(" ");
-            return split[2];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            throw new MemberHandler(ErrorStatus.MEMBER_INVALID_ADDRESS_FORMAT);
-        }
-    }
 }

@@ -110,7 +110,7 @@ public class PostCommandServiceImpl implements PostCommandService {
             post.updateViewCount();
         }
     }
-
+  
     @Override
     public DeleteMemberPostResult cancelPost(Long id, Long postId) {
         MemberPost canceledMemberPost = memberPostModuleService.findMemberPostByPostIdAndMemberId(id, postId);

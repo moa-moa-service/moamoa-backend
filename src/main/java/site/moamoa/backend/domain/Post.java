@@ -1,19 +1,18 @@
 package site.moamoa.backend.domain;
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
-
-import java.util.Optional;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 import site.moamoa.backend.domain.common.BaseEntity;
 import site.moamoa.backend.domain.embedded.Address;
 import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.mapping.PostImage;
+import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
+import java.util.Optional;
 
 @Entity
 @Getter
