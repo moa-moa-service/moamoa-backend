@@ -58,6 +58,10 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostImage> postImages = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Notice> noticeList = new ArrayList<>();
+
     public void updateInfo(UpdatePostInfo request, Category category, List<PostImage> images) {
         this.category = Optional.ofNullable(category).orElse(this.category);
         this.personnel = Optional.ofNullable(request.personnel()).orElse(this.personnel);
