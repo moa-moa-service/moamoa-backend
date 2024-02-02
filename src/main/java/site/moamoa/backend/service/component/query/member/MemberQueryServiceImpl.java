@@ -32,7 +32,7 @@ public class MemberQueryServiceImpl implements MemberQueryService {
 
     @Override
     public MemberResponseDTO.GetMyInfoResult getMyInfo(Long memberId) {
-        Member member = findMemberById(memberId);
+        Member member = memberModuleService.findMemberById(memberId);
         return MemberConverter.toGetMyInfoResult(member);
     }
 
@@ -43,8 +43,4 @@ public class MemberQueryServiceImpl implements MemberQueryService {
         return PostConverter.toOtherRecruitingPostResult(member, posts);
     }
 
-    @Override
-    public Member findMemberById(Long memberId) {
-        return memberModuleService.findMemberById(memberId);
-    }
 }
