@@ -236,7 +236,7 @@ public class PostController {
             @Parameter(description = "최대 금액", example = "5000")
             @RequestParam(value = "maxPrice", required = false) final Integer maxPrice
     ) {
-        if (!keyword.isEmpty()) {
+        if (keyword != null) {
             keywordCommandService.addMemberKeyword(auth.id(), keyword);
             keywordCommandService.updateTownKeywordCount(auth.id(), keyword);
         }

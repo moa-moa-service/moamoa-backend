@@ -21,10 +21,11 @@ import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 @RequiredArgsConstructor
 public class MemberCommandServiceImpl implements MemberCommandService {
 
-    private final MemberModuleService memberModuleService;
-    private final AmazonS3Manager amazonS3Manager;
     @Value("${default.profileImage.url}")
     private String defaultImageUrl;
+
+    private final MemberModuleService memberModuleService;
+    private final AmazonS3Manager amazonS3Manager;
 
     @Override
     public MemberResponseDTO.UpdateMemberImageResult addMemberProfileImage(Long memberId, MultipartFile updateMemberImageDto) {
