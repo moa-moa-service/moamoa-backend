@@ -15,5 +15,10 @@ public interface MemberPostModuleService {
 
     Member findMemberPostByPostIdAndIsAuthor(Long postId);
 
+    MemberPost findMemberPostByPostIdAndMemberId(Long postId, Long memberId);
+
+    void deleteMemberPost(Long id);
+  
     List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus);
 }
+

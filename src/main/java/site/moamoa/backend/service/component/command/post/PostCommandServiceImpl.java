@@ -1,5 +1,6 @@
 package site.moamoa.backend.service.component.command.post;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddMemberPostResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddPostResult;
+import site.moamoa.backend.web.dto.response.PostResponseDTO.DeleteMemberPostResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostInfoResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostStatusResult;
 
@@ -73,10 +75,12 @@ public class PostCommandServiceImpl implements PostCommandService {
                                                List<MultipartFile> images, Long postId) {
         memberPostModuleService.validMemberPostIsAuthor(memberId, postId);
         Post updatePost = postModuleService.findPostById(postId);
-        Category category = categoryModuleService.findCategoryById(updatePostInfo.categoryId());
+        // categoryId가 존재하면 해당 ID로 Category를 찾고, 그렇지 않으면 null
+        Category category = Optional.ofNullable(updatePostInfo.categoryId())
+            .map(categoryModuleService::findCategoryById)
+            .orElse(null);
         postImageModuleService.deletePostImageByPostId(postId);
-        List<PostImage> updatedImages = PostImageConverter.toPostImages(images, amazonS3Manager);
-        updatedImages.forEach(postImage -> postImage.setPost(updatePost));
+        List<PostImage> updatedImages = postImageModuleService.setUpdatedImages(images, updatePost);
         updatePost.updateInfo(updatePostInfo, category, updatedImages);
         postModuleService.savePost(updatePost);
         return PostConverter.toUpdatePostInfoResult(updatePost);
@@ -105,5 +109,13 @@ public class PostCommandServiceImpl implements PostCommandService {
             Post post = postModuleService.findPostById(postId);
             post.updateViewCount();
         }
+    }
+  
+    @Override
+    public DeleteMemberPostResult cancelPost(Long id, Long postId) {
+        MemberPost canceledMemberPost = memberPostModuleService.findMemberPostByPostIdAndMemberId(id, postId);
+        DeleteMemberPostResult result = MemberPostConverter.toDeleteMemberPostResult(canceledMemberPost);
+        memberPostModuleService.deleteMemberPost(canceledMemberPost.getId());
+        return result;
     }
 }

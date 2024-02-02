@@ -1,10 +1,12 @@
 package site.moamoa.backend.converter;
 
+import java.time.LocalDateTime;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.IsAuthorStatus;
 import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddMemberPostResult;
+import site.moamoa.backend.web.dto.response.PostResponseDTO.DeleteMemberPostResult;
 
 public class MemberPostConverter {
 
@@ -28,6 +30,13 @@ public class MemberPostConverter {
     return AddMemberPostResult.builder()
         .memberPostId(memberPost.getId())
         .createdAt(memberPost.getCreatedAt())
+        .build();
+  }
+
+  public static DeleteMemberPostResult toDeleteMemberPostResult(MemberPost memberPost){
+    return DeleteMemberPostResult.builder()
+        .memberPostId(memberPost.getId())
+        .deletedAt(LocalDateTime.now())
         .build();
   }
 }

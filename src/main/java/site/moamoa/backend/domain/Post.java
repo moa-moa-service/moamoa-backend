@@ -59,7 +59,7 @@ public class Post extends BaseEntity {
     private List<PostImage> postImages = new ArrayList<>();
 
     public void updateInfo(UpdatePostInfo request, Category category, List<PostImage> images) {
-        this.category = category;
+        this.category = Optional.ofNullable(category).orElse(this.category);
         this.personnel = Optional.ofNullable(request.personnel()).orElse(this.personnel);
         this.deadline = Optional.ofNullable(request.deadline()).orElse(this.deadline);
         this.postImages = images;

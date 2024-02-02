@@ -43,4 +43,17 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService{
     public List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus) {
         return memberPostRepository.findPostsByRecruitingAndParticipating(memberId, isAuthorStatus, capacityStatus);
     }
+
+    @Override
+    public MemberPost findMemberPostByPostIdAndMemberId(Long postId, Long memberId) {
+        return memberPostRepository.findByMemberIdAndPostId(postId, memberId)
+            .orElseThrow(
+                () -> new MemberPostHandler(ErrorStatus.MEMBER_POST_NOT_FOUND)
+            );
+    }
+
+    @Override
+    public void deleteMemberPost(Long id) {
+        memberPostRepository.deleteById(id);
+    }
 }
