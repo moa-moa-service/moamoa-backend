@@ -23,8 +23,9 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-@Component
+@Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Getter
 @Slf4j
 public class JwtService {
@@ -68,6 +69,7 @@ public class JwtService {
                 .sign(Algorithm.HMAC512(secretKey));
     }
 
+    @Transactional
     public void expiredAccessToken(String accessToken) {
         Long expiration = getExpiration(accessToken);
         redisModuleService.expireAccessToken(accessToken, expiration);
@@ -168,18 +170,4 @@ public class JwtService {
                 .getExpiresAt();
         return expiration.getTime() - new Date().getTime();
     }
-
-//    @Transactional
-//    public void memberSetRefreshToken(CustomOAuth2User oAuth2User, String refreshToken) {
-//        log.info("JwtService memberSetRefreshToken : {}", refreshToken);
-//        Member member = memberRepository.findById(oAuth2User.getId()).orElseThrow(RuntimeException::new);
-//        member.addRefreshToken(refreshToken);
-//    }
-//
-//    @Transactional
-//    public MemberResponseDTO.LogoutInfo memberDeleteRefreshToken(Long memberId) {
-//        Member member = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
-//        member.addRefreshToken(null);
-//        return MemberConverter.logoutMemberInfoResult(member);
-//    }
 }
