@@ -13,7 +13,6 @@ import java.time.ZoneOffset;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +25,10 @@ public class RedisModuleServiceImpl implements RedisModuleService {
     private static final String POST_VIEW_KEY_PREFIX = "postView:";
     private static final String MEMBER_KEYWORD_KEY_PREFIX = "memberKeyword:";
     private static final String TOWN_KEYWORD_COUNT_KEY_PREFIX = "townKeywordCount:";
+
+    // Redis Value
+    private static final String LOGOUT_VALUE = "logout";
+    private static final String VIEW_VALUE = "view";
 
     // Redis Expire Time
     private static final Long EXPIRATION_VIEW_RECORD = 24 * 60 * 60L;  // 1 Day
@@ -90,7 +93,7 @@ public class RedisModuleServiceImpl implements RedisModuleService {
 
     @Override
     public void expireAccessToken(String accessToken, Long expiration) {
-        redisTemplate.opsForValue().set(accessToken, "logout", expiration, TimeUnit.MILLISECONDS);
+        redisTemplate.opsForValue().set(accessToken, LOGOUT_VALUE, Duration.ofSeconds(expiration));
     }
 
     @Override
@@ -99,9 +102,7 @@ public class RedisModuleServiceImpl implements RedisModuleService {
     }
 
     private void savePostViewRecord(String key) {
-        redisTemplate.opsForValue().set(key, "read");
+        redisTemplate.opsForValue().set(key, VIEW_VALUE);
         redisTemplate.expire(key, Duration.ofSeconds(EXPIRATION_VIEW_RECORD));
     }
-
-
 }
