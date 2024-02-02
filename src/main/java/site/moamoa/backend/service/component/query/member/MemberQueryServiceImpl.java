@@ -42,5 +42,9 @@ public class MemberQueryServiceImpl implements MemberQueryService {
         List<Post> posts = memberPostModuleService.findPostsByRecruitingAndParticipating(memberId, IsAuthorStatus.AUTHOR, status);
         return PostConverter.toOtherRecruitingPostResult(member, posts);
     }
-
+    //todo 삭제 예정
+    @Override
+    public Member findMemberById(Long memberId) {
+        return memberModuleService.findMemberById(memberId);
+    }
 }

@@ -12,5 +12,7 @@ public interface MemberQueryService {
 
     MemberResponseDTO.GetMyInfoResult getMyInfo(Long memberId);
 
+    Member findMemberById(Long memberId);
+
     MemberResponseDTO.GetOtherMemberInfo getOtherMemberInfo(Long memberId, CapacityStatus status);
 }
