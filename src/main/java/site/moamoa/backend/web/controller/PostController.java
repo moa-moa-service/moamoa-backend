@@ -192,7 +192,7 @@ public class PostController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @GetMapping(value = "/api/posts/{postId}/cancel")
+    @DeleteMapping(value = "/api/posts/{postId}/cancel")
     @Operation(
         summary = "공동구매 참여 취소",
         description = "참여한 공동구매에서 참여를 취소합니다."
