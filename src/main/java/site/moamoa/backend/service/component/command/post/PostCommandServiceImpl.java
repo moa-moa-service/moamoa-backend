@@ -24,6 +24,7 @@ import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddMemberPostResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddPostResult;
+import site.moamoa.backend.web.dto.response.PostResponseDTO.DeleteMemberPostResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostInfoResult;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostStatusResult;
 
@@ -108,5 +109,13 @@ public class PostCommandServiceImpl implements PostCommandService {
             Post post = postModuleService.findPostById(postId);
             post.updateViewCount();
         }
+    }
+
+    @Override
+    public DeleteMemberPostResult cancelPost(Long id, Long postId) {
+        MemberPost canceledMemberPost = memberPostModuleService.findMemberPostByPostIdAndMemberId(id, postId);
+        DeleteMemberPostResult result = MemberPostConverter.toDeleteMemberPostResult(canceledMemberPost);
+        memberPostModuleService.deleteMemberPost(canceledMemberPost.getId());
+        return result;
     }
 }
