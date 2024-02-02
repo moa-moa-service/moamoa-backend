@@ -2,7 +2,6 @@ package site.moamoa.backend.web.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -190,6 +189,25 @@ public class PostController {
             Long postId
     ) {
         AddMemberPostResult resultDTO = postCommandService.joinPost(auth.id(), postId);
+        return ApiResponseDTO.onSuccess(resultDTO);
+    }
+
+    @GetMapping(value = "/api/posts/{postId}/cancel")
+    @Operation(
+        summary = "공동구매 참여 취소",
+        description = "참여한 공동구매에서 참여를 취소합니다."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
+    })
+    public ApiResponseDTO<DeleteMemberPostResult> cancelPost(
+            @AuthenticationPrincipal AuthInfoDTO auth,
+        @PathVariable
+        @Positive(message = "게시글 ID는 양수입니다.")
+        @Schema(description = "게시글 ID", example = "1")
+        Long postId
+    ) {
+        DeleteMemberPostResult resultDTO = postCommandService.cancelPost(auth.id(), postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
