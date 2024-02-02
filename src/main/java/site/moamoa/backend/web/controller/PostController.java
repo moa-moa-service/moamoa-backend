@@ -17,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
+import site.moamoa.backend.service.component.command.keyword.KeywordCommandServiceImpl;
 import site.moamoa.backend.service.component.command.post.PostCommandService;
 import site.moamoa.backend.service.component.query.post.PostQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
@@ -32,6 +33,7 @@ public class PostController {
 
     private final PostQueryService postQueryService;
     private final PostCommandService postCommandService;
+    private final KeywordCommandServiceImpl keywordCommandService;
 
     @GetMapping("/api/posts/ranking")
     @Operation(
@@ -235,7 +237,8 @@ public class PostController {
             @RequestParam(value = "maxPrice", required = false) final Integer maxPrice
     ) {
         if (!keyword.isEmpty()) {
-            postCommandService.updateKeywordCount(auth.id(), keyword);
+            keywordCommandService.addMemberKeyword(auth.id(), keyword);
+            keywordCommandService.updateTownKeywordCount(auth.id(), keyword);
         }
         GetPosts resultDTO = postQueryService.findPostsByConditions(keyword, categoryId, dDay, total, minPrice, maxPrice);
         return ApiResponseDTO.onSuccess(resultDTO);
