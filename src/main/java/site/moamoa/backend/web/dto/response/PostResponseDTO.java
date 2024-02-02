@@ -52,6 +52,13 @@ public class PostResponseDTO {
     }
 
     @Builder
+    public record DeleteMemberPostResult(
+            Long memberPostId,
+            LocalDateTime deletedAt
+    ) {
+    }
+
+    @Builder
     public record GetMyPostList(
             Long userId,
             List<SimplePostDTO> simplePostDtoList
