@@ -2,7 +2,6 @@ package site.moamoa.backend.web.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.headers.Header;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -18,6 +17,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
+import site.moamoa.backend.service.component.command.keyword.KeywordCommandServiceImpl;
 import site.moamoa.backend.service.component.command.post.PostCommandService;
 import site.moamoa.backend.service.component.query.post.PostQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
@@ -33,6 +33,7 @@ public class PostController {
 
     private final PostQueryService postQueryService;
     private final PostCommandService postCommandService;
+    private final KeywordCommandServiceImpl keywordCommandService;
 
     @GetMapping("/api/posts/ranking")
     @Operation(
@@ -193,6 +194,25 @@ public class PostController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
+    @DeleteMapping(value = "/api/posts/{postId}/cancel")
+    @Operation(
+        summary = "공동구매 참여 취소",
+        description = "참여한 공동구매에서 참여를 취소합니다."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
+    })
+    public ApiResponseDTO<DeleteMemberPostResult> cancelPost(
+            @AuthenticationPrincipal AuthInfoDTO auth,
+        @PathVariable
+        @Positive(message = "게시글 ID는 양수입니다.")
+        @Schema(description = "게시글 ID", example = "1")
+        Long postId
+    ) {
+        DeleteMemberPostResult resultDTO = postCommandService.cancelPost(auth.id(), postId);
+        return ApiResponseDTO.onSuccess(resultDTO);
+    }
+
     @GetMapping("/api/posts")
     @Operation(
             summary = "특정 키워드를 포함하는 공동구매 조회",
@@ -217,7 +237,8 @@ public class PostController {
             @RequestParam(value = "maxPrice", required = false) final Integer maxPrice
     ) {
         if (!keyword.isEmpty()) {
-            postCommandService.updateKeywordCount(auth.id(), keyword);
+            keywordCommandService.addMemberKeyword(auth.id(), keyword);
+            keywordCommandService.updateTownKeywordCount(auth.id(), keyword);
         }
         GetPosts resultDTO = postQueryService.findPostsByConditions(keyword, categoryId, dDay, total, minPrice, maxPrice);
         return ApiResponseDTO.onSuccess(resultDTO);

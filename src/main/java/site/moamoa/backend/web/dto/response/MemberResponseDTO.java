@@ -1,9 +1,11 @@
 package site.moamoa.backend.web.dto.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.Builder;
 import site.moamoa.backend.web.dto.base.MemberDTO;
+import site.moamoa.backend.web.dto.base.SimplePostDTO;
 
 public class MemberResponseDTO {
 
@@ -37,8 +39,9 @@ public class MemberResponseDTO {
     }
 
     @Builder
-    public record GetMemberInfo(
-            MemberDTO memberDto
+    public record GetOtherMemberInfo(
+            MemberDTO memberDTO,
+            List<SimplePostDTO> simplePostDtoList
     ) {
     }
 

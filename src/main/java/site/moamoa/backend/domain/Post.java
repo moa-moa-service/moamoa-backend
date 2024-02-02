@@ -1,19 +1,18 @@
 package site.moamoa.backend.domain;
 
 import jakarta.persistence.*;
-import java.util.ArrayList;
-
-import java.util.Optional;
 import lombok.*;
 import org.hibernate.annotations.DynamicUpdate;
 import site.moamoa.backend.domain.common.BaseEntity;
 import site.moamoa.backend.domain.embedded.Address;
 import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.mapping.PostImage;
+import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
+import java.util.Optional;
 
 @Entity
 @Getter
@@ -60,7 +59,7 @@ public class Post extends BaseEntity {
     private List<PostImage> postImages = new ArrayList<>();
 
     public void updateInfo(UpdatePostInfo request, Category category, List<PostImage> images) {
-        this.category = category;
+        this.category = Optional.ofNullable(category).orElse(this.category);
         this.personnel = Optional.ofNullable(request.personnel()).orElse(this.personnel);
         this.deadline = Optional.ofNullable(request.deadline()).orElse(this.deadline);
         this.postImages = images;

@@ -7,13 +7,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.service.component.command.keyword.KeywordCommandService;
 import site.moamoa.backend.service.component.query.keyword.KeywordQueryService;
-import site.moamoa.backend.service.component.query.member.MemberQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 
 import static site.moamoa.backend.web.dto.response.KeywordResponseDTO.DeleteKeywordResult;
@@ -40,6 +40,7 @@ public class KeywordController {
     ) {
         GetKeywords resultDTO = keywordQueryService.popularSearchRankList(auth.id());
         return ApiResponseDTO.onSuccess(resultDTO);
+        //memberQueryService.findMemberById(auth.id()).getTown()
     }
 
     @GetMapping("/api/keywords/recent")
@@ -57,7 +58,7 @@ public class KeywordController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @GetMapping("/api/keywords/{keyword}")
+    @DeleteMapping("/api/keywords/{keyword}")
     @Operation(
             summary = "사용자의 최근 검색어 삭제",
             description = "사용자가 본인의 최근 검색어를 삭제합니다."
@@ -70,7 +71,7 @@ public class KeywordController {
             @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable("keyword") String keyword
     ) {
-        DeleteKeywordResult deleteKeywordResult = keywordCommandService.deleteRecentKeyword(auth.id(), keyword);
+        DeleteKeywordResult deleteKeywordResult = keywordCommandService.deleteMemberKeyword(auth.id(), keyword);
         return ApiResponseDTO.onSuccess(deleteKeywordResult);
     }
 

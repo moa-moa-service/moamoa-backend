@@ -2,6 +2,7 @@ package site.moamoa.backend.service.module.redis;
 
 import org.springframework.data.redis.core.ZSetOperations;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface RedisModuleService {
@@ -19,4 +20,8 @@ public interface RedisModuleService {
     void deleteKeywordByMemberRecent(Long memberId, String keyword);
 
     String getKeywordByMemberRecentFirst(Long memberId);
+
+    void expireAccessToken(String accessToken, Long expiration);
+
+    Optional<String> getLogoutStatus(String accessToken);
 }
