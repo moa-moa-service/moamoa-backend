@@ -46,7 +46,18 @@ public class AmazonS3Manager {
         } catch (IOException e) {
             log.error("파일을 업로드하는데 오류가 발생했습니다. : {}", (Object) e.getStackTrace());
         }
+        log.info("uploadImage : {}", keyName + ext);
         return amazonS3.getUrl(amazonConfig.getBucket(), keyName + ext).toString();
+    }
+
+    public String extractImageNameFromUrl(String url) {
+        String bucket = amazonConfig.getBucket();
+        String prefix = "https://" + bucket + ".s3." + amazonConfig.getRegion() + ".amazonaws.com/";
+        return url.substring(prefix.length());
+    }
+
+    public void deleteImage(final String imageName) {
+        amazonS3.deleteObject(amazonConfig.getBucket(), imageName);
     }
 
     public String generateMemberProfileKeyName() {

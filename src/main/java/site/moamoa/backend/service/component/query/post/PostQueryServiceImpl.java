@@ -8,7 +8,6 @@ import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.embedded.Address;
-import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.service.module.member.MemberModuleService;
 import site.moamoa.backend.service.module.member_post.MemberPostModuleService;
 import site.moamoa.backend.service.module.post.PostModuleService;

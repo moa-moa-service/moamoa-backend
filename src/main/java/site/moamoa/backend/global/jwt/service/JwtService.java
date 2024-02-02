@@ -9,12 +9,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moamoa.backend.converter.MemberConverter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.global.oauth2.CustomOAuth2User;
 import site.moamoa.backend.repository.member.MemberRepository;
+import site.moamoa.backend.service.module.redis.RedisModuleService;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 
 import java.util.Date;
@@ -23,9 +25,9 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 @Getter
 @Slf4j
-@Transactional(readOnly = true)
 public class JwtService {
     @Value("${jwt.secret.key}")
     private String secretKey;
@@ -48,7 +50,7 @@ public class JwtService {
     private static final String BEARER = "Bearer ";
 
     private final MemberRepository memberRepository;
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisModuleService redisModuleService;
 
     public String createAccessToken(Long id) {
         Date now = new Date();
@@ -67,9 +69,10 @@ public class JwtService {
                 .sign(Algorithm.HMAC512(secretKey));
     }
 
+    @Transactional
     public void expiredAccessToken(String accessToken) {
         Long expiration = getExpiration(accessToken);
-        redisTemplate.opsForValue().set(accessToken, "logout", expiration, TimeUnit.MILLISECONDS);
+        redisModuleService.expireAccessToken(accessToken, expiration);
     }
 
     public void sendAccessToken(HttpServletResponse response, String accessToken) {
@@ -105,7 +108,7 @@ public class JwtService {
     }
 
     /**
-     * AccessToken에서 Email 추출
+     * AccessToken에서 ID 추출
      * 추출 전에 JWT.require()로 검증기 생성
      * verify로 AceessToken 검증 후
      * 유효하다면 getClaim()으로 이메일 추출
@@ -113,8 +116,8 @@ public class JwtService {
      */
     public Optional<Long> extractId(String accessToken) {
         log.info("JwtService : extractId 호출 후 토큰 유효성 검사 확인");
-        String isLogout = redisTemplate.opsForValue().get(accessToken);
-        if (isLogout == null || isLogout.isEmpty()) {
+        Optional<String> isLogout = redisModuleService.getLogoutStatus(accessToken);
+        if (isLogout.isEmpty()) {
             try {
                 // 토큰 유효성 검사하는 데에 사용할 알고리즘이 있는 JWT verifier builder 반환
                 return Optional.ofNullable(JWT.require(Algorithm.HMAC512(secretKey))
@@ -166,19 +169,5 @@ public class JwtService {
         Date expiration = JWT.require(Algorithm.HMAC512(secretKey)).build().verify(accessToken)
                 .getExpiresAt();
         return expiration.getTime() - new Date().getTime();
-    }
-
-    @Transactional
-    public void memberSetRefreshToken(CustomOAuth2User oAuth2User, String refreshToken) {
-        log.info("JwtService memberSetRefreshToken : {}", refreshToken);
-        Member member = memberRepository.findById(oAuth2User.getId()).orElseThrow(RuntimeException::new);
-        member.addRefreshToken(refreshToken);
-    }
-
-    @Transactional
-    public MemberResponseDTO.LogoutInfo memberDeleteRefreshToken(Long memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(RuntimeException::new);
-        member.addRefreshToken(null);
-        return MemberConverter.logoutMemberInfoResult(member);
     }
 }

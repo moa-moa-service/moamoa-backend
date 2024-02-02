@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.global.jwt.service.JwtService;
-import site.moamoa.backend.global.oauth2.service.CustomOAuth2UserService;
+import site.moamoa.backend.service.component.command.member.MemberCommandService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.MemberRequestDTO.AddMemberInfo;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
@@ -25,13 +25,13 @@ import site.moamoa.backend.web.dto.response.MemberResponseDTO.AddMemberInfoResul
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final CustomOAuth2UserService oAuth2UserService;
     private final JwtService jwtService;
+    private final MemberCommandService memberCommandService;
 
     @PostMapping("/api/auth/member-info")
     @Operation(
             summary = "사용자 추가 정보 등록",
-            description = "사용자의 추가 정보를 등록합니다."
+            description = "사용자의 추가 정보를 등록합니다. town = 동네, Address.name = 상세 주소"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
@@ -40,7 +40,7 @@ public class AuthController {
             @AuthenticationPrincipal AuthInfoDTO auth, // security context에서 가져온 user임. member entity랑 다름
             @RequestBody AddMemberInfo request
     ) {
-        AddMemberInfoResult resultDTO = oAuth2UserService.addMemberInfo(auth.id(), request);
+        AddMemberInfoResult resultDTO = memberCommandService.addMemberInfo(auth.id(), request);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
@@ -58,8 +58,7 @@ public class AuthController {
     ) {
         String accessToken = jwtService.extractAccessToken(request).orElseThrow(RuntimeException::new);
         jwtService.expiredAccessToken(accessToken);
-        MemberResponseDTO.LogoutInfo resultDTO = jwtService.memberDeleteRefreshToken(auth.id());
-        //todo jwtService, oauth2Service에 로직이 다들어가있는데 LoginService를 하나 새로 만들어서 로그인, 로그아웃 로직을 넣는 것이 좋아보임.
+        MemberResponseDTO.LogoutInfo resultDTO = memberCommandService.memberDeleteRefreshToken(auth.id());
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
