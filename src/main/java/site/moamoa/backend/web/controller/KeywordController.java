@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,7 +58,7 @@ public class KeywordController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @GetMapping("/api/keywords/{keyword}/delete")
+    @DeleteMapping("/api/keywords/{keyword}")
     @Operation(
             summary = "사용자의 최근 검색어 삭제",
             description = "사용자가 본인의 최근 검색어를 삭제합니다."
