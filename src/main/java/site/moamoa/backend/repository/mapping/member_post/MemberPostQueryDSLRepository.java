@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface MemberPostQueryDSLRepository {
     Member findPostAdminByPostId(Long postId);
+
     List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus);
 }

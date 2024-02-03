@@ -1,9 +1,7 @@
 package site.moamoa.backend.api_payload.code;
 
 public interface BaseErrorCode {
+    ErrorReasonDTO getReason();
 
-    public ErrorReasonDTO getReason();
-
-    public ErrorReasonDTO getReasonHttpStatus();
-
+    ErrorReasonDTO getReasonHttpStatus();
 }

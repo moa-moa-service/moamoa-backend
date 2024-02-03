@@ -6,7 +6,7 @@ import site.moamoa.backend.repository.comment.CommentRepository;
 
 @Service
 @RequiredArgsConstructor
-public class CommentModuleServiceImpl implements CommentModuleService{
+public class CommentModuleServiceImpl implements CommentModuleService {
 
     private final CommentRepository commentRepository;
 }

@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class KeywordCommandServiceImpl implements KeywordCommandService{
+public class KeywordCommandServiceImpl implements KeywordCommandService {
 
-    private RedisModuleService redisModuleService;
+    private final RedisModuleService redisModuleService;
     private final MemberModuleService memberModuleService;
 
     //개인 최근 검색어 중 삭제

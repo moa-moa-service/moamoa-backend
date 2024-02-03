@@ -10,6 +10,7 @@ import java.util.Map;
 
 @Getter
 public class CustomOAuth2User extends DefaultOAuth2User {
+
     private final Long id;
     private final RoleType roleType;
 

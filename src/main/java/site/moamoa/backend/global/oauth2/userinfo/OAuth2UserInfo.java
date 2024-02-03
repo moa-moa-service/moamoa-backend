@@ -3,6 +3,7 @@ package site.moamoa.backend.global.oauth2.userinfo;
 import java.util.Map;
 
 public abstract class OAuth2UserInfo {
+
     protected Map<String, Object> attributes;
 
     public OAuth2UserInfo(Map<String, Object> attributes) {
@@ -10,5 +11,4 @@ public abstract class OAuth2UserInfo {
     }
 
     public abstract String getId();
-
 }

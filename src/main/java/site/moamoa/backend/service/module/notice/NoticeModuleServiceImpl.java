@@ -6,7 +6,7 @@ import site.moamoa.backend.repository.notice.NoticeRepository;
 
 @Service
 @RequiredArgsConstructor
-public class NoticeModuleServiceImpl implements NoticeModuleService{
+public class NoticeModuleServiceImpl implements NoticeModuleService {
 
     private final NoticeRepository noticeRepository;
 }

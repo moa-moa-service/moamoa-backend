@@ -122,17 +122,6 @@ public class PostQueryDSLRepositoryImpl implements PostQueryDSLRepository {
                 .fetch();
     }
 
-    @Override
-    public Long updateView(Long postId) {
-        QPost post = QPost.post;
-
-        return jpaQueryFactory
-                .update(post)
-                .set(post.viewCount, post.viewCount.add(1))
-                .where(post.id.eq(postId))
-                .execute();
-    }
-
     private void addCondition(BooleanBuilder builder, BooleanExpression condition) {
         builder.and(condition);
     }

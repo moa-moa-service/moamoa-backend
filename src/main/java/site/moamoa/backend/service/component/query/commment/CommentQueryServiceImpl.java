@@ -8,7 +8,7 @@ import site.moamoa.backend.service.module.comment.CommentModuleService;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class CommentQueryServiceImpl implements CommentQueryService{
+public class CommentQueryServiceImpl implements CommentQueryService {
 
     private final CommentModuleService commentModuleService;
 }

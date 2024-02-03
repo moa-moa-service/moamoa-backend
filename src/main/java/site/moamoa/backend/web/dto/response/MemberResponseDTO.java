@@ -14,7 +14,6 @@ public class MemberResponseDTO {
             Long userId,
             LocalDateTime createdAt
     ) {
-
     }
 
     @Builder
@@ -57,7 +56,6 @@ public class MemberResponseDTO {
             Long userId,
             LocalDateTime updatedAt
     ) {
-
     }
 
 }

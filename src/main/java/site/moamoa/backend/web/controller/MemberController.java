@@ -57,8 +57,8 @@ public class MemberController {
     })
     public ApiResponseDTO<UpdateMemberImageResult> updateMyImage(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @RequestPart(value="profileImage", required = false) MultipartFile profileImage
-            ) {
+            @RequestPart(value = "profileImage", required = false) MultipartFile profileImage
+    ) {
         UpdateMemberImageResult resultDTO = memberCommandService.addMemberProfileImage(auth.id(), profileImage);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
@@ -127,11 +127,11 @@ public class MemberController {
             @PathVariable(name = "memberId")
             @Positive(message = "멤버ID는 양수입니다.")
             @Schema(description = "멤버ID", example = "1")
-            @Parameter(name = "memberId", description = "타 사용자 memberId", example = "1", required = true)
-            final Long memberId,
+            @Parameter(name = "memberId", description = "타 사용자 memberId", example = "1", required = true) final Long memberId,
             @RequestParam(name = "status", defaultValue = "NOT_FULL") final CapacityStatus status
     ) {
-        GetOtherMemberInfo resultDTO = memberQueryService.getOtherMemberInfo(memberId, status);;
+        GetOtherMemberInfo resultDTO = memberQueryService.getOtherMemberInfo(memberId, status);
+        ;
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

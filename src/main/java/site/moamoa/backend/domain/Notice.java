@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import site.moamoa.backend.domain.common.BaseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -32,5 +33,5 @@ public class Notice extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "notice", cascade = CascadeType.ALL)
-    private List<Comment> commentList;
+    private List<Comment> commentList = new ArrayList<>();
 }

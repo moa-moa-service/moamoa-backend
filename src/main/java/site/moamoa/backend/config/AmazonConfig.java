@@ -38,7 +38,7 @@ public class AmazonConfig {
 
 
     @PostConstruct
-    public void init(){
+    public void init() {
         this.awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
     }
 

@@ -26,8 +26,6 @@ public class PostRequestDTO {
             LocalDateTime deadline,
             @NotNull
             String productName,
-//            @Size(max = 10, message = "이미지는 최대 10개까지만 허용됩니다.")
-//            List<MultipartFile> image,
             @NotNull
             Address dealLocation,
             @NotNull

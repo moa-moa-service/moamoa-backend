@@ -7,7 +7,7 @@ import site.moamoa.backend.api_payload.code.ErrorReasonDTO;
 
 @Getter
 @AllArgsConstructor
-public class GeneralException extends RuntimeException{
+public class GeneralException extends RuntimeException {
 
     private final BaseErrorCode code;
 
@@ -18,5 +18,4 @@ public class GeneralException extends RuntimeException{
     public ErrorReasonDTO getErrorReasonHttpStatus() {
         return this.code.getReasonHttpStatus();
     }
-
 }

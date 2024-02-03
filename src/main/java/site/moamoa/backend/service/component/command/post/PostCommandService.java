@@ -1,6 +1,7 @@
 package site.moamoa.backend.service.component.command.post;
 
 import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;

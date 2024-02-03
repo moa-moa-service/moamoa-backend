@@ -1,19 +1,18 @@
 package site.moamoa.backend.service.component.command.post;
 
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import site.moamoa.backend.converter.PostConverter;
-import site.moamoa.backend.global.aws.s3.AmazonS3Manager;
 import site.moamoa.backend.converter.MemberPostConverter;
+import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.converter.PostImageConverter;
 import site.moamoa.backend.domain.Category;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.domain.mapping.PostImage;
+import site.moamoa.backend.global.aws.s3.AmazonS3Manager;
 import site.moamoa.backend.service.module.category.CategoryModuleService;
 import site.moamoa.backend.service.module.member.MemberModuleService;
 import site.moamoa.backend.service.module.member_post.MemberPostModuleService;
@@ -22,13 +21,10 @@ import site.moamoa.backend.service.module.post_image.PostImageModuleService;
 import site.moamoa.backend.service.module.redis.RedisModuleService;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
-import site.moamoa.backend.web.dto.response.PostResponseDTO.AddMemberPostResult;
-import site.moamoa.backend.web.dto.response.PostResponseDTO.AddPostResult;
-import site.moamoa.backend.web.dto.response.PostResponseDTO.DeleteMemberPostResult;
-import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostInfoResult;
-import site.moamoa.backend.web.dto.response.PostResponseDTO.UpdatePostStatusResult;
+import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -77,8 +73,8 @@ public class PostCommandServiceImpl implements PostCommandService {
         Post updatePost = postModuleService.findPostById(postId);
         // categoryId가 존재하면 해당 ID로 Category를 찾고, 그렇지 않으면 null
         Category category = Optional.ofNullable(updatePostInfo.categoryId())
-            .map(categoryModuleService::findCategoryById)
-            .orElse(null);
+                .map(categoryModuleService::findCategoryById)
+                .orElse(null);
         postImageModuleService.deletePostImageByPostId(postId);
         List<PostImage> updatedImages = postImageModuleService.setUpdatedImages(images, updatePost);
         updatePost.updateInfo(updatePostInfo, category, updatedImages);
@@ -102,7 +98,7 @@ public class PostCommandServiceImpl implements PostCommandService {
             post.updateViewCount();
         }
     }
-  
+
     @Override
     public DeleteMemberPostResult cancelPost(Long id, Long postId) {
         MemberPost canceledMemberPost = memberPostModuleService.findMemberPostByPostIdAndMemberId(id, postId);

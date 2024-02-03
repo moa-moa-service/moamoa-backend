@@ -8,5 +8,4 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @AllArgsConstructor
 public class MemberPostCommandServiceImpl implements MemberPostCommandService {
-
 }

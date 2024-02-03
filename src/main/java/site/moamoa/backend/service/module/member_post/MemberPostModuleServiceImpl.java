@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MemberPostModuleServiceImpl implements MemberPostModuleService{
+public class MemberPostModuleServiceImpl implements MemberPostModuleService {
 
     private final MemberPostRepository memberPostRepository;
 
@@ -29,7 +29,7 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService{
     public void validMemberPostIsAuthor(Long memberId, Long postId) {
         MemberPost memberPost = memberPostRepository.findByMemberIdAndPostId(memberId, postId)
                 .orElseThrow(() -> new MemberPostHandler(ErrorStatus.MEMBER_POST_NOT_FOUND));
-        if (memberPost.getIsAuthorStatus() != IsAuthorStatus.AUTHOR){
+        if (memberPost.getIsAuthorStatus() != IsAuthorStatus.AUTHOR) {
             throw new MemberHandler(ErrorStatus.MEMBER_IS_NOT_AUTHOR);
         }
     }
@@ -47,9 +47,9 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService{
     @Override
     public MemberPost findMemberPostByPostIdAndMemberId(Long postId, Long memberId) {
         return memberPostRepository.findByMemberIdAndPostId(postId, memberId)
-            .orElseThrow(
-                () -> new MemberPostHandler(ErrorStatus.MEMBER_POST_NOT_FOUND)
-            );
+                .orElseThrow(
+                        () -> new MemberPostHandler(ErrorStatus.MEMBER_POST_NOT_FOUND)
+                );
     }
 
     @Override

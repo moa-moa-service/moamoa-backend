@@ -8,7 +8,7 @@ import site.moamoa.backend.service.module.notice.NoticeModuleService;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class NoticeQueryServiceImpl implements NoticeQueryService{
+public class NoticeQueryServiceImpl implements NoticeQueryService {
 
     private final NoticeModuleService noticeModuleService;
 }
