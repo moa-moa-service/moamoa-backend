@@ -13,7 +13,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PostImageModuleServiceImpl implements PostImageModuleService{
+public class PostImageModuleServiceImpl implements PostImageModuleService {
 
     private final PostImageRepository postImageRepository;
     private final AmazonS3Manager amazonS3Manager;
@@ -22,8 +22,8 @@ public class PostImageModuleServiceImpl implements PostImageModuleService{
     public void deletePostImageByPostId(Long postId) {
         List<PostImage> postImages = findPostImageByPostId(postId);
         postImages.stream()
-            .map(deletedPostImage -> amazonS3Manager.extractImageNameFromUrl(deletedPostImage.getUrl()))
-            .forEach(amazonS3Manager::deleteImage);
+                .map(deletedPostImage -> amazonS3Manager.extractImageNameFromUrl(deletedPostImage.getUrl()))
+                .forEach(amazonS3Manager::deleteImage);
         postImageRepository.deleteAll(postImages);
     }
 

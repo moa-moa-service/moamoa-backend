@@ -29,9 +29,11 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
-    private final MemberModuleService memberModuleService;
+
     @Value("${default.profileImage.url}")
     private String defaultImageUrl;
+
+    private final MemberModuleService memberModuleService;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {

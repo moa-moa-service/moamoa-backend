@@ -11,6 +11,7 @@ import site.moamoa.backend.domain.common.BaseEntity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostImage extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_image_id")
@@ -26,5 +27,4 @@ public class PostImage extends BaseEntity {
     public void setPost(Post post) {
         this.post = post;
     }
-
 }

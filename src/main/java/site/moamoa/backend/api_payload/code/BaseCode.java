@@ -1,9 +1,7 @@
 package site.moamoa.backend.api_payload.code;
 
 public interface BaseCode {
+    ReasonDTO getReason();
 
-    public ReasonDTO getReason();
-
-    public ReasonDTO getReasonHttpStatus();
-
+    ReasonDTO getReasonHttpStatus();
 }

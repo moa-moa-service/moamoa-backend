@@ -21,6 +21,7 @@ import java.util.Optional;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
 public class Post extends BaseEntity {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
@@ -57,6 +58,10 @@ public class Post extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostImage> postImages = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<Notice> noticeList = new ArrayList<>();
 
     public void updateInfo(UpdatePostInfo request, Category category, List<PostImage> images) {
         this.category = Optional.ofNullable(category).orElse(this.category);

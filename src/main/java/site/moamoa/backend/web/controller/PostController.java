@@ -8,9 +8,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Positive;
-
-import java.util.List;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,6 +21,8 @@ import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
+
+import java.util.List;
 
 
 @Tag(name = "공동구매 게시글 API", description = "공동구매 페이지 관련 API")
@@ -196,18 +195,18 @@ public class PostController {
 
     @DeleteMapping(value = "/api/posts/{postId}/cancel")
     @Operation(
-        summary = "공동구매 참여 취소",
-        description = "참여한 공동구매에서 참여를 취소합니다."
+            summary = "공동구매 참여 취소",
+            description = "참여한 공동구매에서 참여를 취소합니다."
     )
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
+            @ApiResponse(responseCode = "COMMON200", description = "성공입니다.")
     })
     public ApiResponseDTO<DeleteMemberPostResult> cancelPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
-        @PathVariable
-        @Positive(message = "게시글 ID는 양수입니다.")
-        @Schema(description = "게시글 ID", example = "1")
-        Long postId
+            @PathVariable
+            @Positive(message = "게시글 ID는 양수입니다.")
+            @Schema(description = "게시글 ID", example = "1")
+            Long postId
     ) {
         DeleteMemberPostResult resultDTO = postCommandService.cancelPost(auth.id(), postId);
         return ApiResponseDTO.onSuccess(resultDTO);
@@ -236,7 +235,7 @@ public class PostController {
             @Parameter(description = "최대 금액", example = "5000")
             @RequestParam(value = "maxPrice", required = false) final Integer maxPrice
     ) {
-        if (!keyword.isEmpty()) {
+        if (keyword != null) {
             keywordCommandService.addMemberKeyword(auth.id(), keyword);
             keywordCommandService.updateTownKeywordCount(auth.id(), keyword);
         }

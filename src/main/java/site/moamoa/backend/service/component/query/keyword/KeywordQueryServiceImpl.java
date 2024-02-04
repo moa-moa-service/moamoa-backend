@@ -5,7 +5,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moamoa.backend.converter.KeywordConverter;
-import site.moamoa.backend.service.module.member.MemberModuleServiceImpl;
+import site.moamoa.backend.service.module.member.MemberModuleService;
 import site.moamoa.backend.service.module.redis.RedisModuleService;
 import site.moamoa.backend.web.dto.response.KeywordResponseDTO;
 
@@ -17,13 +17,14 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class KeywordQueryServiceImpl implements KeywordQueryService {
 
+    private final MemberModuleService memberModuleService;
     private final RedisModuleService redisModuleService;
-    private final MemberModuleServiceImpl memberQueryService;
 
     //동네 인기 검색어 리스트 1위~10위까지 (조회수 기준)
     @Override
     public KeywordResponseDTO.GetKeywords popularSearchRankList(Long memberId) {
-        Set<ZSetOperations.TypedTuple<String>> typedTuples = redisModuleService.getKeywordByTownRanking(memberQueryService.findMemberById(memberId).getTown());
+        String townName = memberModuleService.findMemberById(memberId).getTown();
+        Set<ZSetOperations.TypedTuple<String>> typedTuples = redisModuleService.getKeywordByTownRanking(townName);
 
         return KeywordConverter.toGetKeywords(
                 Objects.requireNonNull(typedTuples).stream().map(typedTuple -> KeywordConverter.toKeywordDTO(typedTuple.getValue())).toList());

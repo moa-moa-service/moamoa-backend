@@ -9,7 +9,7 @@ import site.moamoa.backend.repository.category.CategoryRepository;
 
 @Service
 @RequiredArgsConstructor
-public class CategoryModuleServiceImpl implements CategoryModuleService{
+public class CategoryModuleServiceImpl implements CategoryModuleService {
 
     private final CategoryRepository categoryRepository;
 

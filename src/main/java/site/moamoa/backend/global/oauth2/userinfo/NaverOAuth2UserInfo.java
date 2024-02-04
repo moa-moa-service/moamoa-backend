@@ -3,6 +3,7 @@ package site.moamoa.backend.global.oauth2.userinfo;
 import java.util.Map;
 
 public class NaverOAuth2UserInfo extends OAuth2UserInfo {
+    
     public NaverOAuth2UserInfo(Map<String, Object> attributes) {
         super(attributes);
     }

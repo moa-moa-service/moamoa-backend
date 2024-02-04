@@ -60,7 +60,7 @@ public class PostConverter {
                 .build();
     }
 
-     public static Post toPost(PostDTO postDTO) {
+    public static Post toPost(PostDTO postDTO) {
         return Post.builder()
                 .productName(postDTO.productName())
                 .personnel(postDTO.personnel())
@@ -68,7 +68,7 @@ public class PostConverter {
                 .description(postDTO.description())
                 .build();
     }
-  
+
     public static PostResponseDTO.GetPost toGetPost(PostDTO postDto, MemberDTO adminDto) {
         return PostResponseDTO.GetPost.builder()
                 .postDto(postDto)
@@ -105,7 +105,7 @@ public class PostConverter {
                 .build();
     }
 
-    public static Post toPost(PostRequestDTO.AddPost addPost, Category category, List<PostImage> postImages){
+    public static Post toPost(PostRequestDTO.AddPost addPost, Category category, List<PostImage> postImages) {
         return Post.builder()
                 .available(addPost.personnel())
                 .viewCount(0)
@@ -121,7 +121,7 @@ public class PostConverter {
                 .build();
     }
 
-    public static PostResponseDTO.AddPostResult toAddPostResult(Post post){
+    public static PostResponseDTO.AddPostResult toAddPostResult(Post post) {
         return PostResponseDTO.AddPostResult.builder()
                 .postId(post.getId())
                 .createdAt(post.getCreatedAt())

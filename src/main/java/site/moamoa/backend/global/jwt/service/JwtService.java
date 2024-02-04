@@ -8,20 +8,13 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.moamoa.backend.converter.MemberConverter;
-import site.moamoa.backend.domain.Member;
-import site.moamoa.backend.global.oauth2.CustomOAuth2User;
 import site.moamoa.backend.repository.member.MemberRepository;
 import site.moamoa.backend.service.module.redis.RedisModuleService;
-import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Getter
 @Slf4j
 public class JwtService {
+
     @Value("${jwt.secret.key}")
     private String secretKey;
 
