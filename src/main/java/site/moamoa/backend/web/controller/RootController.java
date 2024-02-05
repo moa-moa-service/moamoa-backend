@@ -19,7 +19,7 @@ public class RootController {
         return "Good!";
     }
 
-    @GetMapping("/redis-health")
+    @GetMapping("/health/redis")
     public String healthCheckRedis() {
         return redisModuleService.checkHealth();
     }
