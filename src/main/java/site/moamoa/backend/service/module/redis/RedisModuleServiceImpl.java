@@ -86,9 +86,9 @@ public class RedisModuleServiceImpl implements RedisModuleService {
 
     @Override
     public String getKeywordByMemberRecentFirst(Long memberId) {
-        return Objects.requireNonNull(redisZSetTemplate.opsForZSet()
-                        .range(MEMBER_KEYWORD_KEY_PREFIX + memberId, 0, 0)).stream()
-                .findFirst().orElse(null);
+        return Objects.requireNonNull(Objects.requireNonNull(redisZSetTemplate.opsForZSet()
+                        .reverseRangeWithScores(MEMBER_KEYWORD_KEY_PREFIX + memberId, 0, 9)).stream()
+                .findFirst().orElse(null)).getValue();
     }
 
     @Override
@@ -108,7 +108,7 @@ public class RedisModuleServiceImpl implements RedisModuleService {
         } catch (Exception e) {
             return "Bad health!";
         }
-        return "Good";
+        return "Good"
     }
 
     private void savePostViewRecord(String key) {
