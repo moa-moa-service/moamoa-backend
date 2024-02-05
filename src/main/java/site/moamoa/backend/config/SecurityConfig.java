@@ -47,7 +47,7 @@ public class SecurityConfig implements WebMvcConfigurer{
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**",
-                                        "/health").permitAll()
+                                        "/health","/health/**").permitAll()
                                 .requestMatchers("/api/auth/member-info").hasRole("GUEST")
                                 .anyRequest().hasRole("MEMBER")
                 )
