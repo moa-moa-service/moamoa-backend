@@ -15,8 +15,12 @@ public class RootController {
 
     @GetMapping("/health")
     public String healthCheck() {
-        redisModuleService.checkHealth();
+//        redisModuleService.checkHealth();
         return "Good!";
     }
 
+    @GetMapping("/redis-health")
+    public String healthCheckRedis() {
+        return redisModuleService.checkHealth();
+    }
 }

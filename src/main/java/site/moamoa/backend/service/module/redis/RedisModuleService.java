@@ -25,5 +25,5 @@ public interface RedisModuleService {
 
     Optional<String> getLogoutStatus(String accessToken);
 
-    void checkHealth();
+    String checkHealth();
 }
