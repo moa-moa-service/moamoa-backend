@@ -102,8 +102,13 @@ public class RedisModuleServiceImpl implements RedisModuleService {
     }
 
     @Override
-    public void checkHealth() {
-        redisTemplate.opsForValue().set("Health", "Good");
+    public String checkHealth() {
+        try {
+            redisTemplate.opsForValue().set("Health", "Good");
+        } catch (Exception e) {
+            return "Bad health!";
+        }
+        return "Good";
     }
 
     private void savePostViewRecord(String key) {
