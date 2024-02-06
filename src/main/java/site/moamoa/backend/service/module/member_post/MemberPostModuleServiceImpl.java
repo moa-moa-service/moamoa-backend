@@ -13,6 +13,7 @@ import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.repository.mapping.member_post.MemberPostRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -45,11 +46,8 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
     }
 
     @Override
-    public MemberPost findMemberPostByPostIdAndMemberId(Long postId, Long memberId) {
-        return memberPostRepository.findByMemberIdAndPostId(postId, memberId)
-                .orElseThrow(
-                        () -> new MemberPostHandler(ErrorStatus.MEMBER_POST_NOT_FOUND)
-                );
+    public Optional<MemberPost> findMemberPostByPostIdAndMemberId(Long postId, Long memberId) {
+        return memberPostRepository.findByMemberIdAndPostId(postId, memberId);
     }
 
     @Override
