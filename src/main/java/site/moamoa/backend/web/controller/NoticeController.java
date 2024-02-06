@@ -51,7 +51,7 @@ public class NoticeController {
             @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable Long noticeId
     ) {
-        NoticeResponseDTO.GetNotice resultDTO = null;
+        NoticeResponseDTO.GetNotice resultDTO = noticeQueryService.findNoticeById(noticeId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 }
