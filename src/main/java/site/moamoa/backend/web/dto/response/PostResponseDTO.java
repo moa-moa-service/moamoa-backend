@@ -5,6 +5,7 @@ import java.util.List;
 
 import lombok.Builder;
 import site.moamoa.backend.web.dto.base.MemberDTO;
+import site.moamoa.backend.web.dto.base.NoticeDTO;
 import site.moamoa.backend.web.dto.base.PostDTO;
 import site.moamoa.backend.web.dto.base.SimplePostDTO;
 
@@ -13,7 +14,8 @@ public class PostResponseDTO {
     @Builder
     public record GetPost(
             PostDTO postDto,
-            MemberDTO adminDto
+            MemberDTO adminDto,
+            List<NoticeResponseDTO.GetSimpleNotice> noticeDTOList
     ) {
     }
 

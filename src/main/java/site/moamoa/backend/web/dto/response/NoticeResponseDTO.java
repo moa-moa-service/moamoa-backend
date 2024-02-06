@@ -19,4 +19,14 @@ public class NoticeResponseDTO {
             LocalDateTime createdAt
     ) {
     }
+
+    @Builder
+    public record GetSimpleNotice(
+            Long noticeId,
+            String title,
+            String content,
+            LocalDateTime createdAt
+    ) {
+    }
+
 }
