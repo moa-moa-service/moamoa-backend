@@ -101,16 +101,6 @@ public class RedisModuleServiceImpl implements RedisModuleService {
         return Optional.ofNullable((String) redisTemplate.opsForValue().get(accessToken));
     }
 
-    @Override
-    public String checkHealth() {
-        try {
-            redisTemplate.opsForValue().set("Health", "Good");
-        } catch (Exception e) {
-            return "Bad health!";
-        }
-        return "Good"
-    }
-
     private void savePostViewRecord(String key) {
         redisTemplate.opsForValue().set(key, VIEW_VALUE);
         redisTemplate.expire(key, Duration.ofSeconds(EXPIRATION_VIEW_RECORD));
