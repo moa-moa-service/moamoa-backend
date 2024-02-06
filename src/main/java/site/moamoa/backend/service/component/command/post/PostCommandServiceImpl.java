@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import site.moamoa.backend.api_payload.code.status.ErrorStatus;
+import site.moamoa.backend.api_payload.exception.handler.MemberHandler;
+import site.moamoa.backend.api_payload.exception.handler.MemberPostHandler;
 import site.moamoa.backend.converter.MemberPostConverter;
 import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.converter.PostImageConverter;
@@ -101,7 +104,10 @@ public class PostCommandServiceImpl implements PostCommandService {
 
     @Override
     public DeleteMemberPostResult cancelPost(Long id, Long postId) {
-        MemberPost canceledMemberPost = memberPostModuleService.findMemberPostByPostIdAndMemberId(id, postId);
+        MemberPost canceledMemberPost = memberPostModuleService.findMemberPostByPostIdAndMemberId(id, postId)
+                .orElseThrow(
+                        () -> new MemberPostHandler(ErrorStatus.MEMBER_POST_NOT_FOUND)
+                );
         DeleteMemberPostResult result = MemberPostConverter.toDeleteMemberPostResult(canceledMemberPost);
         memberPostModuleService.deleteMemberPost(canceledMemberPost.getId());
         return result;
