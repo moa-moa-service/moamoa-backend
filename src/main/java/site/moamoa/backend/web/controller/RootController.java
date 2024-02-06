@@ -12,19 +12,8 @@ import site.moamoa.backend.service.module.redis.RedisModuleService;
 @RequiredArgsConstructor
 public class RootController {
 
-    @Value("${spring.data.redis.host}")
-    private String redisHost;
-
-    private final RedisModuleService redisModuleService;
-
     @GetMapping("/health")
     public String healthCheck() {
-//        redisModuleService.checkHealth();
         return "Good!";
-    }
-
-    @GetMapping("/health/redis")
-    public String healthCheckRedis() {
-        return redisHost + redisModuleService.checkHealth();
     }
 }

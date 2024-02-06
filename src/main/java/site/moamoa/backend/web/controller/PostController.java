@@ -67,7 +67,7 @@ public class PostController {
 
     @GetMapping("/api/posts/near")
     @Operation(
-            summary = "우리 동네 공동구매 조회",
+            summary = "우리 동네 공동구매 조회 (수정중)",
             description = "우리 동네 공동구매 리스트를 조회합니다."
     )
     @ApiResponses(value = {
@@ -98,7 +98,7 @@ public class PostController {
 
     @PostMapping(value = "/api/posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
-            summary = "공동구매 등록",
+            summary = "공동구매 등록 (수정중)",
             description = "공동구매 정보를 받아 새로운 공동구매 게시글을 등록합니다."
     )
     @ApiResponses(value = {
@@ -115,7 +115,7 @@ public class PostController {
 
     @PatchMapping("/api/posts/{postId}")
     @Operation(
-            summary = "공동구매 상세정보 수정",
+            summary = "공동구매 상세정보 수정 (수정중)",
             description = "공동구매 정보를 받아 기존의 공동구매 게시글을 수정합니다."
     )
     @ApiResponses(value = {
@@ -136,7 +136,7 @@ public class PostController {
 
     @PatchMapping("/api/posts/{postId}/status")
     @Operation(
-            summary = "공동구매 상태 변경",
+            summary = "공동구매 상태 변경 (수정중)",
             description = "기존의 공동구매 상태를 변경합니다."
     )
     @ApiResponses(value = {
@@ -176,7 +176,7 @@ public class PostController {
 
     @PostMapping("/api/posts/{postId}/join")
     @Operation(
-            summary = "공동구매 참여",
+            summary = "공동구매 참여 (수정중)",
             description = "기존의 공동구매에 참여합니다."
     )
     @ApiResponses(value = {

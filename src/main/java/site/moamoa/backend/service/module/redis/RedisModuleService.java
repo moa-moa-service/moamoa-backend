@@ -24,6 +24,4 @@ public interface RedisModuleService {
     void expireAccessToken(String accessToken, Long expiration);
 
     Optional<String> getLogoutStatus(String accessToken);
-
-    String checkHealth();
 }
