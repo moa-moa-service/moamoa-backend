@@ -24,7 +24,7 @@ public class NoticeController {
 
     @PostMapping("/api/posts/{postId}/notices")
     @Operation(
-            summary = "공동구매 공지사항 등록",
+            summary = "공동구매 공지사항 등록 (개발중)",
             description = "공지사항에 대한 정보를 받아 공동구매 게시글에 공지사항을 등록합니다."
     )
     @ApiResponses(value = {
@@ -41,7 +41,7 @@ public class NoticeController {
 
     @GetMapping("/api/notices/{noticeId}")
     @Operation(
-            summary = "공동구매 공지사항 상세 조회",
+            summary = "공동구매 공지사항 상세 조회 (개발중)",
             description = "공지사항 ID를 받아 공지사항을 상세 조회합니다."
     )
     @ApiResponses(value = {
