@@ -60,15 +60,6 @@ public class PostConverter {
                 .build();
     }
 
-    public static Post toPost(PostDTO postDTO) {
-        return Post.builder()
-                .productName(postDTO.productName())
-                .personnel(postDTO.personnel())
-                .totalPrice(postDTO.price())
-                .description(postDTO.description())
-                .build();
-    }
-
     public static PostResponseDTO.GetPost toGetPost(PostDTO postDto, MemberDTO adminDto) {
         return PostResponseDTO.GetPost.builder()
                 .postDto(postDto)

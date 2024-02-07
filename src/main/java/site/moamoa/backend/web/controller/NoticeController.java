@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.service.component.command.notice.NoticeCommandService;
 import site.moamoa.backend.service.component.query.notice.NoticeQueryService;
@@ -33,9 +34,10 @@ public class NoticeController {
     public ApiResponseDTO<NoticeResponseDTO.AddNoticeResult> registerNotices(
             @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable Long postId,
-            @RequestBody NoticeRequestDTO.AddNotice request
+            @RequestBody NoticeRequestDTO.AddNotice request,
+            @RequestPart("file") MultipartFile image
     ) {
-        NoticeResponseDTO.AddNoticeResult resultDTO = null;
+        NoticeResponseDTO.AddNoticeResult resultDTO = noticeCommandService.registerNotice(auth.id(), postId, request, image);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

@@ -16,6 +16,7 @@ public class Notice extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "notice_id")
     private Long id;
 
     @Column(nullable = false)
@@ -34,4 +35,8 @@ public class Notice extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "notice", cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
 }
