@@ -116,6 +116,7 @@ public class PostConverter {
                 .productName(addPost.productName())
                 .postImages(postImages)
                 .dealLocation(addPost.dealLocation())
+                .dealTown(addPost.dealTown())
                 .totalPrice(addPost.price())
                 .description(addPost.description())
                 .build();
