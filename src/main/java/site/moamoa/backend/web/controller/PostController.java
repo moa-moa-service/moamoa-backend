@@ -113,9 +113,9 @@ public class PostController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @PatchMapping("/api/posts/{postId}")
+    @PatchMapping(value = "/api/posts/{postId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
-            summary = "공동구매 상세정보 수정 (수정중)",
+            summary = "공동구매 상세정보 수정",
             description = "공동구매 정보를 받아 기존의 공동구매 게시글을 수정합니다."
     )
     @ApiResponses(value = {
