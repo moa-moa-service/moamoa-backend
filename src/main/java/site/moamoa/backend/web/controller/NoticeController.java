@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,7 +24,7 @@ public class NoticeController {
     private final NoticeQueryService noticeQueryService;
     private final NoticeCommandService noticeCommandService;
 
-    @PostMapping("/api/posts/{postId}/notices")
+    @PostMapping(value = "/api/posts/{postId}/notices", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
             summary = "공동구매 공지사항 등록 (개발중)",
             description = "공지사항에 대한 정보를 받아 공동구매 게시글에 공지사항을 등록합니다."
@@ -34,7 +35,7 @@ public class NoticeController {
     public ApiResponseDTO<NoticeResponseDTO.AddNoticeResult> registerNotices(
             @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable Long postId,
-            @RequestBody NoticeRequestDTO.AddNotice request,
+            @RequestPart("request") NoticeRequestDTO.AddNotice request,
             @RequestPart("file") MultipartFile image
     ) {
         NoticeResponseDTO.AddNoticeResult resultDTO = noticeCommandService.registerNotice(auth.id(), postId, request, image);
