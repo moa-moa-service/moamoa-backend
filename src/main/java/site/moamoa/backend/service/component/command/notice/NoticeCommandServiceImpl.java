@@ -10,8 +10,8 @@ import site.moamoa.backend.domain.Notice;
 import site.moamoa.backend.global.aws.s3.AmazonS3Manager;
 import site.moamoa.backend.service.module.notice.NoticeModuleService;
 import site.moamoa.backend.service.module.post.PostModuleService;
-import site.moamoa.backend.web.dto.request.NoticeRequestDTO;
-import site.moamoa.backend.web.dto.response.NoticeResponseDTO;
+import site.moamoa.backend.web.dto.request.NoticeRequestDTO.AddNotice;
+import site.moamoa.backend.web.dto.response.NoticeResponseDTO.AddNoticeResult;
 
 @Service
 @Transactional
@@ -23,7 +23,7 @@ public class NoticeCommandServiceImpl implements NoticeCommandService{
     private final AmazonS3Manager amazonS3Manager;
 
     @Override
-    public NoticeResponseDTO.AddNoticeResult registerNotice(Long memberId, Long postId, NoticeRequestDTO.AddNotice addNotice, MultipartFile image){
+    public AddNoticeResult registerNotice(Long memberId, Long postId, AddNotice addNotice, MultipartFile image){
         String imageUrl = PostImageConverter.toImageUrl(image, amazonS3Manager);
 
         Notice newNotice = NoticeConverter.toNotice(addNotice, imageUrl);
