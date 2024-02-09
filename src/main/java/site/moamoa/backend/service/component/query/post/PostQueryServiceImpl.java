@@ -4,10 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import site.moamoa.backend.converter.MemberConverter;
+import site.moamoa.backend.converter.NoticeConverter;
 import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.domain.Member;
+import site.moamoa.backend.domain.Notice;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.embedded.Address;
+import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.service.module.member.MemberModuleService;
 import site.moamoa.backend.service.module.member_post.MemberPostModuleService;
 import site.moamoa.backend.service.module.post.PostModuleService;
@@ -15,7 +18,9 @@ import site.moamoa.backend.service.module.redis.RedisModuleService;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -80,10 +85,15 @@ public class PostQueryServiceImpl implements PostQueryService {
     }
 
     @Override
-    public PostResponseDTO.GetPost findPostById(Long postId) {
+    public PostResponseDTO.GetPost findPostById(Long memberId, Long postId) {
         Post post = postModuleService.findPostById(postId);
         Member admin = memberPostModuleService.findMemberPostByPostIdAndIsAuthor(postId);
+        List<Notice> noticeList = Collections.emptyList();
+        Optional<MemberPost> memberPostByPostIdAndMemberId = memberPostModuleService.findMemberPostByMemberIdAndPostId(memberId, postId);
 
-        return PostConverter.toGetPost(PostConverter.toPostDTO(post, post.getPostImages(), post.getCategory()), MemberConverter.toMemberDTO(admin));
+        if (memberPostByPostIdAndMemberId.isPresent()) {
+            noticeList = post.getNoticeList();
+        }
+        return PostConverter.toGetPost(PostConverter.toPostDTO(post, post.getPostImages(), post.getCategory()), MemberConverter.toMemberDTO(admin), NoticeConverter.toSimpleNoticeDtoList(noticeList));
     }
 }

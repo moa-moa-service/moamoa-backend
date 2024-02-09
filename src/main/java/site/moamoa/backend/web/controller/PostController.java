@@ -164,13 +164,13 @@ public class PostController {
     })
     public ApiResponseDTO<GetPost> updateViewCountAndGetPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @PathVariable
+            @PathVariable(name = "postId")
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
         postCommandService.updatePostViewCount(auth.id(), postId);
-        GetPost resultDTO = postQueryService.findPostById(postId);
+        GetPost resultDTO = postQueryService.findPostById(auth.id(), postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
@@ -184,7 +184,7 @@ public class PostController {
     })
     public ApiResponseDTO<AddMemberPostResult> joinPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @PathVariable
+            @PathVariable(name = "postId")
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId

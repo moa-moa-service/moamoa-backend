@@ -104,7 +104,7 @@ public class PostCommandServiceImpl implements PostCommandService {
 
     @Override
     public DeleteMemberPostResult cancelPost(Long id, Long postId) {
-        MemberPost canceledMemberPost = memberPostModuleService.findMemberPostByPostIdAndMemberId(id, postId)
+        MemberPost canceledMemberPost = memberPostModuleService.findMemberPostByMemberIdAndPostId(id, postId)
                 .orElseThrow(
                         () -> new MemberPostHandler(ErrorStatus.MEMBER_POST_NOT_FOUND)
                 );

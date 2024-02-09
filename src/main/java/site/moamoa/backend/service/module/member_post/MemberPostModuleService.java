@@ -16,7 +16,7 @@ public interface MemberPostModuleService {
 
     Member findMemberPostByPostIdAndIsAuthor(Long postId);
 
-    Optional<MemberPost> findMemberPostByPostIdAndMemberId(Long postId, Long memberId);
+    Optional<MemberPost> findMemberPostByMemberIdAndPostId(Long memberId, Long postId);
 
     void deleteMemberPost(Long id);
   

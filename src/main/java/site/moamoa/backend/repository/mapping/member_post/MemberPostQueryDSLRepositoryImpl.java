@@ -21,12 +21,14 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
     public Member findPostAdminByPostId(Long postId) {
         QMemberPost memberPost = QMemberPost.memberPost;
 
-        BooleanExpression condition = memberPost.post.id.eq(postId);
+        BooleanBuilder conditions = new BooleanBuilder();
+        addCondition(conditions, memberPost.post.id.eq(postId));
+        addCondition(conditions, memberPost.isAuthorStatus.eq(IsAuthorStatus.AUTHOR));
 
         return jpaQueryFactory
                 .select(memberPost.member)
                 .from(memberPost)
-                .where(condition)
+                .where(conditions)
                 .fetchOne();
     }
 

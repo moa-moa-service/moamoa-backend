@@ -46,8 +46,8 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
     }
 
     @Override
-    public Optional<MemberPost> findMemberPostByPostIdAndMemberId(Long postId, Long memberId) {
-        return memberPostRepository.findByMemberIdAndPostId(postId, memberId);
+    public Optional<MemberPost> findMemberPostByMemberIdAndPostId(Long memberId, Long postId) {
+        return memberPostRepository.findByMemberIdAndPostId(memberId, postId);
     }
 
     @Override
