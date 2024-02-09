@@ -25,7 +25,7 @@ public class CommentController {
 
     @PostMapping("/api/notices/{noticeId}/comments")
     @Operation(
-            summary = "공동구매 공지사항 댓글 등록",
+            summary = "공동구매 공지사항 댓글 등록 (개발중)",
             description = "댓글에 대한 정보를 받아 공동구매 공지사항에 댓글을 등록합니다."
     )
     @ApiResponses(value = {

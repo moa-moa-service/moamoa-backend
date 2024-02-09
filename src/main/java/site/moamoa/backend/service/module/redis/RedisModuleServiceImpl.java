@@ -92,9 +92,6 @@ public class RedisModuleServiceImpl implements RedisModuleService {
             return firstKeyword.get().getValue();
         }
         return null;
-//                return Objects.requireNonNull(redisZSetTemplate.opsForZSet()
-//                        .range(MEMBER_KEYWORD_KEY_PREFIX + memberId, 0, 0)).stream()
-//                .findFirst().orElse(null);
     }
 
     @Override

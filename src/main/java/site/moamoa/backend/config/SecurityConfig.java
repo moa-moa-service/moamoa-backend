@@ -12,6 +12,10 @@ import org.springframework.security.config.annotation.web.configurers.HttpBasicC
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import site.moamoa.backend.global.jwt.filter.JwtAuthenticationProcessingFilter;
 import site.moamoa.backend.global.jwt.service.JwtService;
 import site.moamoa.backend.global.oauth2.handler.OAuth2LoginFailureHandler;
@@ -22,7 +26,7 @@ import site.moamoa.backend.repository.member.MemberRepository;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig {
+public class SecurityConfig implements WebMvcConfigurer{
 
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
@@ -43,7 +47,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**",
-                                        "/health").permitAll()
+                                        "/health","/health/**").permitAll()
                                 .requestMatchers("/api/auth/member-info").hasRole("GUEST")
                                 .anyRequest().hasRole("MEMBER")
                 )
@@ -61,6 +65,17 @@ public class SecurityConfig {
 
         http.addFilterBefore(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOriginPatterns("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("Authorization", "Content-Type")
+                .exposedHeaders("Custom-Header")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 
     @Bean
