@@ -14,6 +14,11 @@ public class NoticeModuleServiceImpl implements NoticeModuleService {
     private final NoticeRepository noticeRepository;
 
     @Override
+    public Notice saveNotice(Notice notice) {
+        return noticeRepository.save(notice);
+    }
+
+    @Override
     public Notice findNoticeById(Long noticeId) {
         return noticeRepository.findById(noticeId)
             .orElseThrow(() -> new NoticeHandler(ErrorStatus.NOTICE_NOT_FOUND));

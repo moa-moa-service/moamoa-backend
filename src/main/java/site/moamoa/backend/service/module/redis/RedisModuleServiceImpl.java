@@ -86,9 +86,12 @@ public class RedisModuleServiceImpl implements RedisModuleService {
 
     @Override
     public String getKeywordByMemberRecentFirst(Long memberId) {
-        return Objects.requireNonNull(Objects.requireNonNull(redisZSetTemplate.opsForZSet()
-                        .reverseRangeWithScores(MEMBER_KEYWORD_KEY_PREFIX + memberId, 0, 9)).stream()
-                .findFirst().orElse(null)).getValue();
+        Set<ZSetOperations.TypedTuple<String>> recentKeywords = getKeywordByMemberRecent(memberId);
+        if (recentKeywords != null && !recentKeywords.isEmpty()) {
+            Optional<ZSetOperations.TypedTuple<String>> firstKeyword = recentKeywords.stream().findFirst();
+            return firstKeyword.get().getValue();
+        }
+        return null;
     }
 
     @Override
