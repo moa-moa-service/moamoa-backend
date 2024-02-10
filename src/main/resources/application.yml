@@ -52,8 +52,8 @@ spring:
       max-request-size: 30MB
   data:
     redis:
-      host: ${develop.redis.host}
-      port: ${develop.redis.port}
+      host: ${local.redis.host}
+      port: ${local.redis.port}
   datasource:
     url: ${local.mysql.url}
     username: ${local.mysql.username}
@@ -111,10 +111,11 @@ spring:
     password: ${develop.mysql.password}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
+    hibernate:
+      ddl-auto: create
     properties:
       hibernate:
         default_batch_fetch_size: 100
-        ddl-auto: create
 
   security:
     oauth2:
@@ -172,7 +173,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
     properties:
       hibernate:
         default_batch_fetch_size: 100
