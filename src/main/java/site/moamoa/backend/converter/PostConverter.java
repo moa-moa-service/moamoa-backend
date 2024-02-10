@@ -1,18 +1,15 @@
 package site.moamoa.backend.converter;
 
-import org.aspectj.weaver.ast.Not;
 import site.moamoa.backend.domain.Category;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.mapping.PostImage;
 import site.moamoa.backend.web.dto.base.MemberDTO;
-import site.moamoa.backend.web.dto.base.NoticeDTO;
 import site.moamoa.backend.web.dto.base.PostDTO;
 import site.moamoa.backend.web.dto.base.SimplePostDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
-import site.moamoa.backend.web.dto.response.NoticeResponseDTO;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
 import java.time.LocalDateTime;
@@ -145,5 +142,4 @@ public class PostConverter {
                 .updatedAt(post.getUpdatedAt())
                 .build();
     }
-
 }

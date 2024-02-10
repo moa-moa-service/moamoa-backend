@@ -16,6 +16,10 @@ public class PostImageConverter {
                 .toList();
     }
 
+    public static String toImageUrl(MultipartFile file, AmazonS3Manager amazonS3Manager) {
+        return PostImageConverter.saveFileAndGetUrl(file, amazonS3Manager);
+    }
+
     private static PostImage convertToFileAndUrl(MultipartFile file, AmazonS3Manager amazonS3Manager) {
         String storedImageUrl = saveFileAndGetUrl(file, amazonS3Manager);
         return PostImage.builder()

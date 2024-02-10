@@ -1,5 +1,6 @@
 package site.moamoa.backend.web.dto.base;
 
+import java.time.LocalDateTime;
 import lombok.Builder;
 
 import java.util.List;
@@ -8,8 +9,10 @@ import java.util.List;
 public record NoticeDTO(
         Long noticeId,
         Long postId,
+        String title,
         String imageUrl,
         String content,
-        List<CommentDTO> commentDTOList
+        List<CommentDTO> commentDTOList,
+        LocalDateTime createdAt
 ) {
 }
