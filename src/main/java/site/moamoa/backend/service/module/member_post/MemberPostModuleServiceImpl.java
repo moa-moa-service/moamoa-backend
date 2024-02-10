@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import site.moamoa.backend.api_payload.code.status.ErrorStatus;
 import site.moamoa.backend.api_payload.exception.handler.MemberHandler;
 import site.moamoa.backend.api_payload.exception.handler.MemberPostHandler;
+import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.enums.IsAuthorStatus;
@@ -33,6 +34,11 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
         if (memberPost.getIsAuthorStatus() != IsAuthorStatus.AUTHOR) {
             throw new MemberHandler(ErrorStatus.MEMBER_IS_NOT_AUTHOR);
         }
+    }
+
+    @Override
+    public Member findMemberPostByPostIdAndIsAuthor(Long postId) {
+        return memberPostRepository.findPostAdminByPostId(postId);
     }
 
     @Override

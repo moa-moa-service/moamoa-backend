@@ -24,10 +24,23 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
+    public Member findPostAdminByPostId(Long postId) {
+        QMemberPost memberPost = QMemberPost.memberPost;
+
+        BooleanExpression condition = memberPost.post.id.eq(postId);
+
+        return jpaQueryFactory
+                .select(memberPost.member)
+                .from(memberPost)
+                .where(condition)
+                .fetchOne();
+    }
+
+    @Override
     public PostResponseDTO.GetPost fetchDetailedPostByPostId(Long memberId, Long postId) {
         QMemberPost memberPost = QMemberPost.memberPost;
 
-        MemberPost fetchedMemberPost = findPostAdminByPostId(postId);
+        MemberPost fetchedMemberPost = findMemberPostAdminByPostId(postId);
         Member fetchedMember = fetchedMemberPost.getMember();
         Post fetchedPost = fetchedMemberPost.getPost();
         List<Notice> noticeList;
@@ -68,7 +81,7 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
                 .fetch();
     }
 
-    private MemberPost findPostAdminByPostId(Long postId) {
+    private MemberPost findMemberPostAdminByPostId(Long postId) {
         QPost post = QPost.post;
         QMember member = QMember.member;
         QMemberPost memberPost = QMemberPost.memberPost;

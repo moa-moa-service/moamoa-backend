@@ -1,8 +1,6 @@
 package site.moamoa.backend.web.dto.response;
 
-import java.util.List;
 import lombok.Builder;
-import site.moamoa.backend.web.dto.base.CommentDTO;
 import site.moamoa.backend.web.dto.base.NoticeDTO;
 
 import java.time.LocalDateTime;

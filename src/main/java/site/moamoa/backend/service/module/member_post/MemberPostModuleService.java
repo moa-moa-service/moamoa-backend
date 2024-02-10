@@ -1,5 +1,6 @@
 package site.moamoa.backend.service.module.member_post;
 
+import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.enums.IsAuthorStatus;
@@ -13,6 +14,8 @@ public interface MemberPostModuleService {
     void saveMemberPost(MemberPost memberPost);
 
     void validMemberPostIsAuthor(Long memberId, Long postId);
+
+    Member findMemberPostByPostIdAndIsAuthor(Long postId);
 
     Optional<MemberPost> findMemberPostByMemberIdAndPostId(Long memberId, Long postId);
 

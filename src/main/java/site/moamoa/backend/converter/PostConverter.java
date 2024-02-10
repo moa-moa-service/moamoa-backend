@@ -10,6 +10,7 @@ import site.moamoa.backend.web.dto.base.PostDTO;
 import site.moamoa.backend.web.dto.base.SimplePostDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
+import site.moamoa.backend.web.dto.response.NoticeResponseDTO;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
 import java.time.LocalDateTime;
