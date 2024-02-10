@@ -88,12 +88,15 @@ public class PostQueryServiceImpl implements PostQueryService {
     public PostResponseDTO.GetPost findPostById(Long memberId, Long postId) {
         Post post = postModuleService.findPostById(postId);
         Member admin = memberPostModuleService.findMemberPostByPostIdAndIsAuthor(postId);
-        List<Notice> noticeList = Collections.emptyList();
-        Optional<MemberPost> memberPostByPostIdAndMemberId = memberPostModuleService.findMemberPostByMemberIdAndPostId(memberId, postId);
 
-        if (memberPostByPostIdAndMemberId.isPresent()) {
-            noticeList = post.getNoticeList();
-        }
-        return PostConverter.toGetPost(PostConverter.toPostDTO(post, post.getPostImages(), post.getCategory()), MemberConverter.toMemberDTO(admin), NoticeConverter.toSimpleNoticeDtoList(noticeList));
+        List<Notice> noticeList = memberPostModuleService.findMemberPostByMemberIdAndPostId(memberId, postId)
+                .map(m -> post.getNoticeList())
+                .orElse(Collections.emptyList());
+
+        return PostConverter.toGetPost(
+                PostConverter.toPostDTO(post, post.getPostImages(), post.getCategory()),
+                MemberConverter.toMemberDTO(admin),
+                NoticeConverter.toSimpleNoticeDtoList(noticeList)
+        );
     }
 }
