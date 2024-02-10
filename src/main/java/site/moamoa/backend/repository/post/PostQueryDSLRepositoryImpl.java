@@ -6,11 +6,19 @@ import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import site.moamoa.backend.domain.Post;
-import site.moamoa.backend.domain.QPost;
+import site.moamoa.backend.converter.MemberConverter;
+import site.moamoa.backend.converter.NoticeConverter;
+import site.moamoa.backend.converter.PostConverter;
+import site.moamoa.backend.domain.*;
+import site.moamoa.backend.domain.enums.IsAuthorStatus;
+import site.moamoa.backend.domain.mapping.MemberPost;
+import site.moamoa.backend.domain.mapping.QMemberPost;
+import site.moamoa.backend.domain.mapping.QPostImage;
+import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor

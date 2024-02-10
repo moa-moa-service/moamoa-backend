@@ -14,5 +14,5 @@ public interface PostQueryService {
 
     PostResponseDTO.GetPosts findPostsByConditions(String keyword, Long categoryId, Integer dDay, Integer total, Integer minPrice, Integer maxPrice);
 
-    PostResponseDTO.GetPost findPostById(Long memberId, Long postId);
+    PostResponseDTO.GetPost fetchDetailedPostByPostId(Long memberId, Long postId);
 }

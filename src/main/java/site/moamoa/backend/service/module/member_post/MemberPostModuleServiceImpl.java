@@ -5,12 +5,12 @@ import org.springframework.stereotype.Service;
 import site.moamoa.backend.api_payload.code.status.ErrorStatus;
 import site.moamoa.backend.api_payload.exception.handler.MemberHandler;
 import site.moamoa.backend.api_payload.exception.handler.MemberPostHandler;
-import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.enums.IsAuthorStatus;
 import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.repository.mapping.member_post.MemberPostRepository;
+import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,11 +36,6 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
     }
 
     @Override
-    public Member findMemberPostByPostIdAndIsAuthor(Long postId) {
-        return memberPostRepository.findPostAdminByPostId(postId);
-    }
-
-    @Override
     public List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus) {
         return memberPostRepository.findPostsByRecruitingAndParticipating(memberId, isAuthorStatus, capacityStatus);
     }
@@ -53,5 +48,10 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
     @Override
     public void deleteMemberPost(Long id) {
         memberPostRepository.deleteById(id);
+    }
+
+    @Override
+    public PostResponseDTO.GetPost fetchDetailedPostByPostId(Long memberId, Long postId) {
+        return memberPostRepository.fetchDetailedPostByPostId(memberId, postId);
     }
 }
