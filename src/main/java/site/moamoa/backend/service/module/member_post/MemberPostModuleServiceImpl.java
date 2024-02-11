@@ -56,4 +56,9 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
     public void deleteMemberPost(Long id) {
         memberPostRepository.deleteById(id);
     }
+
+    @Override
+    public boolean IsPostAuthor(Member authMember, Post post) {
+        return memberPostRepository.isMemberAuthorOfPost(authMember, post);
+    }
 }
