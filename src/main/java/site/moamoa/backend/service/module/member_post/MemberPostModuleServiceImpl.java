@@ -45,6 +45,11 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
     }
 
     @Override
+    public boolean IsPostAuthor(Member authMember, Post post) {
+        return memberPostRepository.isMemberAuthorOfPost(authMember, post);
+    }
+
+    @Override
     public MemberPost findMemberPostByPostIdAndMemberId(Long postId, Long memberId) {
         return memberPostRepository.findByMemberIdAndPostId(postId, memberId)
                 .orElseThrow(

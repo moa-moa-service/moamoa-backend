@@ -20,5 +20,7 @@ public interface MemberPostModuleService {
     void deleteMemberPost(Long id);
   
     List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus);
+
+    boolean IsPostAuthor(Member authMember, Post post);
 }
 

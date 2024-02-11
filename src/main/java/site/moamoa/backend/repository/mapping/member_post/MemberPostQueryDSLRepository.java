@@ -11,4 +11,6 @@ public interface MemberPostQueryDSLRepository {
     Member findPostAdminByPostId(Long postId);
 
     List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus);
+
+    boolean isMemberAuthorOfPost(Member member, Post post);
 }
