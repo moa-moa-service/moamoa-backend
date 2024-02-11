@@ -23,6 +23,7 @@ public enum ErrorStatus implements BaseErrorCode {
     // Member-Post
     MEMBER_IS_NOT_AUTHOR(HttpStatus.FORBIDDEN, "MEMBER_POST403", "해당 멤버에게는 금지된 요청입니다."),
     MEMBER_POST_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER_POST404", "공동구매 참여 기록이 없습니다."),
+    AUTHOR_CAN_NOT_BE_PARTICIPATOR(HttpStatus.FORBIDDEN, "MEMBER_POST4003", "글쓴이는 참여자가 될 수 없습니다."),
 
     // Member
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER404", "해당 사용자를 찾을 수 없습니다."),
