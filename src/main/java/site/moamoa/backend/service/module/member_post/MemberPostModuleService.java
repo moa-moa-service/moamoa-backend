@@ -8,7 +8,6 @@ import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface MemberPostModuleService {
     void saveMemberPost(MemberPost memberPost);
@@ -17,7 +16,7 @@ public interface MemberPostModuleService {
 
     Member findMemberPostByPostIdAndIsAuthor(Long postId);
 
-    Optional<MemberPost> findMemberPostByMemberIdAndPostId(Long memberId, Long postId);
+    MemberPost findMemberPostByMemberIdAndPostId(Long memberId, Long postId);
 
     void deleteMemberPost(Long id);
   
