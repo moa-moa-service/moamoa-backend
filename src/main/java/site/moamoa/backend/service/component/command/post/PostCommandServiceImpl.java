@@ -67,7 +67,7 @@ public class PostCommandServiceImpl implements PostCommandService {
     public UpdatePostStatusResult updatePostStatus(Long memberId, Long postId) {
         memberPostModuleService.validMemberPostIsAuthor(memberId, postId);
         Post updatePost = postModuleService.findPostById(postId);
-        updatePost.updateStatusToFull();
+        updatePost.updateStatus();
         return PostConverter.toUpdatePostStatusResult(updatePost);
     }
 

@@ -29,6 +29,8 @@ public class PostRequestDTO {
             @NotNull
             Address dealLocation,
             @NotNull
+            String dealTown,
+            @NotNull
             Integer price,
             String description
     ) {

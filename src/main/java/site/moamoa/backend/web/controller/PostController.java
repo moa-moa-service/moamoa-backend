@@ -98,7 +98,7 @@ public class PostController {
 
     @PostMapping(value = "/api/posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
-            summary = "공동구매 등록 (수정중)",
+            summary = "공동구매 등록",
             description = "공동구매 정보를 받아 새로운 공동구매 게시글을 등록합니다."
     )
     @ApiResponses(value = {
@@ -136,7 +136,7 @@ public class PostController {
 
     @PatchMapping("/api/posts/{postId}/status")
     @Operation(
-            summary = "공동구매 상태 변경 (수정중)",
+            summary = "공동구매 상태 변경",
             description = "기존의 공동구매 상태를 변경합니다."
     )
     @ApiResponses(value = {
