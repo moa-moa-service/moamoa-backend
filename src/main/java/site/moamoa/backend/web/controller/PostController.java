@@ -125,7 +125,7 @@ public class PostController {
             @AuthenticationPrincipal AuthInfoDTO auth,
             @RequestPart("request") UpdatePostInfo request,
             @RequestPart("files") List<MultipartFile> images,
-            @PathVariable
+            @PathVariable(name = "postId")
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
@@ -144,7 +144,7 @@ public class PostController {
     })
     public ApiResponseDTO<UpdatePostStatusResult> updatePostStatus(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @PathVariable
+            @PathVariable(name = "postId")
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
@@ -164,7 +164,7 @@ public class PostController {
     })
     public ApiResponseDTO<GetPost> updateViewCountAndGetPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @PathVariable
+            @PathVariable(name = "postId")
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
@@ -184,7 +184,7 @@ public class PostController {
     })
     public ApiResponseDTO<AddMemberPostResult> joinPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @PathVariable
+            @PathVariable(name = "postId")
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
@@ -203,7 +203,7 @@ public class PostController {
     })
     public ApiResponseDTO<DeleteMemberPostResult> cancelPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @PathVariable
+            @PathVariable(name = "postId")
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
