@@ -136,7 +136,7 @@ public class PostController {
 
     @PatchMapping("/api/posts/{postId}/status")
     @Operation(
-            summary = "공동구매 상태 변경 (수정중)",
+            summary = "공동구매 상태 변경",
             description = "기존의 공동구매 상태를 변경합니다."
     )
     @ApiResponses(value = {

@@ -74,8 +74,11 @@ public class Post extends BaseEntity {
         this.description = Optional.ofNullable(request.description()).orElse(this.description);
     }
 
-    public void updateStatusToFull() {
-        this.capacityStatus = CapacityStatus.FULL;
+    public void updateStatus() {
+        if (this.capacityStatus == CapacityStatus.NOT_FULL)
+            this.capacityStatus = CapacityStatus.FULL;
+        else if (this.capacityStatus == CapacityStatus.FULL)
+            this.capacityStatus = CapacityStatus.NOT_FULL;
     }
 
     public void updateViewCount() {
