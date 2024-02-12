@@ -50,14 +50,14 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     public MemberResponseDTO.UpdateMemberAddressResult updateMemberAddress(Long memberId, MemberRequestDTO.UpdateMemberAddress request) {
         Member member = memberModuleService.findMemberById(memberId);
         member.addInfo(member.getNickname(), request.town(), request.address());
-        return MemberConverter.updateMemberAddressResult(member);
+        return MemberConverter.toUpdateMemberAddressResult(member);
     }
 
     @Override
     public MemberResponseDTO.DeleteMemberResult deActiveMemberResult(Long memberId) {
         Member member = memberModuleService.findMemberById(memberId);
         member.deactivate();
-        return MemberConverter.deActiveMemberResult(member);
+        return MemberConverter.toDeActiveMemberResult(member);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     public MemberResponseDTO.LogoutInfo memberDeleteRefreshToken(Long memberId) {
         Member member = memberModuleService.findMemberById(memberId);
         member.addRefreshToken(null);
-        return MemberConverter.logoutMemberInfoResult(member);
+        return MemberConverter.toLogoutMemberInfoResult(member);
     }
 
     @Override
@@ -80,6 +80,6 @@ public class MemberCommandServiceImpl implements MemberCommandService {
             throw new MemberHandler(ErrorStatus.MEMBER_ALREADY_EXISTS);
         }
         member.addInfo(memberInfo.nickname(), memberInfo.town(), memberInfo.address());
-        return MemberConverter.addMemberInfoResult(member);
+        return MemberConverter.toAddMemberInfoResult(member);
     }
 }

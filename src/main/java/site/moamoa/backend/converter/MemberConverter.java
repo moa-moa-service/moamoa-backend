@@ -35,28 +35,28 @@ public class MemberConverter {
                 .build();
     }
 
-    public static MemberResponseDTO.UpdateMemberAddressResult updateMemberAddressResult(Member member) {
+    public static MemberResponseDTO.UpdateMemberAddressResult toUpdateMemberAddressResult(Member member) {
         return MemberResponseDTO.UpdateMemberAddressResult.builder()
                 .userId(member.getId())
                 .updatedAt(member.getUpdatedAt())
                 .build();
     }
 
-    public static MemberResponseDTO.DeleteMemberResult deActiveMemberResult(Member member) {
+    public static MemberResponseDTO.DeleteMemberResult toDeActiveMemberResult(Member member) {
         return MemberResponseDTO.DeleteMemberResult.builder()
                 .userId(member.getId())
                 .updatedAt(member.getUpdatedAt())
                 .build();
     }
 
-    public static MemberResponseDTO.AddMemberInfoResult addMemberInfoResult(Member member) {
+    public static MemberResponseDTO.AddMemberInfoResult toAddMemberInfoResult(Member member) {
         return MemberResponseDTO.AddMemberInfoResult.builder()
                 .userId(member.getId())
                 .createdAt(member.getCreatedAt())
                 .build();
     }
 
-    public static MemberResponseDTO.LogoutInfo logoutMemberInfoResult(Member member) {
+    public static MemberResponseDTO.LogoutInfo toLogoutMemberInfoResult(Member member) {
         return MemberResponseDTO.LogoutInfo.builder()
                 .userId(member.getId())
                 .updatedAt(member.getUpdatedAt())
