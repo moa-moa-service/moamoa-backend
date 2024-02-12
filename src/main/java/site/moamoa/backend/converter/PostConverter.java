@@ -96,12 +96,11 @@ public class PostConverter {
                 .build();
     }
 
-    public static Post toPost(PostRequestDTO.AddPost addPost, Category category, List<PostImage> postImages) {
+    public static Post toPost(PostRequestDTO.AddPost addPost, List<PostImage> postImages) {
         return Post.builder()
                 .available(addPost.personnel())
                 .viewCount(0)
                 .capacityStatus(CapacityStatus.NOT_FULL)
-                .category(category)
                 .personnel(addPost.personnel())
                 .deadline(addPost.deadline())
                 .productName(addPost.productName())

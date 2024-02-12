@@ -21,7 +21,7 @@ import java.util.Optional;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
 public class Post extends BaseEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_id")
@@ -80,5 +80,9 @@ public class Post extends BaseEntity {
 
     public void updateViewCount() {
         this.viewCount++;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

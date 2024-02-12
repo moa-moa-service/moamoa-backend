@@ -45,13 +45,18 @@ public class PostCommandServiceImpl implements PostCommandService {
         Category category = categoryModuleService.findCategoryById(addPost.categoryId());
         List<PostImage> postImages = PostImageConverter.toPostImages(images, amazonS3Manager);
 
-        Post newPost = PostConverter.toPost(addPost, category, postImages);
+        Post newPost = PostConverter.toPost(addPost, postImages);
+        newPost.setCategory(category);
+
         postImages.forEach(postImage -> postImage.setPost(newPost));
 
         postModuleService.savePost(newPost);
 
         Member authMember = memberModuleService.findMemberById(memberId);
-        MemberPost newMemberPost = MemberPostConverter.toMemberPostAsAuthor(newPost, authMember);
+
+        MemberPost newMemberPost = MemberPostConverter.toMemberPostAsAuthor();
+        newMemberPost.setPost(newPost);
+        newMemberPost.setMember(authMember);
 
         memberPostModuleService.saveMemberPost(newMemberPost);
 
@@ -86,7 +91,11 @@ public class PostCommandServiceImpl implements PostCommandService {
     public AddMemberPostResult joinPost(Long memberId, Long postId) {
         Member authMember = memberModuleService.findMemberById(memberId);
         Post joinPost = postModuleService.findPostById(postId);
-        MemberPost newMemberPost = MemberPostConverter.toMemberPostAsParticipator(joinPost, authMember);
+
+        MemberPost newMemberPost = MemberPostConverter.toMemberPostAsParticipator();
+        newMemberPost.setMember(authMember);
+        newMemberPost.setPost(joinPost);
+
         memberPostModuleService.saveMemberPost(newMemberPost);
         return MemberPostConverter.toAddMemberPostResult(newMemberPost);
     }
