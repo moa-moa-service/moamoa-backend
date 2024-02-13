@@ -3,7 +3,6 @@ package site.moamoa.backend.service.component.query.post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import site.moamoa.backend.converter.MemberConverter;
 import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
@@ -80,10 +79,7 @@ public class PostQueryServiceImpl implements PostQueryService {
     }
 
     @Override
-    public PostResponseDTO.GetPost findPostById(Long postId) {
-        Post post = postModuleService.findPostById(postId);
-        Member admin = memberPostModuleService.findMemberPostByPostIdAndIsAuthor(postId);
-
-        return PostConverter.toGetPost(PostConverter.toPostDTO(post, post.getPostImages(), post.getCategory()), MemberConverter.toMemberDTO(admin));
+    public PostResponseDTO.GetPost fetchDetailedPostByPostId(Long memberId, Long postId) {
+        return memberPostModuleService.fetchDetailedPostByPostId(memberId, postId);
     }
 }

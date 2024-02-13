@@ -6,7 +6,12 @@ import site.moamoa.backend.web.dto.base.NoticeDTO;
 import site.moamoa.backend.web.dto.response.NoticeResponseDTO.GetNotice;
 import site.moamoa.backend.web.dto.response.NoticeResponseDTO.AddNoticeResult;
 import site.moamoa.backend.web.dto.request.NoticeRequestDTO.AddNotice;
+import site.moamoa.backend.web.dto.response.NoticeResponseDTO;
 import static site.moamoa.backend.converter.CommentConverter.toCommentDTOList;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class NoticeConverter {
     public static Notice toNotice(AddNotice addNotice, String imageUrl) {
@@ -42,4 +47,22 @@ public class NoticeConverter {
                 .author(member.getNickname())
                 .build();
     }
+
+    public static List<NoticeResponseDTO.GetSimpleNotice> toSimpleNoticeDtoList(List<Notice> noticeList) {
+        if (noticeList.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return noticeList.stream().map(NoticeConverter::toSimpleNoticeDTO)
+                .collect(Collectors.toList());
+    }
+
+    private static NoticeResponseDTO.GetSimpleNotice toSimpleNoticeDTO(Notice notice) {
+        return NoticeResponseDTO.GetSimpleNotice.builder()
+                .noticeId(notice.getId())
+                .title(notice.getTitle())
+                .content(notice.getContent())
+                .createdAt(notice.getCreatedAt())
+                .build();
+    }
+
 }

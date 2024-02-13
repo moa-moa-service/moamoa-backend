@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.service.component.command.keyword.KeywordCommandServiceImpl;
 import site.moamoa.backend.service.component.command.post.PostCommandService;
+import site.moamoa.backend.service.component.query.member_post.MemberPostQueryService;
 import site.moamoa.backend.service.component.query.post.PostQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
@@ -170,7 +171,7 @@ public class PostController {
             Long postId
     ) {
         postCommandService.updatePostViewCount(auth.id(), postId);
-        GetPost resultDTO = postQueryService.findPostById(postId);
+        GetPost resultDTO = postQueryService.fetchDetailedPostByPostId(auth.id(), postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
