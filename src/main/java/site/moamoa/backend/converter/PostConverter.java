@@ -51,6 +51,7 @@ public class PostConverter {
                         .toList())
                 .productName(post.getProductName())
                 .personnel(personnel)
+                .dealTown(post.getDealTown())
                 .viewCount(post.getViewCount())
                 .available(post.getAvailable())
                 .price(post.getTotalPrice() / personnel)
