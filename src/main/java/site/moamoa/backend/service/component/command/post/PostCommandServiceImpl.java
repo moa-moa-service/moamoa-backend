@@ -47,17 +47,12 @@ public class PostCommandServiceImpl implements PostCommandService {
     public AddPostResult registerPost(Long memberId, AddPost addPost, List<MultipartFile> images) {
         Category category = categoryModuleService.findCategoryById(addPost.categoryId());
         List<PostImage> postImages = PostImageConverter.toPostImages(images, amazonS3Manager);
-
         Post newPost = PostConverter.toPost(addPost, category, postImages);
         postImages.forEach(postImage -> postImage.setPost(newPost));
-
         postModuleService.savePost(newPost);
-
         Member authMember = memberModuleService.findMemberById(memberId);
         MemberPost newMemberPost = MemberPostConverter.toMemberPostAsAuthor(newPost, authMember);
-
         memberPostModuleService.saveMemberPost(newMemberPost);
-
         return PostConverter.toAddPostResult(newPost);
     }
 
@@ -65,7 +60,7 @@ public class PostCommandServiceImpl implements PostCommandService {
     public UpdatePostStatusResult updatePostStatus(Long memberId, Long postId) {
         memberPostModuleService.validMemberPostIsAuthor(memberId, postId);
         Post updatePost = postModuleService.findPostById(postId);
-        updatePost.updateStatusToFull();
+        updatePost.updateStatus();
         return PostConverter.toUpdatePostStatusResult(updatePost);
     }
 
