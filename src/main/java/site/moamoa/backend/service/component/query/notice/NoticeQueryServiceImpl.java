@@ -9,7 +9,6 @@ import site.moamoa.backend.domain.Notice;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.service.module.member_post.MemberPostModuleServiceImpl;
 import site.moamoa.backend.service.module.notice.NoticeModuleService;
-import site.moamoa.backend.service.module.post.PostModuleService;
 import site.moamoa.backend.web.dto.base.NoticeDTO;
 import site.moamoa.backend.web.dto.response.NoticeResponseDTO.GetNotice;
 

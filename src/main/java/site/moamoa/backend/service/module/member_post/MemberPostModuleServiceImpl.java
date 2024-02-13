@@ -11,6 +11,7 @@ import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.enums.IsAuthorStatus;
 import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.repository.mapping.member_post.MemberPostRepository;
+import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
 import java.util.List;
 
@@ -45,15 +46,19 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
     }
 
     @Override
-    public MemberPost findMemberPostByPostIdAndMemberId(Long postId, Long memberId) {
-        return memberPostRepository.findByMemberIdAndPostId(postId, memberId)
-                .orElseThrow(
-                        () -> new MemberPostHandler(ErrorStatus.MEMBER_POST_NOT_FOUND)
-                );
+    public MemberPost findMemberPostByMemberIdAndPostId(Long memberId, Long postId) {
+        return memberPostRepository.findByMemberIdAndPostId(memberId, postId).orElseThrow(
+            () -> new MemberPostHandler(ErrorStatus.MEMBER_POST_NOT_FOUND)
+        );
     }
 
     @Override
     public void deleteMemberPost(Long id) {
         memberPostRepository.deleteById(id);
+    }
+
+    @Override
+    public PostResponseDTO.GetPost fetchDetailedPostByPostId(Long memberId, Long postId) {
+        return memberPostRepository.fetchDetailedPostByPostId(memberId, postId);
     }
 }
