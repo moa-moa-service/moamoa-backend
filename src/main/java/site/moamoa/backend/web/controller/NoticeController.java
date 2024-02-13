@@ -34,7 +34,7 @@ public class NoticeController {
     })
     public ApiResponseDTO<NoticeResponseDTO.AddNoticeResult> registerNotices(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @PathVariable Long postId,
+            @PathVariable(name = "postId") Long postId,
             @RequestPart("request") NoticeRequestDTO.AddNotice request,
             @RequestPart("file") MultipartFile image
     ) {
@@ -52,7 +52,7 @@ public class NoticeController {
     })
     public ApiResponseDTO<NoticeResponseDTO.GetNotice> getNoticeByNoticeId(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @PathVariable Long noticeId
+            @PathVariable(name = "postId") Long noticeId
     ) {
         NoticeResponseDTO.GetNotice resultDTO = noticeQueryService.findNoticeById(noticeId);
         return ApiResponseDTO.onSuccess(resultDTO);
