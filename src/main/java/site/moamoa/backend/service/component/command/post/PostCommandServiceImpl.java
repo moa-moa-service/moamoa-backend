@@ -49,17 +49,13 @@ public class PostCommandServiceImpl implements PostCommandService {
         newPost.setCategory(category);
 
         postImages.forEach(postImage -> postImage.setPost(newPost));
-
         postModuleService.savePost(newPost);
-
         Member authMember = memberModuleService.findMemberById(memberId);
-
+      
         MemberPost newMemberPost = MemberPostConverter.toMemberPostAsAuthor();
         newMemberPost.setPost(newPost);
         newMemberPost.setMember(authMember);
-
         memberPostModuleService.saveMemberPost(newMemberPost);
-
         return PostConverter.toAddPostResult(newPost);
     }
 
@@ -91,7 +87,7 @@ public class PostCommandServiceImpl implements PostCommandService {
     public AddMemberPostResult joinPost(Long memberId, Long postId) {
         Member authMember = memberModuleService.findMemberById(memberId);
         Post joinPost = postModuleService.findPostById(postId);
-
+      
         MemberPost newMemberPost = MemberPostConverter.toMemberPostAsParticipator();
         newMemberPost.setMember(authMember);
         newMemberPost.setPost(joinPost);

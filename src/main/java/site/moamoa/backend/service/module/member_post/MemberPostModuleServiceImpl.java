@@ -58,6 +58,12 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
     }
 
     @Override
+    public void checkMemberPostExists(Long memberId, Long postId) {
+        if (memberPostRepository.existsByMemberIdAndPostId(memberId, postId))
+            throw new MemberPostHandler(ErrorStatus.MEMBER_CAN_NOT_BE_PARTICIPATOR);
+    }
+  
+    @Override
     public PostResponseDTO.GetPost fetchDetailedPostByPostId(Long memberId, Long postId) {
         return memberPostRepository.fetchDetailedPostByPostId(memberId, postId);
     }
