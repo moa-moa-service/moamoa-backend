@@ -26,7 +26,7 @@ public class NoticeController {
 
     @PostMapping(value = "/api/posts/{postId}/notices", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
-            summary = "공동구매 공지사항 등록 (개발중)",
+            summary = "공동구매 공지사항 등록",
             description = "공지사항에 대한 정보를 받아 공동구매 게시글에 공지사항을 등록합니다."
     )
     @ApiResponses(value = {
@@ -36,7 +36,7 @@ public class NoticeController {
             @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable(name = "postId") Long postId,
             @RequestPart("request") NoticeRequestDTO.AddNotice request,
-            @RequestPart("file") MultipartFile image
+            @RequestPart(value = "file", required = false) MultipartFile image
     ) {
         NoticeResponseDTO.AddNoticeResult resultDTO = noticeCommandService.registerNotice(auth.id(), postId, request, image);
         return ApiResponseDTO.onSuccess(resultDTO);
@@ -44,7 +44,7 @@ public class NoticeController {
 
     @GetMapping("/api/notices/{noticeId}")
     @Operation(
-            summary = "공동구매 공지사항 상세 조회 (개발중)",
+            summary = "공동구매 공지사항 상세 조회",
             description = "공지사항 ID를 받아 공지사항을 상세 조회합니다."
     )
     @ApiResponses(value = {
@@ -52,7 +52,7 @@ public class NoticeController {
     })
     public ApiResponseDTO<NoticeResponseDTO.GetNotice> getNoticeByNoticeId(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @PathVariable(name = "postId") Long noticeId
+            @PathVariable(name = "noticeId") Long noticeId
     ) {
         NoticeResponseDTO.GetNotice resultDTO = noticeQueryService.findNoticeById(noticeId);
         return ApiResponseDTO.onSuccess(resultDTO);

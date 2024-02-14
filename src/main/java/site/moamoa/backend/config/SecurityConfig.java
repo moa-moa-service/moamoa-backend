@@ -15,7 +15,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import site.moamoa.backend.global.jwt.filter.JwtAuthenticationProcessingFilter;
 import site.moamoa.backend.global.jwt.service.JwtService;
 import site.moamoa.backend.global.oauth2.handler.OAuth2LoginFailureHandler;
@@ -29,7 +28,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig implements WebMvcConfigurer{
+public class SecurityConfig {
 
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
@@ -51,7 +50,7 @@ public class SecurityConfig implements WebMvcConfigurer{
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**",
-                                        "/health","/health/**").permitAll()
+                                        "/health", "/health/**").permitAll()
                                 .requestMatchers("/api/auth/member-info").hasRole("GUEST")
                                 .anyRequest().hasRole("MEMBER")
                 )
@@ -76,7 +75,7 @@ public class SecurityConfig implements WebMvcConfigurer{
         configuration.setExposedHeaders(List.of("Authorization"));
         configuration.setAllowCredentials(true);
         configuration.setMaxAge(3600L);
-
+      
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
