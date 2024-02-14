@@ -7,9 +7,9 @@ import java.util.List;
 @Builder
 public record CommentDTO(
         Long commentId,
+        Long parentCommentId,
         Long memberId,
         List<CommentDTO> childrenCommentDtoList,
-        CommentDTO parentCommentDto,
         String content
 ) {
 }

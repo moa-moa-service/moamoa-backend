@@ -1,19 +1,22 @@
 package site.moamoa.backend.web.dto.response;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import lombok.Builder;
 import site.moamoa.backend.web.dto.base.MemberDTO;
 import site.moamoa.backend.web.dto.base.PostDTO;
 import site.moamoa.backend.web.dto.base.SimplePostDTO;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static site.moamoa.backend.web.dto.response.NoticeResponseDTO.GetSimpleNotice;
 
 public class PostResponseDTO {
 
     @Builder
     public record GetPost(
             PostDTO postDto,
-            MemberDTO adminDto
+            MemberDTO adminDto,
+            List<GetSimpleNotice> simpleNoticeDtoList
     ) {
     }
 

@@ -36,7 +36,10 @@ public enum ErrorStatus implements BaseErrorCode {
     KEYWORD_NOT_FOUND(HttpStatus.NOT_FOUND, "KEYWORD404", "해당 검색어를 찾을 수 없습니다."),
 
     // Notice
-    NOTICE_NOT_FOUND(HttpStatus.NOT_FOUND, "NOTICE404","해당 공지사항을 찾을 수 없습니다.")
+    NOTICE_NOT_FOUND(HttpStatus.NOT_FOUND, "NOTICE404","해당 공지사항을 찾을 수 없습니다."),
+
+    // Comment
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "COMMENT404", "해당 댓글을 찾을 수 없습니다.")
 
     ;
 
@@ -62,5 +65,4 @@ public enum ErrorStatus implements BaseErrorCode {
                 .httpStatus(httpStatus)
                 .build();
     }
-
 }

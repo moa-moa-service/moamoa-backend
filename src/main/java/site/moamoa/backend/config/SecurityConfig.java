@@ -12,10 +12,9 @@ import org.springframework.security.config.annotation.web.configurers.HttpBasicC
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import site.moamoa.backend.global.jwt.filter.JwtAuthenticationProcessingFilter;
 import site.moamoa.backend.global.jwt.service.JwtService;
 import site.moamoa.backend.global.oauth2.handler.OAuth2LoginFailureHandler;
@@ -23,10 +22,13 @@ import site.moamoa.backend.global.oauth2.handler.OAuth2LoginSuccessHandler;
 import site.moamoa.backend.global.oauth2.service.CustomOAuth2UserService;
 import site.moamoa.backend.repository.member.MemberRepository;
 
+import java.util.Arrays;
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class SecurityConfig implements WebMvcConfigurer{
+public class SecurityConfig {
 
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
@@ -39,6 +41,7 @@ public class SecurityConfig implements WebMvcConfigurer{
         http
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(HttpBasicConfigurer::disable)
+                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(apiConfigurationSource()))
                 .csrf(CsrfConfigurer::disable)
                 .headers(headers -> headers.frameOptions(Customizer.withDefaults()).disable())
                 .sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -47,7 +50,7 @@ public class SecurityConfig implements WebMvcConfigurer{
                 .authorizeHttpRequests(authorize ->
                         authorize
                                 .requestMatchers("/", "/css/**", "/images/**", "/js/**", "/favicon.ico", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**",
-                                        "/health","/health/**").permitAll()
+                                        "/health", "/health/**").permitAll()
                                 .requestMatchers("/api/auth/member-info").hasRole("GUEST")
                                 .anyRequest().hasRole("MEMBER")
                 )
@@ -57,25 +60,25 @@ public class SecurityConfig implements WebMvcConfigurer{
                                 .failureHandler(oAuth2LoginFailureHandler)
                                 .authorizationEndpoint(
                                         authorizationEndpointConfig ->
-                                                authorizationEndpointConfig.baseUri("/api/auth/authorize"))
-                                .redirectionEndpoint(
-                                        redirectionEndpointConfig ->
-                                                redirectionEndpointConfig.baseUri("/api/auth/token"))
+                                                authorizationEndpointConfig.baseUri("/api/auth/login"))
                                 .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService)));
 
         http.addFilterBefore(jwtAuthenticationProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**")
-                .allowedOriginPatterns("*")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                .allowedHeaders("Origin", "Content-Type", "Accept", "Authorization")
-                .exposedHeaders("Authorization")
-                .allowCredentials(true)
-                .maxAge(3600);
+    CorsConfigurationSource apiConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:3000", "http://localhost:8080"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("Authorization"));
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+      
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Bean
