@@ -86,11 +86,12 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
         QMemberPost memberPost = QMemberPost.memberPost;
 
         return jpaQueryFactory.selectOne()
-            .from(memberPost)
-            .where(memberPost.member.id.eq(memberId)
-                .and(memberPost.post.id.eq(postId)))
-            .fetchFirst() != null;
-  
+                .from(memberPost)
+                .where(memberPost.member.id.eq(memberId)
+                        .and(memberPost.post.id.eq(postId)))
+                .fetchFirst() != null;
+    }
+
     private MemberPost findMemberPostAdminByPostId(Long postId) {
         QPost post = QPost.post;
         QMember member = QMember.member;
