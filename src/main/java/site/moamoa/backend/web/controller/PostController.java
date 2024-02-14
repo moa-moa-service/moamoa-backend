@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.service.component.command.keyword.KeywordCommandServiceImpl;
 import site.moamoa.backend.service.component.command.post.PostCommandService;
+import site.moamoa.backend.service.component.query.member_post.MemberPostQueryService;
 import site.moamoa.backend.service.component.query.post.PostQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
@@ -96,7 +97,7 @@ public class PostController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @PostMapping(value = "/api/posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/api/posts", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(
             summary = "공동구매 등록",
             description = "공동구매 정보를 받아 새로운 공동구매 게시글을 등록합니다."
@@ -106,16 +107,16 @@ public class PostController {
     })
     public ApiResponseDTO<AddPostResult> registerPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @RequestPart("request") AddPost request,
-            @RequestPart("files") List<MultipartFile> images
+            @RequestPart(value = "request") AddPost request,
+            @RequestPart(value = "files") List<MultipartFile> images
     ) {
         AddPostResult resultDTO = postCommandService.registerPost(auth.id(), request, images);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @PatchMapping("/api/posts/{postId}")
+    @PatchMapping(value = "/api/posts/{postId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(
-            summary = "공동구매 상세정보 수정 (수정중)",
+            summary = "공동구매 상세정보 수정",
             description = "공동구매 정보를 받아 기존의 공동구매 게시글을 수정합니다."
     )
     @ApiResponses(value = {
@@ -123,8 +124,8 @@ public class PostController {
     })
     public ApiResponseDTO<UpdatePostInfoResult> updatePost(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @RequestPart("request") UpdatePostInfo request,
-            @RequestPart("files") List<MultipartFile> images,
+            @RequestPart(value = "request") UpdatePostInfo request,
+            @RequestPart(value = "files") List<MultipartFile> images,
             @PathVariable(name = "postId")
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
@@ -170,7 +171,7 @@ public class PostController {
             Long postId
     ) {
         postCommandService.updatePostViewCount(auth.id(), postId);
-        GetPost resultDTO = postQueryService.findPostById(postId);
+        GetPost resultDTO = postQueryService.fetchDetailedPostByPostId(auth.id(), postId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

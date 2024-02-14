@@ -16,6 +16,7 @@ public record PostDTO(
         String productName,
         List<String> imageUrl,
         Address dealLocation,
+        String dealTown,
         Integer price,
         String description,
         Integer viewCount

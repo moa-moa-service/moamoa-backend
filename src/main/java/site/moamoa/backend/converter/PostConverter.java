@@ -10,6 +10,7 @@ import site.moamoa.backend.web.dto.base.PostDTO;
 import site.moamoa.backend.web.dto.base.SimplePostDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
+import site.moamoa.backend.web.dto.response.NoticeResponseDTO;
 import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
 import java.time.LocalDateTime;
@@ -50,6 +51,7 @@ public class PostConverter {
                         .toList())
                 .productName(post.getProductName())
                 .personnel(personnel)
+                .dealTown(post.getDealTown())
                 .viewCount(post.getViewCount())
                 .available(post.getAvailable())
                 .price(post.getTotalPrice() / personnel)
@@ -60,10 +62,20 @@ public class PostConverter {
                 .build();
     }
 
-    public static PostResponseDTO.GetPost toGetPost(PostDTO postDto, MemberDTO adminDto) {
+    public static Post toPost(PostDTO postDTO) {
+        return Post.builder()
+                .productName(postDTO.productName())
+                .personnel(postDTO.personnel())
+                .totalPrice(postDTO.price())
+                .description(postDTO.description())
+                .build();
+    }
+
+    public static PostResponseDTO.GetPost toGetPost(PostDTO postDto, MemberDTO adminDto, List<NoticeResponseDTO.GetSimpleNotice> noticeDTOList) {
         return PostResponseDTO.GetPost.builder()
                 .postDto(postDto)
                 .adminDto(adminDto)
+                .simpleNoticeDtoList(noticeDTOList)
                 .build();
     }
 
