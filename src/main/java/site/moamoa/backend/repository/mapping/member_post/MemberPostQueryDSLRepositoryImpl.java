@@ -49,17 +49,14 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
     }
 
     @Override
-    public boolean isMemberAuthorOfPost(Member member, Post post) {
+    public boolean existsByMemberIdAndPostId(Long memberId, Long postId) {
         QMemberPost memberPost = QMemberPost.memberPost;
 
-        Integer count = jpaQueryFactory
-            .selectOne()
+        return jpaQueryFactory.selectOne()
             .from(memberPost)
-            .where(memberPost.member.eq(member)
-                .and(memberPost.post.eq(post))
-                .and(memberPost.isAuthorStatus.eq(IsAuthorStatus.AUTHOR)))
-            .fetchFirst();
-        return count != null && count > 0;
+            .where(memberPost.member.id.eq(memberId)
+                .and(memberPost.post.id.eq(postId)))
+            .fetchFirst() != null;
     }
 
     private void addCondition(BooleanBuilder builder, BooleanExpression condition) {

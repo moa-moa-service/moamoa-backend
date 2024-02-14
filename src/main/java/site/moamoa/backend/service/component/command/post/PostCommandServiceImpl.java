@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import site.moamoa.backend.api_payload.code.status.ErrorStatus;
-import site.moamoa.backend.api_payload.exception.handler.MemberPostHandler;
 import site.moamoa.backend.converter.MemberPostConverter;
 import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.converter.PostImageConverter;
@@ -46,17 +44,12 @@ public class PostCommandServiceImpl implements PostCommandService {
     public AddPostResult registerPost(Long memberId, AddPost addPost, List<MultipartFile> images) {
         Category category = categoryModuleService.findCategoryById(addPost.categoryId());
         List<PostImage> postImages = PostImageConverter.toPostImages(images, amazonS3Manager);
-
         Post newPost = PostConverter.toPost(addPost, category, postImages);
         postImages.forEach(postImage -> postImage.setPost(newPost));
-
         postModuleService.savePost(newPost);
-
         Member authMember = memberModuleService.findMemberById(memberId);
         MemberPost newMemberPost = MemberPostConverter.toMemberPostAsAuthor(newPost, authMember);
-
         memberPostModuleService.saveMemberPost(newMemberPost);
-
         return PostConverter.toAddPostResult(newPost);
     }
 
@@ -88,9 +81,7 @@ public class PostCommandServiceImpl implements PostCommandService {
     public AddMemberPostResult joinPost(Long memberId, Long postId) {
         Member authMember = memberModuleService.findMemberById(memberId);
         Post joinPost = postModuleService.findPostById(postId);
-        if (memberPostModuleService.IsPostAuthor(authMember, joinPost))
-            throw new MemberPostHandler(ErrorStatus.AUTHOR_CAN_NOT_BE_PARTICIPATOR);
-
+        memberPostModuleService.checkMemberPostExists(memberId, postId);
         MemberPost newMemberPost = MemberPostConverter.toMemberPostAsParticipator(joinPost, authMember);
         memberPostModuleService.saveMemberPost(newMemberPost);
         return MemberPostConverter.toAddMemberPostResult(newMemberPost);

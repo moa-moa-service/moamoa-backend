@@ -21,6 +21,6 @@ public interface MemberPostModuleService {
   
     List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus);
 
-    boolean IsPostAuthor(Member authMember, Post post);
+    void checkMemberPostExists(Long memberId, Long postId);
 }
 
