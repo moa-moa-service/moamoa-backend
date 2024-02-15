@@ -15,4 +15,11 @@ public class NotificationModuleServiceImpl implements NotificationModuleService{
     public void saveAllNotifications(List<Notification> notificationList){
         notificationRepository.saveAll(notificationList);
     }
+
+    @Override
+    public List<Notification> findNotificationsByMemberId(Long memberId){
+
+        return notificationRepository.findNotificationsByMemberId(memberId);
+    }
+
 }

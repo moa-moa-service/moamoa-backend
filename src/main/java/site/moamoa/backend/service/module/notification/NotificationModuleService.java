@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface NotificationModuleService {
     void saveAllNotifications(List<Notification> notificationList);
+    List<Notification> findNotificationsByMemberId(Long memberId);
 }
