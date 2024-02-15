@@ -54,7 +54,7 @@ public class PostQueryDSLRepositoryImpl implements PostQueryDSLRepository {
 
         BooleanBuilder conditions = new BooleanBuilder();
         if (town != null) {
-            addCondition(conditions, post.dealTown.eq(town));
+            addCondition(conditions, post.town.eq(town));
         }
 
         return jpaQueryFactory

@@ -74,10 +74,11 @@ public class PostController {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다."),
             @ApiResponse(responseCode = "MEMBER404", description = "해당 사용자를 찾을 수 없습니다.", content = @Content)
     })
-    public ApiResponseDTO<GetPosts> getPostsByNear(
+    public ApiResponseDTO<GetPostsWithAddress> getPostsByNear(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        GetPosts resultDTO = postQueryService.findPostsByNear(auth.id());
+
+        GetPostsWithAddress resultDTO = postQueryService.findPostsByNear(auth.id());
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

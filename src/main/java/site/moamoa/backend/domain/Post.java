@@ -38,7 +38,9 @@ public class Post extends BaseEntity {
     @Embedded
     private Address dealLocation; // 상품 거래 장소(상세 주소) ex. 동작구 상도동 CU
 
-    private String dealTown; // 상품 거래 동네 ex. 상도동
+    private String dealTown; // 상품 거래 주소 ex. OO역 OO출구 앞
+    
+    private String town;  // 상품 거래 동네 ex. 상도동
 
     private Integer totalPrice; //상품 총 가격
 
