@@ -36,12 +36,12 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
             // User의 Role이 GUEST일 경우 처음 요청한 회원
             if(oAuth2User.getRoleType() == RoleType.GUEST) {
-                response.sendRedirect("http://localhost:5137/member-info?authorization=" + accessToken);
+                response.sendRedirect("http://localhost:5173/member-info?authorization=" + accessToken);
             }
 
             // User의 Role이 Member의 경우 기존 회원
             if(oAuth2User.getRoleType() == RoleType.MEMBER) {
-                response.sendRedirect("http://localhost:5137?authorization=" + accessToken);
+                response.sendRedirect("http://localhost:5173?authorization=" + accessToken);
             }
         } catch (Exception e) {
             throw e;
