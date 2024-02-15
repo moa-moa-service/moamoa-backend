@@ -2,7 +2,6 @@ package site.moamoa.backend.web.dto.base;
 
 import lombok.Builder;
 import site.moamoa.backend.domain.enums.NotificationStatus;
-import site.moamoa.backend.domain.enums.NotificationType;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 public record NotificationDTO(
     Long notificationId,
     String message,
-    NotificationType type,
+    String type,
     Long referenceId,
     NotificationStatus status,
     LocalDateTime createdAt
