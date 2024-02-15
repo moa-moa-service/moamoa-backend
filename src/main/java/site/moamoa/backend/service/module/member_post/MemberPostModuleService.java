@@ -25,5 +25,7 @@ public interface MemberPostModuleService {
     void checkMemberPostExists(Long memberId, Long postId);
 
     PostResponseDTO.GetPost fetchDetailedPostByPostId(Long memberId, Long postId);
+
+    List<Member> findParticipatingMembersByPostId(Long postId);
 }
 

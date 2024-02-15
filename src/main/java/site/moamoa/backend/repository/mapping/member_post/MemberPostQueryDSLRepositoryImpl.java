@@ -92,6 +92,21 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
                 .fetchFirst() != null;
     }
 
+    @Override
+    public List<Member> findParticipatingMembersByPostId(Long postId){
+        QMemberPost memberPost = QMemberPost.memberPost;
+
+        BooleanBuilder conditions = new BooleanBuilder();
+        addCondition(conditions, memberPost.post.id.eq(postId));
+        addCondition(conditions, memberPost.isAuthorStatus.eq(IsAuthorStatus.PARTICIPATOR));
+
+        return jpaQueryFactory
+                .select(memberPost.member)
+                .from(memberPost)
+                .where(conditions)
+                .fetch();
+    }
+
     private MemberPost findMemberPostAdminByPostId(Long postId) {
         QPost post = QPost.post;
         QMember member = QMember.member;
@@ -116,4 +131,5 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
     private void addCondition(BooleanBuilder builder, BooleanExpression condition) {
         builder.and(condition);
     }
+
 }
