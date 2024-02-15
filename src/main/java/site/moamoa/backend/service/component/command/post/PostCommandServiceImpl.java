@@ -113,6 +113,17 @@ public class PostCommandServiceImpl implements PostCommandService {
         newMemberPost.setMember(authMember);
         newMemberPost.setPost(joinPost);
         memberPostModuleService.saveMemberPost(newMemberPost);
+        List<Notification> notifications = memberPostModuleService.findParticipatingMembersByPostId(postId)
+            .stream().map(member -> Notification.builder()
+                .member(authMember)
+                .message(authMember.getNickname() + "님이 " + joinPost.getProductName() + "공동구매에 참여했어요!")
+                .type(NotificationType.NEW_PARTICIPATION)
+                .referenceId(postId)
+                .status(NotificationStatus.UNREAD)
+                .build()
+            ).toList();
+
+        notificationModuleService.saveAllNotifications(notifications);
         return MemberPostConverter.toAddMemberPostResult(newMemberPost);
     }
 
