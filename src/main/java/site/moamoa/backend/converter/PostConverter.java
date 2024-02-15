@@ -8,6 +8,7 @@ import site.moamoa.backend.domain.mapping.PostImage;
 import site.moamoa.backend.web.dto.base.MemberDTO;
 import site.moamoa.backend.web.dto.base.PostDTO;
 import site.moamoa.backend.web.dto.base.SimplePostDTO;
+import site.moamoa.backend.web.dto.base.SimplePostDtoWithAddress;
 import site.moamoa.backend.web.dto.request.PostRequestDTO;
 import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 import site.moamoa.backend.web.dto.response.NoticeResponseDTO;
@@ -34,10 +35,24 @@ public class PostConverter {
                 .build();
     }
 
+    public static SimplePostDtoWithAddress toSimplePostDtoWithAddress(Post post, List<PostImage> postImages) {
+
+        return SimplePostDtoWithAddress.builder()
+            .simplePostDTO(toSimplePostDTO(post, postImages))
+            .address(post.getDealLocation())
+            .build();
+    }
+
     public static PostResponseDTO.GetPosts toGetPosts(List<SimplePostDTO> dtoList) {
         return PostResponseDTO.GetPosts.builder()
                 .SimplePostDtoList(dtoList)
                 .build();
+    }
+
+    public static PostResponseDTO.GetPostsWithAddress toGetPostsWithAddress(List<SimplePostDtoWithAddress> dtoList) {
+        return PostResponseDTO.GetPostsWithAddress.builder()
+            .SimplePostDtoList(dtoList)
+            .build();
     }
 
     public static PostDTO toPostDTO(Post post, List<PostImage> postImageList, Category category) {
@@ -52,6 +67,7 @@ public class PostConverter {
                 .productName(post.getProductName())
                 .personnel(personnel)
                 .dealTown(post.getDealTown())
+                .town(post.getTown())
                 .viewCount(post.getViewCount())
                 .available(post.getAvailable())
                 .price(post.getTotalPrice() / personnel)
@@ -119,6 +135,7 @@ public class PostConverter {
                 .postImages(postImages)
                 .dealLocation(addPost.dealLocation())
                 .dealTown(addPost.dealTown())
+                .town(addPost.town())
                 .totalPrice(addPost.price())
                 .description(addPost.description())
                 .build();

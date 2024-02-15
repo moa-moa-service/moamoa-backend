@@ -67,4 +67,9 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
     public PostResponseDTO.GetPost fetchDetailedPostByPostId(Long memberId, Long postId) {
         return memberPostRepository.fetchDetailedPostByPostId(memberId, postId);
     }
+
+    @Override
+    public List<Member> findParticipatingMembersByPostId(Long postId) {
+        return memberPostRepository.findParticipatingMembersByPostId(postId);
+    }
 }

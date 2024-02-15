@@ -16,4 +16,6 @@ public interface MemberPostQueryDSLRepository {
     Member findPostAdminByPostId(Long postId);
   
     PostResponseDTO.GetPost fetchDetailedPostByPostId(Long memberId, Long postId);
+
+    List<Member> findParticipatingMembersByPostId(Long postId);
 }
