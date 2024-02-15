@@ -10,7 +10,7 @@ import site.moamoa.backend.domain.enums.NotificationType;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Notification {
+public class Notification extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notification_id")
