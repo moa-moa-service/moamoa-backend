@@ -33,12 +33,12 @@ public class PostQueryServiceImpl implements PostQueryService {
     private final RedisModuleService redisModuleService;
 
     @Override
-    public PostResponseDTO.GetPosts findPostsByNear(Long memberId) {
+    public PostResponseDTO.GetPostsWithAddress findPostsByNear(Long memberId) {
         Address address = memberModuleService.findMemberById(memberId).getAddress();
         List<Post> posts = postModuleService.findPostsByNear(address.getLatitude(), address.getLatitude());
 
-        return PostConverter.toGetPosts(
-                posts.stream().map(post -> PostConverter.toSimplePostDTO(post, post.getPostImages())).toList()
+        return PostConverter.toGetPostsWithAddress(
+                posts.stream().map(post -> PostConverter.toSimplePostDtoWithAddress(post, post.getPostImages())).toList()
         );
     }
 

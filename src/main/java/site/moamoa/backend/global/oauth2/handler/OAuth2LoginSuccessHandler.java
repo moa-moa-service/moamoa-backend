@@ -32,10 +32,16 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
             String refreshToken = jwtService.createRefreshToken();
             memberCommandService.memberSetRefreshToken(oAuth2User, refreshToken);
             jwtService.sendAccessAndRefreshToken(response, accessToken, refreshToken);
+            response.setStatus(HttpServletResponse.SC_ACCEPTED);
 
             // User의 Role이 GUEST일 경우 처음 요청한 회원
             if(oAuth2User.getRoleType() == RoleType.GUEST) {
-                response.setStatus(HttpServletResponse.SC_ACCEPTED);
+                response.sendRedirect("http://localhost:5173/member-info?authorization=" + accessToken);
+            }
+
+            // User의 Role이 Member의 경우 기존 회원
+            if(oAuth2User.getRoleType() == RoleType.MEMBER) {
+                response.sendRedirect("http://localhost:5173?authorization=" + accessToken);
             }
         } catch (Exception e) {
             throw e;

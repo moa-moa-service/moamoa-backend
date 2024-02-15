@@ -11,14 +11,18 @@ import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.converter.PostImageConverter;
 import site.moamoa.backend.domain.Category;
 import site.moamoa.backend.domain.Member;
+import site.moamoa.backend.domain.Notification;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.CapacityStatus;
+import site.moamoa.backend.domain.enums.NotificationStatus;
+import site.moamoa.backend.domain.enums.NotificationType;
 import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.domain.mapping.PostImage;
 import site.moamoa.backend.global.aws.s3.AmazonS3Manager;
 import site.moamoa.backend.service.module.category.CategoryModuleService;
 import site.moamoa.backend.service.module.member.MemberModuleService;
 import site.moamoa.backend.service.module.member_post.MemberPostModuleService;
+import site.moamoa.backend.service.module.notification.NotificationModuleService;
 import site.moamoa.backend.service.module.post.PostModuleService;
 import site.moamoa.backend.service.module.post_image.PostImageModuleService;
 import site.moamoa.backend.service.module.redis.RedisModuleService;
@@ -44,6 +48,7 @@ public class PostCommandServiceImpl implements PostCommandService {
 
     private final RedisModuleService redisModuleService;
     private final AmazonS3Manager amazonS3Manager;
+    private final NotificationModuleService notificationModuleService;
 
     @Override
     public AddPostResult registerPost(Long memberId, AddPost addPost, List<MultipartFile> images) {
@@ -72,7 +77,23 @@ public class PostCommandServiceImpl implements PostCommandService {
     public UpdatePostStatusResult updatePostStatus(Long memberId, Long postId) {
         memberPostModuleService.validMemberPostIsAuthor(memberId, postId);
         Post updatePost = postModuleService.findPostById(postId);
-        updatePost.updateStatus();
+        if (updatePost.getCapacityStatus() == CapacityStatus.NOT_FULL) {
+            updatePost.updateStatusToFull();
+            Member authMember = memberModuleService.findMemberById(memberId);
+            List<Notification> notifications = memberPostModuleService.findParticipatingMembersByPostId(postId)
+                .stream().map(member -> Notification.builder()
+                    .member(authMember)
+                    .message(updatePost.getProductName() + " 공동구매 전체 참여 완료. 공지사항을 업데이트 하세요!")
+                    .type(NotificationType.QUANTITY_FULLFIL)
+                    .referenceId(postId)
+                    .status(NotificationStatus.UNREAD)
+                    .build()
+                ).toList();
+
+            notificationModuleService.saveAllNotifications(notifications);
+        }
+        else if (updatePost.getCapacityStatus() == CapacityStatus.FULL)
+            updatePost.updateStatusToNotFull();
         return PostConverter.toUpdatePostStatusResult(updatePost);
     }
 
@@ -102,8 +123,18 @@ public class PostCommandServiceImpl implements PostCommandService {
         MemberPost newMemberPost = MemberPostConverter.toMemberPostAsParticipator(request.amount());
         newMemberPost.setMember(authMember);
         newMemberPost.setPost(joinPost);
-
         memberPostModuleService.saveMemberPost(newMemberPost);
+        List<Notification> notifications = memberPostModuleService.findParticipatingMembersByPostId(postId)
+            .stream().map(member -> Notification.builder()
+                .member(authMember)
+                .message(authMember.getNickname() + "님이 " + joinPost.getProductName() + "공동구매에 참여했어요!")
+                .type(NotificationType.NEW_PARTICIPATION)
+                .referenceId(postId)
+                .status(NotificationStatus.UNREAD)
+                .build()
+            ).toList();
+
+        notificationModuleService.saveAllNotifications(notifications);
         return MemberPostConverter.toAddMemberPostResult(newMemberPost);
     }
 

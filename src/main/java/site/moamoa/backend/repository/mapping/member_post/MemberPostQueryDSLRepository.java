@@ -11,7 +11,11 @@ import java.util.List;
 public interface MemberPostQueryDSLRepository {
     List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus);
 
+    boolean existsByMemberIdAndPostId(Long memberId, Long postId);
+
     Member findPostAdminByPostId(Long postId);
 
     MemberPost findMemberPostAdminByPostId(Long postId);
+
+    List<Member> findParticipatingMembersByPostId(Long postId);
 }

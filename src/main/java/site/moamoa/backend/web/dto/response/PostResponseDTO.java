@@ -8,6 +8,7 @@ import site.moamoa.backend.web.dto.base.SimplePostDTO;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import site.moamoa.backend.web.dto.base.SimplePostDtoWithAddress;
 
 import static site.moamoa.backend.web.dto.response.NoticeResponseDTO.GetSimpleNotice;
 
@@ -25,6 +26,12 @@ public class PostResponseDTO {
     @Builder
     public record GetPosts(
             List<SimplePostDTO> SimplePostDtoList
+    ) {
+    }
+
+    @Builder
+    public record GetPostsWithAddress(
+        List<SimplePostDtoWithAddress> SimplePostDtoList
     ) {
     }
 

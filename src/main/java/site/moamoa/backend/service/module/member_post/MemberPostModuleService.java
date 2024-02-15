@@ -20,7 +20,11 @@ public interface MemberPostModuleService {
     Boolean existsMemberPostByMemberIdAndPostId(Long memberId, Long postId);
 
     void deleteMemberPost(Long id);
-  
+
+    void checkMemberPostExists(Long memberId, Long postId);
+
+    List<Member> findParticipatingMembersByPostId(Long postId);
+
     List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus);
 
     MemberPost fetchDetailedPostByPostId(Long postId);

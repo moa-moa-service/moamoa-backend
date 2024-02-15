@@ -24,7 +24,7 @@ public class NoticeController {
     private final NoticeQueryService noticeQueryService;
     private final NoticeCommandService noticeCommandService;
 
-    @PostMapping(value = "/api/posts/{postId}/notices", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/api/posts/{postId}/notices", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
             summary = "공동구매 공지사항 등록",
             description = "공지사항에 대한 정보를 받아 공동구매 게시글에 공지사항을 등록합니다."
