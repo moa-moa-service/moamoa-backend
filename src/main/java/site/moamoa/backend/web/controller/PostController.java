@@ -96,7 +96,7 @@ public class PostController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @PostMapping(value = "/api/posts", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/api/posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
             summary = "공동구매 등록",
             description = "공동구매 정보를 받아 새로운 공동구매 게시글을 등록합니다."
@@ -113,7 +113,7 @@ public class PostController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @PatchMapping(value = "/api/posts/{postId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PatchMapping(value = "/api/posts/{postId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
             summary = "공동구매 상세정보 수정",
             description = "공동구매 정보를 받아 기존의 공동구매 게시글을 수정합니다."
