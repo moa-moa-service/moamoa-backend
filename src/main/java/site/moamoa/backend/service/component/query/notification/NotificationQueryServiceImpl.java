@@ -18,9 +18,10 @@ public class NotificationQueryServiceImpl implements NotificationQueryService{
     private final NotificationModuleService notificationModuleService;
 
     @Override
-    public List<NotificationResponseDTO.GetNotification> findNotificationByMemberId(Long memberId) {
+    public NotificationResponseDTO.GetNotifications findNotificationByMemberId(Long memberId) {
         List<Notification> notifications = notificationModuleService.findNotificationsByMemberId(memberId);
-        return notifications.stream().map(notification -> NotificationConverter.toGetNotification(NotificationConverter.toNotificationDTO(notification)))
-                .toList();
+        return NotificationConverter.toGetNotifications(
+                notifications.stream().map(NotificationConverter::toNotificationDTO).toList()
+        );
     }
 }

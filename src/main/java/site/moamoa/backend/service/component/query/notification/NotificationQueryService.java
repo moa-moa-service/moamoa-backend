@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface NotificationQueryService {
 
-    List<NotificationResponseDTO.GetNotification> findNotificationByMemberId(Long memberId);
+    NotificationResponseDTO.GetNotifications findNotificationByMemberId(Long memberId);
 
 }

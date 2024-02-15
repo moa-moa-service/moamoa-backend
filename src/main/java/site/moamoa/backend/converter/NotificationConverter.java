@@ -22,9 +22,9 @@ public class NotificationConverter {
                 .build();
     }
 
-    public static NotificationResponseDTO.GetNotification toGetNotification(NotificationDTO notificationDTO) {
-        return NotificationResponseDTO.GetNotification.builder()
-                .notificationDTO(notificationDTO)
+    public static NotificationResponseDTO.GetNotifications toGetNotifications(List<NotificationDTO> dtoList) {
+        return NotificationResponseDTO.GetNotifications.builder()
+                .notificationDTOList(dtoList)
                 .build();
     }
 
