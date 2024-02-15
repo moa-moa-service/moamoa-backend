@@ -41,7 +41,7 @@ public class NoticeCommandServiceImpl implements NoticeCommandService{
         noticeModuleService.saveNotice(newNotice);
 
         // 알림(공지사항 등록) 생성
-        List<Notification> notificationList = memberPostModuleService.findParticipatingMembersByPostId(postId).stream().map(member ->
+        List<Notification> notifications = memberPostModuleService.findParticipatingMembersByPostId(postId).stream().map(member ->
                         Notification.builder()
                                 .status(NotificationStatus.UNREAD)
                                 .type(NotificationType.NEW_NOTICE)
@@ -50,7 +50,7 @@ public class NoticeCommandServiceImpl implements NoticeCommandService{
                                 .member(member)
                                 .build())
                 .toList();
-        notificationModuleService.saveAllNotifications(notificationList);
+        notificationModuleService.saveAllNotifications(notifications);
 
         return NoticeConverter.toAddNoticeResult(newNotice);
     }
