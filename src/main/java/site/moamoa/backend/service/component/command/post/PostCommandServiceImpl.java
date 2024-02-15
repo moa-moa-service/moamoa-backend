@@ -117,7 +117,10 @@ public class PostCommandServiceImpl implements PostCommandService {
     public AddMemberPostResult joinPost(Long memberId, Long postId, PostRequestDTO.RegisterPost request) {
         Member authMember = memberModuleService.findMemberById(memberId);
         Post joinPost = postModuleService.findPostById(postId);
+
+        memberPostModuleService.checkMemberPostExists(memberId, postId);
         validateJoinPost(joinPost, request.amount());
+
         joinPost.decreaseAvailable(request.amount());
 
         MemberPost newMemberPost = MemberPostConverter.toMemberPostAsParticipator(request.amount());

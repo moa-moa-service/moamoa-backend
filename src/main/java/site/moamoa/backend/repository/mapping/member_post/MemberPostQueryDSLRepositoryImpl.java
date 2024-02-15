@@ -70,16 +70,6 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
                 .where(conditions)
                 .fetchOne();
     }
-    @Override
-    public boolean existsByMemberIdAndPostId(Long memberId, Long postId) {
-        QMemberPost memberPost = QMemberPost.memberPost;
-
-        return jpaQueryFactory.selectOne()
-                .from(memberPost)
-                .where(memberPost.member.id.eq(memberId)
-                        .and(memberPost.post.id.eq(postId)))
-                .fetchFirst() != null;
-    }
 
     @Override
     public List<Member> findParticipatingMembersByPostId(Long postId){
