@@ -12,12 +12,14 @@ public class MemberPostConverter {
     public static MemberPost toMemberPostAsAuthor() {
         return MemberPost.builder()
                 .isAuthorStatus(IsAuthorStatus.AUTHOR)
+                .amount(0)
                 .build();
     }
 
-    public static MemberPost toMemberPostAsParticipator() {
+    public static MemberPost toMemberPostAsParticipator(Integer amount) {
         return MemberPost.builder()
                 .isAuthorStatus(IsAuthorStatus.PARTICIPATOR)
+                .amount(amount)
                 .build();
     }
 

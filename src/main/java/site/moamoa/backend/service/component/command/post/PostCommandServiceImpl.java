@@ -4,12 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import site.moamoa.backend.api_payload.code.status.ErrorStatus;
+import site.moamoa.backend.api_payload.exception.handler.PostHandler;
 import site.moamoa.backend.converter.MemberPostConverter;
 import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.converter.PostImageConverter;
 import site.moamoa.backend.domain.Category;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
+import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.domain.mapping.PostImage;
 import site.moamoa.backend.global.aws.s3.AmazonS3Manager;
@@ -19,10 +22,12 @@ import site.moamoa.backend.service.module.member_post.MemberPostModuleService;
 import site.moamoa.backend.service.module.post.PostModuleService;
 import site.moamoa.backend.service.module.post_image.PostImageModuleService;
 import site.moamoa.backend.service.module.redis.RedisModuleService;
+import site.moamoa.backend.web.dto.request.PostRequestDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,11 +93,13 @@ public class PostCommandServiceImpl implements PostCommandService {
     }
 
     @Override
-    public AddMemberPostResult joinPost(Long memberId, Long postId) {
+    public AddMemberPostResult joinPost(Long memberId, Long postId, PostRequestDTO.RegisterPost request) {
         Member authMember = memberModuleService.findMemberById(memberId);
         Post joinPost = postModuleService.findPostById(postId);
+        validateJoinPost(joinPost, request.amount());
+        joinPost.decreaseAvailable(request.amount());
 
-        MemberPost newMemberPost = MemberPostConverter.toMemberPostAsParticipator();
+        MemberPost newMemberPost = MemberPostConverter.toMemberPostAsParticipator(request.amount());
         newMemberPost.setMember(authMember);
         newMemberPost.setPost(joinPost);
 
@@ -111,8 +118,17 @@ public class PostCommandServiceImpl implements PostCommandService {
     @Override
     public DeleteMemberPostResult cancelPost(Long id, Long postId) {
         MemberPost canceledMemberPost = memberPostModuleService.findMemberPostByMemberIdAndPostId(id, postId);
-        DeleteMemberPostResult result = MemberPostConverter.toDeleteMemberPostResult(canceledMemberPost);
+        canceledMemberPost.getPost().increaseAvailable(canceledMemberPost.getAmount());
         memberPostModuleService.deleteMemberPost(canceledMemberPost.getId());
-        return result;
+
+        return MemberPostConverter.toDeleteMemberPostResult(canceledMemberPost);
+    }
+
+    private void validateJoinPost(Post post, Integer amount) {
+        if (post.getDeadline().plusDays(1).isAfter(LocalDateTime.now())
+                || post.getAvailable() < amount
+                || post.getCapacityStatus() == CapacityStatus.FULL) {
+            throw new PostHandler(ErrorStatus.POST_CLOSED);
+        }
     }
 }

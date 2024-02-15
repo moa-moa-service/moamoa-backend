@@ -4,6 +4,7 @@ import site.moamoa.backend.domain.Category;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.CapacityStatus;
+import site.moamoa.backend.domain.enums.IsAuthorStatus;
 import site.moamoa.backend.domain.mapping.PostImage;
 import site.moamoa.backend.web.dto.base.MemberDTO;
 import site.moamoa.backend.web.dto.base.PostDTO;
@@ -26,6 +27,7 @@ public class PostConverter {
                 .postId(post.getId())
                 .imageUrl(postImageList.get(0).getUrl())
                 .productName(post.getProductName())
+                .dealTown(post.getDealTown())
                 .personnel(personnel)
                 .viewCount(post.getViewCount())
                 .price(post.getTotalPrice() / personnel)
@@ -71,10 +73,11 @@ public class PostConverter {
                 .build();
     }
 
-    public static PostResponseDTO.GetPost toGetPost(PostDTO postDto, MemberDTO adminDto, List<NoticeResponseDTO.GetSimpleNotice> noticeDTOList) {
+    public static PostResponseDTO.GetPost toGetPost(PostDTO postDto, MemberDTO adminDto, IsAuthorStatus joinStatus, List<NoticeResponseDTO.GetSimpleNotice> noticeDTOList) {
         return PostResponseDTO.GetPost.builder()
                 .postDto(postDto)
                 .adminDto(adminDto)
+                .joinStatus(joinStatus)
                 .simpleNoticeDtoList(noticeDTOList)
                 .build();
     }

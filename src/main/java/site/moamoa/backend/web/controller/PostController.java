@@ -16,9 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.ApiResponseDTO;
 import site.moamoa.backend.service.component.command.keyword.KeywordCommandServiceImpl;
 import site.moamoa.backend.service.component.command.post.PostCommandService;
-import site.moamoa.backend.service.component.query.member_post.MemberPostQueryService;
 import site.moamoa.backend.service.component.query.post.PostQueryService;
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
+import site.moamoa.backend.web.dto.request.PostRequestDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.*;
@@ -177,7 +177,7 @@ public class PostController {
 
     @PostMapping("/api/posts/{postId}/join")
     @Operation(
-            summary = "공동구매 참여 (수정중)",
+            summary = "공동구매 참여",
             description = "기존의 공동구매에 참여합니다."
     )
     @ApiResponses(value = {
@@ -185,12 +185,13 @@ public class PostController {
     })
     public ApiResponseDTO<AddMemberPostResult> joinPost(
             @AuthenticationPrincipal AuthInfoDTO auth,
+            @RequestBody PostRequestDTO.RegisterPost request,
             @PathVariable(name = "postId")
             @Positive(message = "게시글 ID는 양수입니다.")
             @Schema(description = "게시글 ID", example = "1")
             Long postId
     ) {
-        AddMemberPostResult resultDTO = postCommandService.joinPost(auth.id(), postId);
+        AddMemberPostResult resultDTO = postCommandService.joinPost(auth.id(), postId, request);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

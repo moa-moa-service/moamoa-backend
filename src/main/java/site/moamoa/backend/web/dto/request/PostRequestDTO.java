@@ -44,4 +44,10 @@ public class PostRequestDTO {
             String description
     ) {
     }
+
+    public record RegisterPost(
+            @NotNull
+            Integer amount
+    ) {
+    }
 }

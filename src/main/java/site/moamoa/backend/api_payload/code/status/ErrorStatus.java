@@ -30,6 +30,7 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // Post
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "POST404", "해당 공동구매 게시글을 찾을 수 없습니다."),
+    POST_CLOSED(HttpStatus.BAD_REQUEST, "POST4001", "해당 공동구매가 마감되었습니다."),
 
     // Keyword
     KEYWORD_NOT_FOUND(HttpStatus.NOT_FOUND, "KEYWORD404", "해당 검색어를 찾을 수 없습니다."),
