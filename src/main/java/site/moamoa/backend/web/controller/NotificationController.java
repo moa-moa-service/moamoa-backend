@@ -28,10 +28,10 @@ public class NotificationController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "COMMON200", description = "성공입니다."),
     })
-    public ApiResponseDTO<List<NotificationResponseDTO.GetNotification>> getNotificationByMemberId(
+    public ApiResponseDTO<NotificationResponseDTO.GetNotifications> getNotificationByMemberId(
             @AuthenticationPrincipal AuthInfoDTO auth
     ) {
-        List<NotificationResponseDTO.GetNotification> notificationList = notificationQueryService.findNotificationByMemberId(auth.id());
+        NotificationResponseDTO.GetNotifications notificationList = notificationQueryService.findNotificationByMemberId(auth.id());
         return ApiResponseDTO.onSuccess(notificationList);
     }
 }
