@@ -6,10 +6,10 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum NotificationType {
-  NEW_COMMENT("notice"),
-  NEW_PARTICIPATION("post"),
-  NEW_NOTICE("notice"),
-  QUANTITY_FULLFIL("post");
+  NEW_COMMENT("notices"),
+  NEW_PARTICIPATION("posts"),
+  NEW_NOTICE("notices"),
+  QUANTITY_FULLFIL("posts");
 
   private final String belongingTo;
 }
