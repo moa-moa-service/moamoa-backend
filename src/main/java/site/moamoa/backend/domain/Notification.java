@@ -2,6 +2,7 @@ package site.moamoa.backend.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
+import site.moamoa.backend.domain.common.BaseEntity;
 import site.moamoa.backend.domain.enums.NotificationStatus;
 import site.moamoa.backend.domain.enums.NotificationType;
 

@@ -16,7 +16,9 @@ public class NotificationConverter {
                 .notificationId(notification.getId())
                 .message(notification.getMessage())
                 .type(notification.getType())
+                .referenceId(notification.getReferenceId())
                 .status(notification.getStatus())
+                .createdAt(notification.getCreatedAt())
                 .build();
     }
 
