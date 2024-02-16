@@ -159,7 +159,7 @@ public class PostCommandServiceImpl implements PostCommandService {
     }
 
     private void validateJoinPost(Post post, Integer amount) {
-        if (post.getDeadline().plusDays(1).isAfter(LocalDateTime.now())
+        if (post.getDeadline().plusDays(1).isBefore(LocalDateTime.now())
                 || post.getAvailable() < amount
                 || post.getCapacityStatus() == CapacityStatus.FULL) {
             throw new PostHandler(ErrorStatus.POST_CLOSED);
