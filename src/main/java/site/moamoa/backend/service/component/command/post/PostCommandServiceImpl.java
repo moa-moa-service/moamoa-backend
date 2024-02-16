@@ -84,7 +84,7 @@ public class PostCommandServiceImpl implements PostCommandService {
                 .stream().map(member -> Notification.builder()
                     .member(authMember)
                     .message(updatePost.getProductName() + " 공동구매 전체 참여 완료. 공지사항을 업데이트 하세요!")
-                    .type(NotificationType.QUANTITY_FULLFIL)
+                    .type(NotificationType.QUANTITY_FULFILL)
                     .referenceId(postId)
                     .status(NotificationStatus.UNREAD)
                     .build()
