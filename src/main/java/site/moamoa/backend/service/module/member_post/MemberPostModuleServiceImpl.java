@@ -76,4 +76,9 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
     public List<Member> findParticipatingMembersByPostId(Long postId) {
         return memberPostRepository.findParticipatingMembersByPostId(postId);
     }
+
+    @Override
+    public List<Member> findParticipatingMembersExcludingMember(Long postId, Long memberId) {
+        return memberPostRepository.findMembersByPostIdExcludingMember(postId, memberId);
+    }
 }

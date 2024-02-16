@@ -22,12 +22,14 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
     public Member findPostAdminByPostId(Long postId) {
         QMemberPost memberPost = QMemberPost.memberPost;
 
-        BooleanExpression condition = memberPost.post.id.eq(postId);
+        BooleanBuilder conditions = new BooleanBuilder();
+        addCondition(conditions, memberPost.post.id.eq(postId));
+        addCondition(conditions, memberPost.isAuthorStatus.eq(IsAuthorStatus.AUTHOR));
 
         return jpaQueryFactory
                 .select(memberPost.member)
                 .from(memberPost)
-                .where(condition)
+                .where(conditions)
                 .fetchOne();
     }
 
@@ -84,6 +86,29 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
                 .from(memberPost)
                 .where(conditions)
                 .fetch();
+    }
+
+    @Override
+    public List<Member> findMembersByPostIdExcludingMember(Long postId, Long memberId) {
+        QPost post = QPost.post;
+        QMember member = QMember.member;
+        QMemberPost memberPost = QMemberPost.memberPost;
+        QCategory category = QCategory.category;
+        QPostImage postImage = QPostImage.postImage;
+
+        BooleanBuilder conditions = new BooleanBuilder();
+        addCondition(conditions, memberPost.post.id.eq(postId));
+        addCondition(conditions, memberPost.member.id.ne(memberId)); // 매개변수의 memberId를 제외
+
+        return jpaQueryFactory
+            .select(member)
+            .from(memberPost)
+            .innerJoin(memberPost.member, member)
+            .innerJoin(memberPost.post, post)
+            .innerJoin(post.category, category)
+            .leftJoin(post.postImages, postImage)
+            .where(conditions)
+            .fetch();
     }
 
     private void addCondition(BooleanBuilder builder, BooleanExpression condition) {

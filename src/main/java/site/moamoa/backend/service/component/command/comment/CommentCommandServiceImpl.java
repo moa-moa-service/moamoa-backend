@@ -47,16 +47,19 @@ public class CommentCommandServiceImpl implements CommentCommandService {
             newComment.setParent(commentModuleService.findCommentById(request.parentId()));
         }
 
+        Long postId = notice.getPost().getId();
         commentModuleService.saveComment(newComment);
-        List<Notification> notifications = memberPostModuleService.findParticipatingMembersByPostId(notice.getPost().getId())
+
+        List<Notification> notifications = memberPostModuleService.findParticipatingMembersExcludingMember(postId, memberId)
             .stream().map(member -> Notification.builder()
-                .member(authMember)
+                .member(member)
                 .message(authMember.getNickname() + "님이 " + notice.getTitle() + "에 댓글을 달았어요!")
                 .type(NotificationType.NEW_NOTICE)
                 .referenceId(noticeId)
                 .status(NotificationStatus.UNREAD)
                 .build()
             ).toList();
+
 
         notificationModuleService.saveAllNotifications(notifications);
         return CommentConverter.toAddCommentResult(newComment);

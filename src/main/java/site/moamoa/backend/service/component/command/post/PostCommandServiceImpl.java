@@ -79,18 +79,6 @@ public class PostCommandServiceImpl implements PostCommandService {
         Post updatePost = postModuleService.findPostById(postId);
         if (updatePost.getCapacityStatus() == CapacityStatus.NOT_FULL) {
             updatePost.updateStatusToFull();
-            Member authMember = memberModuleService.findMemberById(memberId);
-            List<Notification> notifications = memberPostModuleService.findParticipatingMembersByPostId(postId)
-                .stream().map(member -> Notification.builder()
-                    .member(authMember)
-                    .message(updatePost.getProductName() + " 공동구매 전체 참여 완료. 공지사항을 업데이트 하세요!")
-                    .type(NotificationType.QUANTITY_FULFILL)
-                    .referenceId(postId)
-                    .status(NotificationStatus.UNREAD)
-                    .build()
-                ).toList();
-
-            notificationModuleService.saveAllNotifications(notifications);
         }
         else if (updatePost.getCapacityStatus() == CapacityStatus.FULL)
             updatePost.updateStatusToNotFull();
@@ -126,10 +114,24 @@ public class PostCommandServiceImpl implements PostCommandService {
         MemberPost newMemberPost = MemberPostConverter.toMemberPostAsParticipator(request.amount());
         newMemberPost.setMember(authMember);
         newMemberPost.setPost(joinPost);
+
+        if (joinPost.getAvailable() == 0) {
+            Member member = memberPostModuleService.findMemberPostByPostIdAndIsAuthor(joinPost.getId());
+            Notification notification = Notification.builder()
+                    .member(member)
+                    .message(joinPost.getProductName() + " 공동구매 전체 참여 완료. 공지사항을 업데이트 하세요!")
+                    .type(NotificationType.QUANTITY_FULFILL)
+                    .referenceId(postId)
+                    .status(NotificationStatus.UNREAD)
+                    .build();
+
+            notificationModuleService.saveNotification(notification);
+        }
+
         memberPostModuleService.saveMemberPost(newMemberPost);
-        List<Notification> notifications = memberPostModuleService.findParticipatingMembersByPostId(postId)
+        List<Notification> notifications = memberPostModuleService.findParticipatingMembersExcludingMember(postId, memberId)
             .stream().map(member -> Notification.builder()
-                .member(authMember)
+                .member(member)
                 .message(authMember.getNickname() + "님이 " + joinPost.getProductName() + "공동구매에 참여했어요!")
                 .type(NotificationType.NEW_PARTICIPATION)
                 .referenceId(postId)

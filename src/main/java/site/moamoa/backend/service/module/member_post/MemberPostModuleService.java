@@ -28,5 +28,7 @@ public interface MemberPostModuleService {
     List<Post> findPostsByRecruitingAndParticipating(Long memberId, IsAuthorStatus isAuthorStatus, CapacityStatus capacityStatus);
 
     MemberPost fetchDetailedPostByPostId(Long postId);
+
+    List<Member> findParticipatingMembersExcludingMember(Long postId, Long memberId);
 }
 
