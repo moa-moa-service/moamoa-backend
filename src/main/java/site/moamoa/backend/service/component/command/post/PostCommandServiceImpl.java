@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.code.status.ErrorStatus;
 import site.moamoa.backend.api_payload.exception.handler.PostHandler;
 import site.moamoa.backend.converter.MemberPostConverter;
+import site.moamoa.backend.converter.NotificationConverter;
 import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.converter.PostImageConverter;
 import site.moamoa.backend.domain.Category;
@@ -14,7 +15,6 @@ import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Notification;
 import site.moamoa.backend.domain.Post;
 import site.moamoa.backend.domain.enums.CapacityStatus;
-import site.moamoa.backend.domain.enums.NotificationStatus;
 import site.moamoa.backend.domain.enums.NotificationType;
 import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.domain.mapping.PostImage;
@@ -79,8 +79,7 @@ public class PostCommandServiceImpl implements PostCommandService {
         Post updatePost = postModuleService.findPostById(postId);
         if (updatePost.getCapacityStatus() == CapacityStatus.NOT_FULL) {
             updatePost.updateStatusToFull();
-        }
-        else if (updatePost.getCapacityStatus() == CapacityStatus.FULL)
+        } else if (updatePost.getCapacityStatus() == CapacityStatus.FULL)
             updatePost.updateStatusToNotFull();
         return PostConverter.toUpdatePostStatusResult(updatePost);
     }
@@ -116,30 +115,12 @@ public class PostCommandServiceImpl implements PostCommandService {
         newMemberPost.setPost(joinPost);
 
         if (joinPost.getAvailable() == 0) {
-            Member member = memberPostModuleService.findMemberPostByPostIdAndIsAuthor(joinPost.getId());
-            Notification notification = Notification.builder()
-                    .member(member)
-                    .message(joinPost.getProductName() + " 공동구매 전체 참여 완료. 공지사항을 업데이트 하세요!")
-                    .type(NotificationType.QUANTITY_FULFILL)
-                    .referenceId(postId)
-                    .status(NotificationStatus.UNREAD)
-                    .build();
-
-            notificationModuleService.saveNotification(notification);
+            createNotificationForNoticeUpdate(postId, joinPost);
         }
 
         memberPostModuleService.saveMemberPost(newMemberPost);
-        List<Notification> notifications = memberPostModuleService.findParticipatingMembersExcludingMember(postId, memberId)
-            .stream().map(member -> Notification.builder()
-                .member(member)
-                .message(authMember.getNickname() + "님이 " + joinPost.getProductName() + "공동구매에 참여했어요!")
-                .type(NotificationType.NEW_PARTICIPATION)
-                .referenceId(postId)
-                .status(NotificationStatus.UNREAD)
-                .build()
-            ).toList();
+        createNotificationForJoinPost(memberId, postId, authMember, joinPost);
 
-        notificationModuleService.saveAllNotifications(notifications);
         return MemberPostConverter.toAddMemberPostResult(newMemberPost);
     }
 
@@ -166,5 +147,27 @@ public class PostCommandServiceImpl implements PostCommandService {
                 || post.getCapacityStatus() == CapacityStatus.FULL) {
             throw new PostHandler(ErrorStatus.POST_CLOSED);
         }
+    }
+
+    private void createNotificationForJoinPost(Long memberId, Long postId, Member authMember, Post joinPost) {
+        List<Notification> notificationList = memberPostModuleService.findParticipatingMembersExcludingMember(postId, memberId)
+                .stream().map(member -> {
+                    Notification notification = NotificationConverter.toNotification(
+                            authMember.getNickname() + "님이 " + joinPost.getProductName() + "공동구매에 참여했어요!",
+                            NotificationType.NEW_PARTICIPATION, postId);
+                    notification.setMember(member);
+                    return notification;
+                }).toList();
+
+        notificationModuleService.saveAllNotifications(notificationList);
+    }
+
+    private void createNotificationForNoticeUpdate(Long postId, Post joinPost) {
+        Member member = memberPostModuleService.findMemberPostByPostIdAndIsAuthor(joinPost.getId());
+        Notification notification = NotificationConverter.toNotification(
+                joinPost.getProductName() + " 공동구매 전체 참여 완료. 공지사항을 업데이트 하세요!",
+                NotificationType.QUANTITY_FULFILL, postId);
+        notification.setMember(member);
+        notificationModuleService.saveNotification(notification);
     }
 }
