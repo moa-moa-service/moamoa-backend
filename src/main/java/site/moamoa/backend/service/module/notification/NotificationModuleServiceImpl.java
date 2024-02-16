@@ -11,6 +11,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationModuleServiceImpl implements NotificationModuleService{
     private final NotificationRepository notificationRepository;
+
+    @Override
+    public void saveNotification(Notification notification) {
+        notificationRepository.save(notification);
+    }
+
     @Override
     public void saveAllNotifications(List<Notification> notificationList){
         notificationRepository.saveAll(notificationList);

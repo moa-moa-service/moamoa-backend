@@ -16,4 +16,6 @@ public interface MemberPostQueryDSLRepository {
     MemberPost findMemberPostAdminByPostId(Long postId);
 
     List<Member> findParticipatingMembersByPostId(Long postId);
+
+  List<Member> findMembersByPostIdExcludingMember(Long postId, Long memberId);
 }
