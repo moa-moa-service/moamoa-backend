@@ -42,6 +42,6 @@ public class NoticeModuleServiceImpl implements NoticeModuleService {
             currentNotice.changeImage(imageUrl);
         }
 
-        return noticeRepository.save(currentNotice);
+        return currentNotice;
     }
 }

@@ -40,7 +40,7 @@ public class NoticeResponseDTO {
     @Builder
     public record UpdateNoticeResult(
             Long noticeId,
-            LocalDateTime createdAt
+            LocalDateTime updatedAt
     ) {
     }
 

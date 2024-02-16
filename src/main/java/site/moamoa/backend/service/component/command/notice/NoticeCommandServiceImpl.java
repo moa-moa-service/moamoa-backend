@@ -88,6 +88,6 @@ public class NoticeCommandServiceImpl implements NoticeCommandService{
                 .toList();
         notificationModuleService.saveAllNotifications(notifications);
 
-        return NoticeConverter.toUpdateNoticeResult(updatedNotice);
+        return NoticeConverter.toUpdateNoticeResult(updatedNotice, LocalDateTime.now());
     }
 }

@@ -1,5 +1,6 @@
 package site.moamoa.backend.converter;
 
+import org.springframework.cglib.core.Local;
 import site.moamoa.backend.domain.Notice;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.web.dto.base.NoticeDTO;
@@ -64,10 +65,10 @@ public class NoticeConverter {
                 .build();
     }
 
-    public static NoticeResponseDTO.UpdateNoticeResult toUpdateNoticeResult(Notice updatedNotice) {
+    public static NoticeResponseDTO.UpdateNoticeResult toUpdateNoticeResult(Notice updatedNotice, LocalDateTime updatedAt) {
         return NoticeResponseDTO.UpdateNoticeResult.builder()
                 .noticeId(updatedNotice.getId())
-                .createdAt(updatedNotice.getCreatedAt())
+                .updatedAt(updatedAt)
                 .build();
     }
 
