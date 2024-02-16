@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class NotificationModuleServiceImpl implements NotificationModuleService{
+public class NotificationModuleServiceImpl implements NotificationModuleService {
     private final NotificationRepository notificationRepository;
     @Override
     public void saveAllNotifications(List<Notification> notificationList){
@@ -17,9 +17,7 @@ public class NotificationModuleServiceImpl implements NotificationModuleService{
     }
 
     @Override
-    public List<Notification> findNotificationsByMemberId(Long memberId){
-
+    public List<Notification> findNotificationsByMemberId(Long memberId) {
         return notificationRepository.findNotificationsByMemberId(memberId);
     }
-
 }

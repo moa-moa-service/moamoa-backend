@@ -11,5 +11,11 @@ public class NoticeRequestDTO {
             String content
     ) {
     }
-
+    public record UpdateNotice(
+            @NotNull
+            String title,
+            @NotNull
+            String content
+    ){
+    }
 }

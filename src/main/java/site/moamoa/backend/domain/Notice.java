@@ -3,6 +3,7 @@ package site.moamoa.backend.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import site.moamoa.backend.domain.common.BaseEntity;
+import site.moamoa.backend.web.dto.request.NoticeRequestDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,5 +39,12 @@ public class Notice extends BaseEntity {
 
     public void setPost(Post post) {
         this.post = post;
+    }
+    public void updateNotice(NoticeRequestDTO.UpdateNotice updateNotice) {
+        this.title = updateNotice.title();
+        this.content = updateNotice.content();
+    }
+    public void changeImage(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -57,4 +57,40 @@ public class NoticeController {
         NoticeResponseDTO.GetNotice resultDTO = noticeQueryService.findNoticeById(noticeId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
+
+    @DeleteMapping("/api/posts/{postId}/notices/{noticeId}")
+    @Operation(
+            summary = "공동구매 공지사항 삭제",
+            description = "공지사항 ID를 받아 공지사항을 삭제합니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "COMMON200", description = "성공입니다."),
+    })
+    public ApiResponseDTO<NoticeResponseDTO.DeleteNoticeResult> deleteNoticeByNoticeId(
+            @AuthenticationPrincipal AuthInfoDTO auth,
+            @PathVariable(name = "postId") Long postId,
+            @PathVariable(name = "noticeId") Long noticeId
+    ) {
+        NoticeResponseDTO.DeleteNoticeResult resultDTO = noticeCommandService.deleteNotice(postId, noticeId);
+        return ApiResponseDTO.onSuccess(resultDTO);
+    }
+
+    @PatchMapping("/api/posts/{postId}/notices/{noticeId}")
+    @Operation(
+            summary = "공동구매 공지사항 수정",
+            description = "공지사항 ID를 받아 공지사항을 수정합니다."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "COMMON200", description = "성공입니다."),
+    })
+    public ApiResponseDTO<NoticeResponseDTO.UpdateNoticeResult> updateNoticeByNoticeId(
+            @AuthenticationPrincipal AuthInfoDTO auth,
+            @PathVariable(name = "postId") Long postId,
+            @PathVariable(name = "noticeId") Long noticeId,
+            @RequestPart("request") NoticeRequestDTO.UpdateNotice request,
+            @RequestPart(value = "file", required = false) MultipartFile image
+    ) {
+        NoticeResponseDTO.UpdateNoticeResult resultDTO = noticeCommandService.updateNotice(postId, noticeId, request, image);
+        return ApiResponseDTO.onSuccess(resultDTO);
+    }
 }
