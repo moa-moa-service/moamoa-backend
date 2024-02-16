@@ -58,7 +58,7 @@ public class NoticeController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @DeleteMapping("/api/posts/{postId}/notices/{noticeId}")
+    @DeleteMapping("/api/notices/{noticeId}")
     @Operation(
             summary = "공동구매 공지사항 삭제",
             description = "공지사항 ID를 받아 공지사항을 삭제합니다."
@@ -68,10 +68,9 @@ public class NoticeController {
     })
     public ApiResponseDTO<NoticeResponseDTO.DeleteNoticeResult> deleteNoticeByNoticeId(
             @AuthenticationPrincipal AuthInfoDTO auth,
-            @PathVariable(name = "postId") Long postId,
             @PathVariable(name = "noticeId") Long noticeId
     ) {
-        NoticeResponseDTO.DeleteNoticeResult resultDTO = noticeCommandService.deleteNotice(postId, noticeId);
+        NoticeResponseDTO.DeleteNoticeResult resultDTO = noticeCommandService.deleteNotice(noticeId);
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 

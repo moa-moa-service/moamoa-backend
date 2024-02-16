@@ -10,6 +10,6 @@ import site.moamoa.backend.web.dto.response.NoticeResponseDTO.AddNoticeResult;
 public interface NoticeCommandService {
 
     AddNoticeResult registerNotice(Long memberId, Long postId, AddNotice addNotice, MultipartFile image);
-    NoticeResponseDTO.DeleteNoticeResult deleteNotice(Long postId, Long noticeId);
+    NoticeResponseDTO.DeleteNoticeResult deleteNotice(Long noticeId);
     NoticeResponseDTO.UpdateNoticeResult updateNotice(Long postId, Long noticeId, NoticeRequestDTO.UpdateNotice request, MultipartFile image);
 }

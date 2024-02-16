@@ -61,7 +61,7 @@ public class NoticeCommandServiceImpl implements NoticeCommandService{
 
     // 공지사항 삭제
     @Override
-    public NoticeResponseDTO.DeleteNoticeResult deleteNotice(Long postId, Long noticeId) {
+    public NoticeResponseDTO.DeleteNoticeResult deleteNotice(Long noticeId) {
         noticeModuleService.deleteNotice(noticeId);
         return NoticeConverter.toDeleteNoticeResult(noticeId, LocalDateTime.now());
     }
