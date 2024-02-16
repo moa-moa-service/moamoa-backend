@@ -90,23 +90,15 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
 
     @Override
     public List<Member> findMembersByPostIdExcludingMember(Long postId, Long memberId) {
-        QPost post = QPost.post;
-        QMember member = QMember.member;
         QMemberPost memberPost = QMemberPost.memberPost;
-        QCategory category = QCategory.category;
-        QPostImage postImage = QPostImage.postImage;
 
         BooleanBuilder conditions = new BooleanBuilder();
         addCondition(conditions, memberPost.post.id.eq(postId));
         addCondition(conditions, memberPost.member.id.ne(memberId)); // 매개변수의 memberId를 제외
 
         return jpaQueryFactory
-            .select(member)
+            .select(memberPost.member)
             .from(memberPost)
-            .innerJoin(memberPost.member, member)
-            .innerJoin(memberPost.post, post)
-            .innerJoin(post.category, category)
-            .leftJoin(post.postImages, postImage)
             .where(conditions)
             .fetch();
     }

@@ -119,7 +119,7 @@ public class PostCommandServiceImpl implements PostCommandService {
         }
 
         memberPostModuleService.saveMemberPost(newMemberPost);
-        createNotificationForJoinPost(memberId, postId, authMember, joinPost);
+        createNotificationsForJoinPost(memberId, postId, authMember, joinPost);
 
         return MemberPostConverter.toAddMemberPostResult(newMemberPost);
     }
@@ -149,7 +149,7 @@ public class PostCommandServiceImpl implements PostCommandService {
         }
     }
 
-    private void createNotificationForJoinPost(Long memberId, Long postId, Member authMember, Post joinPost) {
+    private void createNotificationsForJoinPost(Long memberId, Long postId, Member authMember, Post joinPost) {
         List<Notification> notificationList = memberPostModuleService.findParticipatingMembersExcludingMember(postId, memberId)
                 .stream().map(member -> {
                     Notification notification = NotificationConverter.toNotification(
