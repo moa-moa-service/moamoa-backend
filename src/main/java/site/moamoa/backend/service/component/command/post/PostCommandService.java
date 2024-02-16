@@ -3,6 +3,7 @@ package site.moamoa.backend.service.component.command.post;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
+import site.moamoa.backend.web.dto.request.PostRequestDTO;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.AddPost;
 import site.moamoa.backend.web.dto.request.PostRequestDTO.UpdatePostInfo;
 import site.moamoa.backend.web.dto.response.PostResponseDTO.AddMemberPostResult;
@@ -18,7 +19,7 @@ public interface PostCommandService {
 
     UpdatePostInfoResult updatePostInfo(Long memberId, UpdatePostInfo request, List<MultipartFile> images, Long postId);
 
-    AddMemberPostResult joinPost(Long memberId, Long postId);
+    AddMemberPostResult joinPost(Long memberId, Long postId, PostRequestDTO.RegisterPost request);
 
     void updatePostViewCount(Long memberId, Long postId);
 

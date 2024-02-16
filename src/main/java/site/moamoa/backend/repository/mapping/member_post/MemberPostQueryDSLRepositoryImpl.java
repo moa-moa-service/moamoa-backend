@@ -4,18 +4,13 @@ import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import site.moamoa.backend.converter.MemberConverter;
-import site.moamoa.backend.converter.NoticeConverter;
-import site.moamoa.backend.converter.PostConverter;
 import site.moamoa.backend.domain.*;
 import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.enums.IsAuthorStatus;
 import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.domain.mapping.QMemberPost;
 import site.moamoa.backend.domain.mapping.QPostImage;
-import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
-import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -37,33 +32,6 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
     }
 
     @Override
-    public PostResponseDTO.GetPost fetchDetailedPostByPostId(Long memberId, Long postId) {
-        QMemberPost memberPost = QMemberPost.memberPost;
-
-        MemberPost fetchedMemberPost = findMemberPostAdminByPostId(postId);
-        Member fetchedMember = fetchedMemberPost.getMember();
-        Post fetchedPost = fetchedMemberPost.getPost();
-        List<Notice> noticeList;
-
-        MemberPost findMemberPostRecruiting = jpaQueryFactory
-                .selectFrom(memberPost)
-                .where(memberPost.post.id.eq(postId), memberPost.member.id.eq(memberId))
-                .fetchOne();
-
-        if (findMemberPostRecruiting != null) {
-            noticeList = fetchedMemberPost.getPost().getNoticeList();
-        } else {
-            noticeList = Collections.emptyList();
-        }
-
-        return PostConverter.toGetPost(
-                PostConverter.toPostDTO(fetchedPost, fetchedPost.getPostImages(), fetchedPost.getCategory()),
-                MemberConverter.toMemberDTO(fetchedMember),
-                NoticeConverter.toSimpleNoticeDtoList(noticeList)
-        );
-    }
-
-    @Override
     public List<Post> findPostsByRecruitingAndParticipating(Long memberId,
                                                             IsAuthorStatus isAuthorStatus,
                                                             CapacityStatus capacityStatus) {
@@ -82,32 +50,7 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
     }
 
     @Override
-    public boolean existsByMemberIdAndPostId(Long memberId, Long postId) {
-        QMemberPost memberPost = QMemberPost.memberPost;
-
-        return jpaQueryFactory.selectOne()
-                .from(memberPost)
-                .where(memberPost.member.id.eq(memberId)
-                        .and(memberPost.post.id.eq(postId)))
-                .fetchFirst() != null;
-    }
-
-    @Override
-    public List<Member> findParticipatingMembersByPostId(Long postId){
-        QMemberPost memberPost = QMemberPost.memberPost;
-
-        BooleanBuilder conditions = new BooleanBuilder();
-        addCondition(conditions, memberPost.post.id.eq(postId));
-        addCondition(conditions, memberPost.isAuthorStatus.eq(IsAuthorStatus.PARTICIPATOR));
-
-        return jpaQueryFactory
-                .select(memberPost.member)
-                .from(memberPost)
-                .where(conditions)
-                .fetch();
-    }
-
-    private MemberPost findMemberPostAdminByPostId(Long postId) {
+    public MemberPost findMemberPostAdminByPostId(Long postId) {
         QPost post = QPost.post;
         QMember member = QMember.member;
         QMemberPost memberPost = QMemberPost.memberPost;
@@ -128,8 +71,22 @@ public class MemberPostQueryDSLRepositoryImpl implements MemberPostQueryDSLRepos
                 .fetchOne();
     }
 
+    @Override
+    public List<Member> findParticipatingMembersByPostId(Long postId){
+        QMemberPost memberPost = QMemberPost.memberPost;
+
+        BooleanBuilder conditions = new BooleanBuilder();
+        addCondition(conditions, memberPost.post.id.eq(postId));
+        addCondition(conditions, memberPost.isAuthorStatus.eq(IsAuthorStatus.PARTICIPATOR));
+
+        return jpaQueryFactory
+                .select(memberPost.member)
+                .from(memberPost)
+                .where(conditions)
+                .fetch();
+    }
+
     private void addCondition(BooleanBuilder builder, BooleanExpression condition) {
         builder.and(condition);
     }
-
 }

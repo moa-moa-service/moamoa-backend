@@ -8,6 +8,7 @@ public record SimplePostDTO(
         Long postId,
         String imageUrl,
         String productName,
+        String dealTown,
         Integer viewCount,
         Integer personnel,
         Integer dDay,
