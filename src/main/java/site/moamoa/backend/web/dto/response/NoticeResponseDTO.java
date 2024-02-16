@@ -30,4 +30,18 @@ public class NoticeResponseDTO {
     ) {
     }
 
+    @Builder
+    public record DeleteNoticeResult(
+            Long noticeId,
+            LocalDateTime deletedAt
+    ){
+    }
+
+    @Builder
+    public record UpdateNoticeResult(
+            Long noticeId,
+            LocalDateTime updatedAt
+    ) {
+    }
+
 }

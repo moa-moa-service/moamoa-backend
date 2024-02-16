@@ -1,5 +1,6 @@
 package site.moamoa.backend.converter;
 
+import org.springframework.cglib.core.Local;
 import site.moamoa.backend.domain.Notice;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.web.dto.base.NoticeDTO;
@@ -9,6 +10,7 @@ import site.moamoa.backend.web.dto.request.NoticeRequestDTO.AddNotice;
 import site.moamoa.backend.web.dto.response.NoticeResponseDTO;
 import static site.moamoa.backend.converter.CommentConverter.toCommentDTOList;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,6 +56,20 @@ public class NoticeConverter {
         }
         return noticeList.stream().map(NoticeConverter::toSimpleNoticeDTO)
                 .collect(Collectors.toList());
+    }
+
+    public static NoticeResponseDTO.DeleteNoticeResult toDeleteNoticeResult(Long noticeId, LocalDateTime deletedAt) {
+        return NoticeResponseDTO.DeleteNoticeResult.builder()
+                .noticeId(noticeId)
+                .deletedAt(deletedAt)
+                .build();
+    }
+
+    public static NoticeResponseDTO.UpdateNoticeResult toUpdateNoticeResult(Notice updatedNotice, LocalDateTime updatedAt) {
+        return NoticeResponseDTO.UpdateNoticeResult.builder()
+                .noticeId(updatedNotice.getId())
+                .updatedAt(updatedAt)
+                .build();
     }
 
     private static NoticeResponseDTO.GetSimpleNotice toSimpleNoticeDTO(Notice notice) {
