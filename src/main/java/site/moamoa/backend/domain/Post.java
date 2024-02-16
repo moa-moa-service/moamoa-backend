@@ -91,4 +91,12 @@ public class Post extends BaseEntity {
     public void setCategory(Category category) {
         this.category = category;
     }
+
+    public void decreaseAvailable(Integer amount) {
+        this.available = available - amount;
+    }
+
+    public void increaseAvailable(Integer amount) {
+        this.available = available + amount;
+    }
 }

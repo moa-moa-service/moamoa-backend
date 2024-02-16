@@ -11,7 +11,6 @@ import site.moamoa.backend.domain.enums.CapacityStatus;
 import site.moamoa.backend.domain.enums.IsAuthorStatus;
 import site.moamoa.backend.domain.mapping.MemberPost;
 import site.moamoa.backend.repository.mapping.member_post.MemberPostRepository;
-import site.moamoa.backend.web.dto.response.PostResponseDTO;
 
 import java.util.List;
 
@@ -48,8 +47,13 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
     @Override
     public MemberPost findMemberPostByMemberIdAndPostId(Long memberId, Long postId) {
         return memberPostRepository.findByMemberIdAndPostId(memberId, postId).orElseThrow(
-            () -> new MemberPostHandler(ErrorStatus.MEMBER_POST_NOT_FOUND)
+                () -> new MemberPostHandler(ErrorStatus.MEMBER_POST_NOT_FOUND)
         );
+    }
+
+    @Override
+    public Boolean existsMemberPostByMemberIdAndPostId(Long memberId, Long postId) {
+        return memberPostRepository.existsByMemberIdAndPostId(memberId, postId);
     }
 
     @Override
@@ -62,10 +66,10 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
         if (memberPostRepository.existsByMemberIdAndPostId(memberId, postId))
             throw new MemberPostHandler(ErrorStatus.MEMBER_CAN_NOT_BE_PARTICIPATOR);
     }
-  
+
     @Override
-    public PostResponseDTO.GetPost fetchDetailedPostByPostId(Long memberId, Long postId) {
-        return memberPostRepository.fetchDetailedPostByPostId(memberId, postId);
+    public MemberPost fetchDetailedPostByPostId(Long postId) {
+        return memberPostRepository.findMemberPostAdminByPostId(postId);
     }
 
     @Override

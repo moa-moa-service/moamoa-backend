@@ -1,6 +1,7 @@
 package site.moamoa.backend.web.dto.response;
 
 import lombok.Builder;
+import site.moamoa.backend.domain.enums.IsAuthorStatus;
 import site.moamoa.backend.web.dto.base.MemberDTO;
 import site.moamoa.backend.web.dto.base.PostDTO;
 import site.moamoa.backend.web.dto.base.SimplePostDTO;
@@ -17,6 +18,7 @@ public class PostResponseDTO {
     public record GetPost(
             PostDTO postDto,
             MemberDTO adminDto,
+            IsAuthorStatus joinStatus, // null -> 참여 중 아님, PARTICIPATOR -> 참여자, AUTHOR -> 게시자
             List<GetSimpleNotice> simpleNoticeDtoList
     ) {
     }

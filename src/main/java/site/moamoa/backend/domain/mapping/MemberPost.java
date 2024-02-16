@@ -22,6 +22,9 @@ public class MemberPost extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private IsAuthorStatus isAuthorStatus; //글쓴이 여부
 
+    @Column(nullable = false)
+    private Integer amount;
+
     // Mapping
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
