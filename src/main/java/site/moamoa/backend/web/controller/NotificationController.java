@@ -13,8 +13,6 @@ import site.moamoa.backend.service.component.query.notification.NotificationQuer
 import site.moamoa.backend.web.dto.base.AuthInfoDTO;
 import site.moamoa.backend.web.dto.response.NotificationResponseDTO;
 
-import java.util.List;
-
 @Tag(name = "알림 API", description = "알림 페이지 관련 API (개발중)")
 @RequiredArgsConstructor
 @RestController

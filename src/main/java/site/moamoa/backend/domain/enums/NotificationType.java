@@ -9,7 +9,7 @@ public enum NotificationType {
   NEW_COMMENT("notices"),
   NEW_PARTICIPATION("posts"),
   NEW_NOTICE("notices"),
-  QUANTITY_FULLFIL("posts");
+  QUANTITY_FULFILL("posts");
 
   private final String belongingTo;
 }
