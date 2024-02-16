@@ -22,9 +22,10 @@ public class CommentConverter {
         return CommentDTO.builder()
                 .commentId(comment.getId())
                 .parentCommentId(parentComment != null ? parentComment.getId() : null)
-                .memberId(comment.getMember().getId())
+                .nickname(comment.getMember().getNickname())
                 .childrenCommentDtoList(toCommentDTOList(comment.getChildren()))
                 .content(comment.getContent())
+                .createdAt(comment.getCreatedAt())
                 .build();
     }
 
