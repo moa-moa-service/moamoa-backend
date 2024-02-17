@@ -25,6 +25,7 @@ public class CommentConverter {
                 .nickname(comment.getMember().getNickname())
                 .childrenCommentDtoList(toCommentDTOList(comment.getChildren()))
                 .content(comment.getContent())
+                .profileImage(comment.getMember().getProfileImage())
                 .createdAt(comment.getCreatedAt())
                 .build();
     }
