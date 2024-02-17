@@ -11,6 +11,7 @@ public record SimplePostDTO(
         String dealTown,
         Integer viewCount,
         Integer personnel,
+        Integer available,
         Integer dDay,
         Integer price,
         CapacityStatus status
