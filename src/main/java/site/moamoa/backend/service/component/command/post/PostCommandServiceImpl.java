@@ -116,6 +116,7 @@ public class PostCommandServiceImpl implements PostCommandService {
 
         if (joinPost.getAvailable() == 0) {
             createNotificationForNoticeUpdate(postId, joinPost);
+            joinPost.updateStatusToFull();
         }
 
         memberPostModuleService.saveMemberPost(newMemberPost);
@@ -126,8 +127,11 @@ public class PostCommandServiceImpl implements PostCommandService {
 
     @Override
     public void updatePostViewCount(Long memberId, Long postId) {
+        Post post = postModuleService.findPostById(postId);
+        if (post.getDeadline().plusDays(1).isBefore(LocalDateTime.now())) {
+            post.updateStatusToNotFull();
+        }
         if (redisModuleService.isNewPostViewRecord(memberId, postId)) {
-            Post post = postModuleService.findPostById(postId);
             post.updateViewCount();
         }
     }

@@ -40,6 +40,12 @@ default:
   profileImage:
     url: ${default.profile.image.url}
 
+server:
+  url:
+    local: ${local.url}
+    dev-https: ${dev.https.url}
+    dev-http: ${dev.http.url}
+
 ---
 # Local Setting
 spring:
@@ -61,7 +67,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     properties:
       hibernate:
         default_batch_fetch_size: 100
