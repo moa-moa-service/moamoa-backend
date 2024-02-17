@@ -1,19 +1,19 @@
 package site.moamoa.backend.converter;
 
-import org.springframework.cglib.core.Local;
-import site.moamoa.backend.domain.Notice;
 import site.moamoa.backend.domain.Member;
+import site.moamoa.backend.domain.Notice;
 import site.moamoa.backend.web.dto.base.NoticeDTO;
-import site.moamoa.backend.web.dto.response.NoticeResponseDTO.GetNotice;
-import site.moamoa.backend.web.dto.response.NoticeResponseDTO.AddNoticeResult;
 import site.moamoa.backend.web.dto.request.NoticeRequestDTO.AddNotice;
 import site.moamoa.backend.web.dto.response.NoticeResponseDTO;
-import static site.moamoa.backend.converter.CommentConverter.toCommentDTOList;
+import site.moamoa.backend.web.dto.response.NoticeResponseDTO.AddNoticeResult;
+import site.moamoa.backend.web.dto.response.NoticeResponseDTO.GetNotice;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static site.moamoa.backend.converter.CommentConverter.toCommentDTOList;
 
 public class NoticeConverter {
     public static Notice toNotice(AddNotice addNotice, String imageUrl) {
@@ -38,7 +38,9 @@ public class NoticeConverter {
                 .title(notice.getTitle())
                 .imageUrl(notice.getImageUrl())
                 .content(notice.getContent())
-                .commentDTOList(toCommentDTOList(notice.getCommentList()))
+                .commentDTOList(toCommentDTOList(notice.getCommentList())
+                        .stream().filter(commentDTO -> commentDTO.parentCommentId() == null)
+                        .toList())
                 .createdAt(notice.getCreatedAt())
                 .build();
     }

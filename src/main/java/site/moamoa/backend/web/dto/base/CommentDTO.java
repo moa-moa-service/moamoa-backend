@@ -12,6 +12,7 @@ public record CommentDTO(
         String nickname,
         List<CommentDTO> childrenCommentDtoList,
         String content,
+        String profileImage,
         LocalDateTime createdAt
 ) {
 }
