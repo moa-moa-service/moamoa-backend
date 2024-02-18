@@ -31,6 +31,6 @@ public interface MemberPostModuleService {
 
     List<Member> findParticipatingMembersExcludingMember(Long postId, Long memberId);
 
-    void nullifyMemberInMemberPostsByMemberIds(List<Long> ids);
+    void deleteMemberPostsByMemberIdsOrPostIds(List<Long> memberIds, List<Long> postIds);
 }
 

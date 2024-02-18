@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface NotificationRepository extends JpaRepository<Notification, Long>, NotificationQueryDSLRepository {
     @Modifying
-    @Query("UPDATE Notification n SET n.member = null WHERE n.member.id IN :ids")
-    void nullifyMemberInNotificationsByMemberIds(@Param("ids") List<Long> ids);
+    @Query("DELETE FROM Notification n WHERE n.member.id IN :ids")
+    void deleteNotificationsByMemberIds(@Param("ids") List<Long> ids);
 }

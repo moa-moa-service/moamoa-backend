@@ -50,4 +50,14 @@ public class PostModuleServiceImpl implements PostModuleService {
     public List<Post> findPostsByKeyword(String keyword, Long categoryId, Integer dDay, Integer total, Integer minPrice, Integer maxPrice) {
         return postRepository.findAllByKeywordAndCondition(keyword, categoryId, dDay, total, minPrice, maxPrice);
     }
+
+    @Override
+    public void deletePostsByPostIds(List<Long> ids) {
+        postRepository.deletePostsByPostIds(ids);
+    }
+
+    @Override
+    public List<Post> selectPostsInMemberPostByMemberIdsAndIsAuthor(List<Long> ids) {
+        return postRepository.selectPostsInMemberPostByMemberIdsAndIsAuthor(ids);
+    }
 }

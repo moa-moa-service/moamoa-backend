@@ -28,7 +28,7 @@ public class NotificationModuleServiceImpl implements NotificationModuleService 
     }
 
     @Override
-    public void nullifyMemberInNotificationsByMemberIds(List<Long> memberIds) {
-        notificationRepository.nullifyMemberInNotificationsByMemberIds(memberIds);
+    public void deleteNotificationsByMemberIds(List<Long> memberIds) {
+        notificationRepository.deleteNotificationsByMemberIds(memberIds);
     }
 }

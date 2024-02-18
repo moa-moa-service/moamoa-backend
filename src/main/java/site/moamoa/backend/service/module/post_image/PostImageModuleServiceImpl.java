@@ -38,4 +38,9 @@ public class PostImageModuleServiceImpl implements PostImageModuleService {
         postImages.forEach(postImage -> postImage.setPost(updatePost));
         return postImages;
     }
+
+    @Override
+    public void nullifyPostInPostImages(List<Long> imageIds) {
+        postImageRepository.nullifyPostInPostImages(imageIds);
+    }
 }

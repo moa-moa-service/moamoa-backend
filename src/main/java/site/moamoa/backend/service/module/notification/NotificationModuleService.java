@@ -9,5 +9,5 @@ public interface NotificationModuleService {
     void saveAllNotifications(List<Notification> notificationList);
     List<Notification> findNotificationsByMemberId(Long memberId);
 
-    void nullifyMemberInNotificationsByMemberIds(List<Long> memberIds);
+    void deleteNotificationsByMemberIds(List<Long> memberIds);
 }

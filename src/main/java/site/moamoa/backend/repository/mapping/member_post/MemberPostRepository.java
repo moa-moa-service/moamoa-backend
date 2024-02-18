@@ -14,9 +14,7 @@ public interface MemberPostRepository extends JpaRepository<MemberPost, Long>, M
 
     Boolean existsByMemberIdAndPostId(Long memberId, Long postId);
 
-    List<MemberPost> findMemberPostsByMemberId(Long memberId);
-
     @Modifying
-    @Query("UPDATE MemberPost mp SET mp.member = null WHERE mp.member.id IN :ids")
-    void nullifyMemberInMemberPostsByMemberIds(@Param("ids") List<Long> memberIds);
+    @Query("DELETE FROM MemberPost mp WHERE mp.member.id IN :memberIds OR mp.post.id IN :postIds")
+    void deleteMemberPostsByMemberIdsOrPostIds(@Param("memberIds") List<Long> memberIds, @Param("postIds") List<Long> postIds);
 }

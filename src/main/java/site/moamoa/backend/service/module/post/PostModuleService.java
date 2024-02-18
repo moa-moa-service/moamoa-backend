@@ -18,4 +18,8 @@ public interface PostModuleService {
     List<Post> findPostsByKeyword(String keyword);
 
     List<Post> findPostsByKeyword(String keyword, Long categoryId, Integer dDay, Integer total, Integer minPrice, Integer maxPrice);
+
+    void deletePostsByPostIds(List<Long> ids);
+
+    List<Post> selectPostsInMemberPostByMemberIdsAndIsAuthor(List<Long> ids);
 }

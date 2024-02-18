@@ -83,7 +83,7 @@ public class MemberPostModuleServiceImpl implements MemberPostModuleService {
     }
 
     @Override
-    public void nullifyMemberInMemberPostsByMemberIds(List<Long> ids) {
-        memberPostRepository.nullifyMemberInMemberPostsByMemberIds(ids);
+    public void deleteMemberPostsByMemberIdsOrPostIds(List<Long> memberIds, List<Long> postIds) {
+        memberPostRepository.deleteMemberPostsByMemberIdsOrPostIds(memberIds, postIds);
     }
 }
