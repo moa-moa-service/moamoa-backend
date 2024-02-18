@@ -101,8 +101,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
         return MemberConverter.toAddMemberInfoResult(member);
     }
 
-    //@Scheduled(cron = "0 0 0 1 * ?") //초 분 시 일 월
-    @Scheduled(cron = "0 12 00 * * ?") //초 분 시 일 월
+    @Scheduled(cron = "0 0 0 1 * ?") //초 분 시 일 월
     public void findMembersToSoftDelete() {
         List<Long> memberIds = memberModuleService.findMembersToSoftDelete(DeletionStatus.DELETE)
                 .stream().map(Member::getId).collect(Collectors.toList());; // deletionStatus == DELETE 인 멤버 추출 및 삭제 대상 ID 추출
