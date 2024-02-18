@@ -10,6 +10,5 @@ public interface NoticeModuleService {
     Notice findNoticeById(Long noticeId);
     void deleteNotice(Long noticeId);
     Notice updateNotice(Long noticeId, NoticeRequestDTO.UpdateNotice updateNotice, String imageUrl);
-
-    void nullifyPostInNotices(List<Long> noticeIds);
+    void deleteAllByIdInBatch(List<Long> noticeIds);
 }

@@ -10,8 +10,4 @@ import java.util.List;
 
 public interface PostImageRepository extends JpaRepository<PostImage, Long> {
     List<PostImage> findByPostId(Long postId);
-
-    @Modifying
-    @Query("DELETE FROM PostImage pi WHERE pi.post.id IN :postIds")
-    void nullifyPostInPostImages(@Param("postIds") List<Long> postIds);
 }

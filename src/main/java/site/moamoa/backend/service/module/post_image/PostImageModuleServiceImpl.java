@@ -40,7 +40,7 @@ public class PostImageModuleServiceImpl implements PostImageModuleService {
     }
 
     @Override
-    public void nullifyPostInPostImages(List<Long> imageIds) {
-        postImageRepository.nullifyPostInPostImages(imageIds);
+    public void deleteAllByIdInBatch(List<Long> imageIds) {
+        postImageRepository.deleteAllByIdInBatch(imageIds);
     }
 }

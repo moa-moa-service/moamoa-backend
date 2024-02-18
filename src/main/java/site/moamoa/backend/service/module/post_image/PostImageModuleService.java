@@ -11,6 +11,5 @@ public interface PostImageModuleService {
     List<PostImage> findPostImageByPostId(Long postId);
 
     List<PostImage> setUpdatedImages(List<MultipartFile> images, Post updatePost);
-
-    void nullifyPostInPostImages(List<Long> imageIds);
+    void deleteAllByIdInBatch(List<Long> imageIds);
 }

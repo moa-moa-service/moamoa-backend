@@ -22,4 +22,8 @@ public interface PostModuleService {
     void deletePostsByPostIds(List<Long> ids);
 
     List<Post> selectPostsInMemberPostByMemberIdsAndIsAuthor(List<Long> ids);
+
+    void deleteAllByIdInBatch(List<Long> postIds);
+
+    void delete(Post post);
 }

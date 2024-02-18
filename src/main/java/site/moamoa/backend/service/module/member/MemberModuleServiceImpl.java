@@ -39,7 +39,7 @@ public class MemberModuleServiceImpl implements MemberModuleService {
     }
 
     @Override
-    public void deleteMembersByIds(List<Long> memberIds) {
-        memberRepository.deleteMembersByIds(memberIds);
+    public void deleteAllByIdInBatch(List<Long> memberIds) {
+        memberRepository.deleteAllByIdInBatch(memberIds);
     }
 }

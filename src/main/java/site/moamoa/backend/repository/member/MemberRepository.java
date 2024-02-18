@@ -17,8 +17,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("SELECT m FROM Member m WHERE m.deletionStatus = :deletionStatus")
     List<Member> findMembersToSoftDelete(@Param("deletionStatus") DeletionStatus deletionStatus);
-
-    @Modifying
-    @Query("DELETE FROM Member m WHERE m.id IN :memberIds")
-    void deleteMembersByIds(@Param("memberIds") List<Long> memberIds);
 }

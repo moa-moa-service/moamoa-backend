@@ -60,4 +60,14 @@ public class PostModuleServiceImpl implements PostModuleService {
     public List<Post> selectPostsInMemberPostByMemberIdsAndIsAuthor(List<Long> ids) {
         return postRepository.selectPostsInMemberPostByMemberIdsAndIsAuthor(ids);
     }
+
+    @Override
+    public void deleteAllByIdInBatch(List<Long> postIds) {
+        postRepository.deleteAllByIdInBatch(postIds);
+    }
+
+    @Override
+    public void delete(Post post) {
+        postRepository.delete(post);
+    }
 }

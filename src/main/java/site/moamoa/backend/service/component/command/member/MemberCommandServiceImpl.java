@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import site.moamoa.backend.api_payload.code.status.ErrorStatus;
 import site.moamoa.backend.api_payload.exception.handler.MemberHandler;
 import site.moamoa.backend.converter.MemberConverter;
+import site.moamoa.backend.domain.Comment;
 import site.moamoa.backend.domain.Member;
 import site.moamoa.backend.domain.Notice;
 import site.moamoa.backend.domain.Post;
@@ -17,6 +18,7 @@ import site.moamoa.backend.domain.enums.DeletionStatus;
 import site.moamoa.backend.domain.mapping.PostImage;
 import site.moamoa.backend.global.aws.s3.AmazonS3Manager;
 import site.moamoa.backend.global.oauth2.CustomOAuth2User;
+import site.moamoa.backend.service.module.comment.CommentModuleService;
 import site.moamoa.backend.service.module.member.MemberModuleService;
 import site.moamoa.backend.service.module.member_post.MemberPostModuleService;
 import site.moamoa.backend.service.module.notice.NoticeModuleService;
@@ -28,6 +30,7 @@ import site.moamoa.backend.web.dto.response.MemberResponseDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional
@@ -43,6 +46,7 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     private final PostImageModuleService postImageModuleService;
     private final NoticeModuleService noticeModuleService;
     private final PostModuleService postModuleService;
+    private final CommentModuleService commentModuleService;
     private final AmazonS3Manager amazonS3Manager;
 
     @Override
@@ -102,20 +106,31 @@ public class MemberCommandServiceImpl implements MemberCommandService {
     }
 
     @Scheduled(cron = "0 0 0 1 * ?") //초 분 시 일 월
-    public void findMembersToSoftDelete() {
+    public void deleteBySoftDeletedMembers() {
+        //열려있는 공동구매가 있다면 회원탈퇴 되도록
         List<Long> memberIds = memberModuleService.findMembersToSoftDelete(DeletionStatus.DELETE)
-                .stream().map(Member::getId).collect(Collectors.toList());; // deletionStatus == DELETE 인 멤버 추출 및 삭제 대상 ID 추출
+                .stream().map(Member::getId).collect(Collectors.toList()); // deletionStatus == DELETE 인 멤버 추출 및 삭제 대상 ID 추출
 
-        List<Long> postIds = postModuleService.selectPostsInMemberPostByMemberIdsAndIsAuthor(memberIds)
-                .stream().map(Post::getId).toList();; // 삭제하는 대상이 게시한 POST ID 조회
+        List<Post> posts = postModuleService.selectPostsInMemberPostByMemberIdsAndIsAuthor(memberIds);
+        List<Long> postIds = posts.stream().map(Post::getId).toList();
+        List<Long> postImageIds = posts.stream()
+                .flatMap(
+                        post -> post.getPostImages().stream()
+                ).map(PostImage::getId).toList();
+
+        List<Notice> notices = posts.stream().flatMap(post -> post.getNoticeList().stream()).toList();
+
+        List<Long> noticeIds = notices.stream().map(Notice::getId).toList();
+        List<Long> commentIds = notices.stream().flatMap(notice -> notice.getCommentList().stream()).map(Comment::getId).toList();
 
         memberPostModuleService.deleteMemberPostsByMemberIdsOrPostIds(memberIds, postIds); // 해당 memberId, postId를 가진 memberPost 삭제
 
-        postImageModuleService.nullifyPostInPostImages(postIds);
-        noticeModuleService.nullifyPostInNotices(postIds);
+        commentModuleService.deleteCommentsByIdInBatch(commentIds);
+        postImageModuleService.deleteAllByIdInBatch(postImageIds);
+        noticeModuleService.deleteAllByIdInBatch(noticeIds);
+        postModuleService.deleteAllByIdInBatch(postIds);
 
-        postModuleService.deletePostsByPostIds(postIds);
         notificationModuleService.deleteNotificationsByMemberIds(memberIds);
-        memberModuleService.deleteMembersByIds(memberIds);
+        memberModuleService.deleteAllByIdInBatch(memberIds);
     }
 }

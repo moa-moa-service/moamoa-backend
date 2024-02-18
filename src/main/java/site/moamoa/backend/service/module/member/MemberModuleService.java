@@ -15,5 +15,5 @@ public interface MemberModuleService {
 
     List<Member> findMembersToSoftDelete(DeletionStatus deletionStatus);
 
-    void deleteMembersByIds(List<Long> memberIds);
+    void deleteAllByIdInBatch(List<Long> memberIds);
 }

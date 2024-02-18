@@ -1,7 +1,6 @@
 package site.moamoa.backend.service.module.notice;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import site.moamoa.backend.api_payload.code.status.ErrorStatus;
 import site.moamoa.backend.api_payload.exception.handler.NoticeHandler;
@@ -49,7 +48,7 @@ public class NoticeModuleServiceImpl implements NoticeModuleService {
     }
 
     @Override
-    public void nullifyPostInNotices(List<Long> noticeIds) {
-        noticeRepository.nullifyPostInNotices(noticeIds);
+    public void deleteAllByIdInBatch(List<Long> noticeIds) {
+        noticeRepository.deleteAllByIdInBatch(noticeIds);
     }
 }
