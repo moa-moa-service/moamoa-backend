@@ -8,4 +8,6 @@ public interface NotificationModuleService {
     void saveNotification(Notification notification);
     void saveAllNotifications(List<Notification> notificationList);
     List<Notification> findNotificationsByMemberId(Long memberId);
+
+    void nullifyMemberInNotificationsByMemberIds(List<Long> memberIds);
 }

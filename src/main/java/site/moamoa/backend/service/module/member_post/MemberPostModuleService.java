@@ -30,5 +30,7 @@ public interface MemberPostModuleService {
     MemberPost fetchDetailedPostByPostId(Long postId);
 
     List<Member> findParticipatingMembersExcludingMember(Long postId, Long memberId);
+
+    void nullifyMemberInMemberPostsByMemberIds(List<Long> ids);
 }
 

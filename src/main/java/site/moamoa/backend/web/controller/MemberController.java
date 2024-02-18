@@ -100,7 +100,7 @@ public class MemberController {
 
     @PostMapping("/api/members/deactivate")
     @Operation(
-            summary = "사용자 회원 탈퇴 (개발중)",
+            summary = "사용자 회원 탈퇴",
             description = "사용자가 회원 탈퇴 시에 deletion_status 필드가 DELETE로 처리됩니다."
     )
     @ApiResponses(value = {

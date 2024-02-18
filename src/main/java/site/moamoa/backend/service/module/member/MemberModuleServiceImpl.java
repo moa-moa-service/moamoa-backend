@@ -5,8 +5,10 @@ import org.springframework.stereotype.Service;
 import site.moamoa.backend.api_payload.code.status.ErrorStatus;
 import site.moamoa.backend.api_payload.exception.handler.MemberHandler;
 import site.moamoa.backend.domain.Member;
+import site.moamoa.backend.domain.enums.DeletionStatus;
 import site.moamoa.backend.repository.member.MemberRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,5 +31,15 @@ public class MemberModuleServiceImpl implements MemberModuleService {
     @Override
     public Member save(Member member) {
         return memberRepository.save(member);
+    }
+
+    @Override
+    public List<Member> findMembersToSoftDelete(DeletionStatus deletionStatus) {
+        return memberRepository.findMembersToSoftDelete(deletionStatus);
+    }
+
+    @Override
+    public void deleteAll(List<Member> members) {
+        memberRepository.deleteAll(members);
     }
 }

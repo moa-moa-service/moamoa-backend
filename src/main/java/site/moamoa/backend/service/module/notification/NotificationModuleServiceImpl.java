@@ -26,4 +26,9 @@ public class NotificationModuleServiceImpl implements NotificationModuleService 
     public List<Notification> findNotificationsByMemberId(Long memberId) {
         return notificationRepository.findNotificationsByMemberId(memberId);
     }
+
+    @Override
+    public void nullifyMemberInNotificationsByMemberIds(List<Long> memberIds) {
+        notificationRepository.nullifyMemberInNotificationsByMemberIds(memberIds);
+    }
 }
