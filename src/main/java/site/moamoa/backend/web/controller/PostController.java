@@ -68,7 +68,7 @@ public class PostController {
 
     @GetMapping("/api/posts/near")
     @Operation(
-            summary = "우리 동네 공동구매 조회 (수정중)",
+            summary = "우리 동네 공동구매 조회",
             description = "우리 동네 공동구매 리스트를 조회합니다."
     )
     @ApiResponses(value = {
