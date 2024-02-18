@@ -96,7 +96,6 @@ public class PostCommandServiceImpl implements PostCommandService {
         postImageModuleService.deletePostImageByPostId(postId);
         List<PostImage> updatedImages = postImageModuleService.setUpdatedImages(images, updatePost);
         updatePost.updateInfo(updatePostInfo, category, updatedImages);
-        postModuleService.savePost(updatePost);
         return PostConverter.toUpdatePostInfoResult(updatePost);
     }
 
