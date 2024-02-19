@@ -5,6 +5,7 @@ import java.util.List;
 
 import lombok.Builder;
 import site.moamoa.backend.domain.embedded.Address;
+import site.moamoa.backend.domain.enums.CapacityStatus;
 
 @Builder
 public record PostDTO(
@@ -17,6 +18,7 @@ public record PostDTO(
         List<String> imageUrl,
         Address dealLocation,
         String dealTown,
+        CapacityStatus capacityStatus,
         String town,
         Integer price,
         String description,

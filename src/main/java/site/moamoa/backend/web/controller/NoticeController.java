@@ -35,7 +35,7 @@ public class NoticeController {
     public ApiResponseDTO<NoticeResponseDTO.AddNoticeResult> registerNotices(
             @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable(name = "postId") Long postId,
-            @RequestPart("request") NoticeRequestDTO.AddNotice request,
+            @RequestPart(value = "request") NoticeRequestDTO.AddNotice request,
             @RequestPart(value = "file", required = false) MultipartFile image
     ) {
         NoticeResponseDTO.AddNoticeResult resultDTO = noticeCommandService.registerNotice(auth.id(), postId, request, image);
@@ -74,7 +74,7 @@ public class NoticeController {
         return ApiResponseDTO.onSuccess(resultDTO);
     }
 
-    @PatchMapping("/api/posts/{postId}/notices/{noticeId}")
+    @PatchMapping(value = "/api/posts/{postId}/notices/{noticeId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(
             summary = "공동구매 공지사항 수정",
             description = "공지사항 ID를 받아 공지사항을 수정합니다."
@@ -86,7 +86,7 @@ public class NoticeController {
             @AuthenticationPrincipal AuthInfoDTO auth,
             @PathVariable(name = "postId") Long postId,
             @PathVariable(name = "noticeId") Long noticeId,
-            @RequestPart("request") NoticeRequestDTO.UpdateNotice request,
+            @RequestPart(value = "request") NoticeRequestDTO.UpdateNotice request,
             @RequestPart(value = "file", required = false) MultipartFile image
     ) {
         NoticeResponseDTO.UpdateNoticeResult resultDTO = noticeCommandService.updateNotice(postId, noticeId, request, image);
